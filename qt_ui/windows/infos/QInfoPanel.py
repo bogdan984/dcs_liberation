@@ -6,7 +6,7 @@ from qt_ui.windows.infos.QInfoList import QInfoList
 
 class QInfoPanel(QGroupBox):
     def __init__(self, game: Game):
-        super(QInfoPanel, self).__init__("Info Panel")
+        super(QInfoPanel, self).__init__("Информационная панель")
         self.informations_list = QInfoList(game)
         self.init_ui()
 

@@ -82,7 +82,7 @@ class QTgoLayoutGroupRow(QWidget):
         # Add all possible statics with price = 0
         for static_type in force_group.statics_for_group(group):
             self.unit_selector.addItem(
-                f"{static_type} (Static)", userData=(static_type, 0)
+                f"{static_type} (статичный)", userData=(static_type, 0)
             )
 
         if self.unit_selector.count() == 0:
@@ -147,7 +147,7 @@ class QGroundObjectTemplateLayout(QGroupBox):
 
         self.current_group_value = current_group_value
 
-        self.buy_button = QPushButton("Buy")
+        self.buy_button = QPushButton("Купить")
         self.buy_button.setEnabled(False)
         self.buy_button.clicked.connect(self.buy_group)
 
@@ -202,12 +202,12 @@ class QGroundObjectTemplateLayout(QGroupBox):
 
     def group_template_changed(self) -> None:
         price = self.layout_model.price
-        self.buy_button.setText(f"Buy [${price}M][-${self.current_group_value}M]")
+        self.buy_button.setText(f"Купить [${price}M][-${self.current_group_value}M]")
         self.buy_button.setEnabled(self.affordable)
         if self.buy_button.isEnabled():
-            self.buy_button.setToolTip(f"Buy the group for ${self.cost}M")
+            self.buy_button.setToolTip(f"Купить группу за ${self.cost}M")
         else:
-            self.buy_button.setToolTip("Not enough money to buy this group")
+            self.buy_button.setToolTip("Недостаточно денег для покупки группы")
 
     def buy_group(self) -> None:
         if not self.affordable:
@@ -250,7 +250,7 @@ class QGroundObjectBuyMenu(QDialog):
 
         self.setMinimumWidth(350)
 
-        self.setWindowTitle("Buy ground object @ " + ground_object.obj_name)
+        self.setWindowTitle("Купить наземный объект @" + ground_object.obj_name)
         self.setWindowIcon(EVENT_ICONS["capture"])
 
         self.mainLayout = QGridLayout()
@@ -298,13 +298,11 @@ class QGroundObjectBuyMenu(QDialog):
         self.force_group_selector.currentIndexChanged.connect(self.force_group_changed)
 
         template_selector_layout = QGridLayout()
-        template_selector_layout.addWidget(
-            QLabel("Armed Forces Group:"), 0, 0, Qt.AlignLeft
-        )
+        template_selector_layout.addWidget(QLabel("Группа войск:"), 0, 0, Qt.AlignLeft)
         template_selector_layout.addWidget(
             self.force_group_selector, 0, 1, alignment=Qt.AlignRight
         )
-        template_selector_layout.addWidget(QLabel("Layout:"), 1, 0, Qt.AlignLeft)
+        template_selector_layout.addWidget(QLabel("Компоновка:"), 1, 0, Qt.AlignLeft)
         template_selector_layout.addWidget(
             self.layout_selector, 1, 1, alignment=Qt.AlignRight
         )

@@ -28,15 +28,15 @@ class WeaponLaserCodeSelector(QComboBox):
             self.clear()
             if not self.flight_member.is_player:
                 self.setDisabled(True)
-                self.addItem("AI does not use laser codes", None)
+                self.addItem("ИИ не использует коды лазера", None)
 
             self.setEnabled(True)
 
-            self.addItem("Default (1688)", None)
+            self.addItem("По умолчанию (1688)", None)
             selected_index: int | None = None
             idx = 1
             if (own := self.flight_member.tgp_laser_code) is not None:
-                self.addItem(f"Use own code ({own})", own)
+                self.addItem(f"Свой код ({own})", own)
                 if own == self.flight_member.weapon_laser_code:
                     selected_index = idx
                 idx += 1

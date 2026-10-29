@@ -76,8 +76,8 @@ class QBaseMenu2(QDialog):
                 QLabel(
                     "<br />".join(
                         textwrap.wrap(
-                            "This base only supports ferry missions. Transfer the "
-                            "squadrons to a different base to use them.",
+                            "Эта база поддерживает только перегоночные полёты. Перебазируйте"
+                            "эскадрильи на другую базу, чтобы их использовать.",
                             width=80,
                         )
                     )
@@ -121,20 +121,20 @@ class QBaseMenu2(QDialog):
         main_layout.addLayout(bottom_row)
 
         if FlightType.OCA_RUNWAY in self.cp.mission_types(for_player=True):
-            runway_attack_button = QPushButton("Attack airfield")
+            runway_attack_button = QPushButton("Атаковать аэродром")
             bottom_row.addWidget(runway_attack_button)
 
             runway_attack_button.setProperty("style", "btn-danger")
             runway_attack_button.clicked.connect(self.new_package)
 
         if self.cp.captured and self.has_transfer_destinations:
-            transfer_button = QPushButton("Transfer Units")
+            transfer_button = QPushButton("Перебросить войска")
             transfer_button.setProperty("style", "btn-success")
             bottom_row.addWidget(transfer_button)
             transfer_button.clicked.connect(self.open_transfer_dialog)
 
         if self.cheat_capturable:
-            capture_button = QPushButton("CHEAT: Capture")
+            capture_button = QPushButton("ЧИТ: захватить")
             capture_button.setProperty("style", "btn-danger")
             bottom_row.addWidget(capture_button)
             capture_button.clicked.connect(self.cheat_capture)
@@ -170,9 +170,9 @@ class QBaseMenu2(QDialog):
 
     def update_cheat_runway_state_text(self) -> None:
         if self.cp.runway_can_be_repaired:
-            self.cheat_runway_state.setText("CHEAT: Repair runway")
+            self.cheat_runway_state.setText("ЧИТ: починить ВПП")
         else:
-            self.cheat_runway_state.setText("CHEAT: Destroy runway")
+            self.cheat_runway_state.setText("ЧИТ: разрушить ВПП")
 
     def on_cheat_runway_state(self) -> None:
         if self.cp.runway_can_be_repaired:
@@ -197,17 +197,17 @@ class QBaseMenu2(QDialog):
         if not self.can_afford_runway_repair:
             QMessageBox.critical(
                 self,
-                "Cannot repair runway",
-                f"Runway repair costs ${RUNWAY_REPAIR_COST}M but you have "
-                f"only ${self.game_model.game.blue.budget}M available.",
+                "Невозможно починить ВПП",
+                f"Ремонт ВПП стоит ${RUNWAY_REPAIR_COST}M, а у вас"
+                f"только ${self.game_model.game.blue.budget}M.",
                 QMessageBox.Ok,
             )
             return
         if not self.can_repair_runway:
             QMessageBox.critical(
                 self,
-                "Cannot repair runway",
-                f"Cannot repair this runway.",
+                "Невозможно починить ВПП",
+                f"Эту ВПП нельзя починить.",
                 QMessageBox.Ok,
             )
             return
@@ -221,18 +221,18 @@ class QBaseMenu2(QDialog):
     def update_repair_button(self) -> None:
         self.repair_button.setVisible(True)
         if self.cp.captured and self.cp.runway_status.is_repairing():
-            self.repair_button.setText("Repairing...")
+            self.repair_button.setText("Ремонт...")
             self.repair_button.setDisabled(True)
             return
 
         if self.can_repair_runway:
             if self.can_afford_runway_repair:
-                self.repair_button.setText(f"Repair ${RUNWAY_REPAIR_COST}M")
+                self.repair_button.setText(f"Починить ${RUNWAY_REPAIR_COST}M")
                 self.repair_button.setDisabled(False)
                 return
             else:
                 self.repair_button.setText(
-                    f"Cannot afford repair ${RUNWAY_REPAIR_COST}M"
+                    f"Не хватает денег на ремонт ${RUNWAY_REPAIR_COST}M"
                 )
                 self.repair_button.setDisabled(True)
                 return
@@ -254,20 +254,20 @@ class QBaseMenu2(QDialog):
         )
         if self.cp.has_active_frontline:
             deployable_unit_info = (
-                f" (Up to {ground_unit_limit} deployable, {unit_overage} reserve)"
+                f" (до {ground_unit_limit} на фронт, {unit_overage} в резерве)"
             )
 
         intel_lines = [
-            f"{aircraft}/{parking} aircraft",
-            f"{self.cp.base.total_armor} ground units" + deployable_unit_info,
-            f"{allocated.total_transferring} more ground units en route, {allocated.total_ordered} ordered",
+            f"{aircraft}/{parking} ЛА",
+            f"{self.cp.base.total_armor} наземных единиц" + deployable_unit_info,
+            f"{allocated.total_transferring} наземных единиц в пути, {allocated.total_ordered} заказано",
         ]
         if (runway_description := self.cp.describe_runway_status()) is not None:
             intel_lines.append(runway_description)
         intel_lines.extend(
             [
-                f"{self.cp.active_ammo_depots_count}/{self.cp.total_ammo_depots_count} ammo depots",
-                f"{'Factory can produce units' if self.cp.has_factory else 'Does not have a factory'}",
+                f"{self.cp.active_ammo_depots_count}/{self.cp.total_ammo_depots_count} складов боеприпасов",
+                f"{'Завод может производить технику' if self.cp.has_factory else 'Нет завода'}",
             ]
         )
 
@@ -275,9 +275,9 @@ class QBaseMenu2(QDialog):
 
     def generate_intel_tooltip(self) -> str:
         tooltip = (
-            f"Deployable unit limit ({self.cp.frontline_unit_count_limit}) = {FREE_FRONTLINE_UNIT_SUPPLY} (base) + "
-            f" {AMMO_DEPOT_FRONTLINE_UNIT_CONTRIBUTION} (per connected ammo depot) * {self.cp.total_ammo_depots_count} "
-            f"(depots)"
+            f"Лимит единиц на фронте ({self.cp.frontline_unit_count_limit}) = {FREE_FRONTLINE_UNIT_SUPPLY} (база) +"
+            f" {AMMO_DEPOT_FRONTLINE_UNIT_CONTRIBUTION} (за каждый подключённый склад боеприпасов) * {self.cp.total_ammo_depots_count} "
+            f"(складов)"
         )
 
         if self.cp.has_active_frontline:
@@ -285,8 +285,8 @@ class QBaseMenu2(QDialog):
                 self.cp.base.total_armor - self.cp.frontline_unit_count_limit, 0
             )
             tooltip += (
-                f"\n{unit_overage} units will be held in reserve and will not be deployed to "
-                f"connected frontlines for this turn"
+                f"\n{unit_overage} единиц останутся в резерве и не будут отправлены"
+                f"на связанные участки фронта в этот ход"
             )
 
         return tooltip

@@ -141,7 +141,7 @@ class PackageModel(QAbstractListModel):
         """Returns the text that should be displayed for the flight."""
         origin = flight.departure.name
         startup = flight.flight_plan.startup_time()
-        return f"{flight} from {origin} at {startup}"
+        return f"{flight} из {origin} в {startup}"
 
     @staticmethod
     def icon_for_flight(flight: Flight) -> Optional[QIcon]:

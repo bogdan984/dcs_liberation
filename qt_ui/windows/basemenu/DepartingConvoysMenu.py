@@ -19,7 +19,7 @@ from qt_ui.uiconstants import VEHICLES_ICONS
 
 class DepartingConvoyInfo(QGroupBox):
     def __init__(self, convoy: MultiGroupTransport) -> None:
-        super().__init__(f"{convoy.name} to {convoy.destination}")
+        super().__init__(f"{convoy.name} в {convoy.destination}")
         self.convoy = convoy
 
         main_layout = QVBoxLayout()
@@ -45,7 +45,7 @@ class DepartingConvoyInfo(QGroupBox):
         if not convoy.units:
             unit_layout.addWidget(QLabel("/"), 0, 0)
 
-        attack_button = QPushButton("Attack")
+        attack_button = QPushButton("Атаковать")
         attack_button.setProperty("style", "btn-danger")
         attack_button.setMaximumWidth(180)
         attack_button.clicked.connect(self.on_attack)

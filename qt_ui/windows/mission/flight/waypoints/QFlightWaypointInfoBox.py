@@ -5,7 +5,7 @@ from game.ato.flightwaypoint import FlightWaypoint
 
 class QFlightWaypointInfoBox(QGroupBox):
     def __init__(self) -> None:
-        super(QFlightWaypointInfoBox, self).__init__("Waypoint")
+        super(QFlightWaypointInfoBox, self).__init__("Путевая точка")
         self.x_position_label = QLabel("0")
         self.y_position_label = QLabel("0")
         self.alt_label = QLabel("0")
@@ -27,17 +27,17 @@ class QFlightWaypointInfoBox(QGroupBox):
         y_pos_layout.addStretch()
 
         alt_layout = QHBoxLayout()
-        alt_layout.addWidget(QLabel("<b>Alt : </b>"))
+        alt_layout.addWidget(QLabel("<b>Высота: </b>"))
         alt_layout.addWidget(self.alt_label)
         alt_layout.addStretch()
 
         name_layout = QHBoxLayout()
-        name_layout.addWidget(QLabel("<b>Name : </b>"))
+        name_layout.addWidget(QLabel("<b>Название: </b>"))
         name_layout.addWidget(self.name_label)
         name_layout.addStretch()
 
         desc_layout = QHBoxLayout()
-        desc_layout.addWidget(QLabel("<b>Description : </b>"))
+        desc_layout.addWidget(QLabel("<b>Описание: </b>"))
         desc_layout.addWidget(self.desc_label)
         desc_layout.addStretch()
 

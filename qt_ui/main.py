@@ -11,7 +11,7 @@ from pathlib import Path
 
 import yaml
 from PySide6 import QtWidgets
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QLibraryInfo, QLocale, Qt, QTranslator
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QApplication, QCheckBox, QSplashScreen, QDialog
 from dcs.payloads import PayloadDirectories
@@ -78,6 +78,16 @@ def run_ui(create_game_params: CreateGameParams | None, ui_flags: UiFlags) -> No
 
     app = QApplication(sys.argv)
 
+    # Russian translations for Qt's built-in strings (dialog buttons, wizard, etc).
+    qt_translator = QTranslator(app)
+    if qt_translator.load(
+        QLocale("ru"),
+        "qtbase",
+        "_",
+        QLibraryInfo.path(QLibraryInfo.LibraryPath.TranslationsPath),
+    ):
+        app.installTranslator(qt_translator)
+
     # init the theme and load the stylesheet based on the theme index
     liberation_theme.init()
     with open(
@@ -118,21 +128,21 @@ def run_ui(create_game_params: CreateGameParams | None, ui_flags: UiFlags) -> No
             "DCS Installation directory is empty. MissionScripting file will not be replaced!"
         )
         if not liberation_install.ignore_empty_install_directory():
-            ignore_checkbox = QCheckBox("Do not show again")
+            ignore_checkbox = QCheckBox("Больше не показывать")
             ignore_checkbox.stateChanged.connect(set_ignore_empty_install_directory)
             message_box = QtWidgets.QMessageBox(parent=splash)
             message_box.setIcon(QtWidgets.QMessageBox.Icon.Warning)
-            message_box.setWindowTitle("No DCS installation directory.")
+            message_box.setWindowTitle("Не указана папка установки DCS.")
             message_box.setText(
-                "The DCS Installation directory is not set correctly. "
-                "This will prevent DCS Liberation from working properly, as the MissionScripting "
-                "file will not be modified."
-                "<br/><br/>To solve this problem, you can set the Installation directory "
-                "within the preferences menu. You can also manually edit or replace the "
-                "following file:"
+                "Папка установки DCS указана неверно."
+                "DCS Liberation не сможет нормально работать, так как файл MissionScripting"
+                "не будет изменён."
+                "<br/><br/>Чтобы решить проблему, укажите папку установки"
+                "в меню настроек. Также можно вручную отредактировать или заменить"
+                "следующий файл:"
                 "<br/><br/><strong>&lt;dcs_installation_directory&gt;/Scripts/MissionScripting.lua</strong>"
-                "<br/><br/>The easiest way to do it is to replace the original file with the file in dcs-liberation distribution (&lt;dcs_liberation_installation&gt;/resources/scripts/MissionScripting.lua)."
-                "<br/><br/>You can find more information on how to manually change this file in the Liberation Wiki (Page: Dedicated Server Guide) on GitHub.</p>"
+                "<br/><br/>Проще всего заменить оригинальный файл файлом из дистрибутива dcs-liberation (&lt;dcs_liberation_installation&gt;/resources/scripts/MissionScripting.lua)."
+                "<br/><br/>Подробнее о ручном изменении этого файла — в Liberation Wiki на GitHub (страница: Dedicated Server Guide).</p>"
             )
             message_box.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Ok)
             message_box.setCheckBox(ignore_checkbox)
@@ -142,9 +152,9 @@ def run_ui(create_game_params: CreateGameParams | None, ui_flags: UiFlags) -> No
         liberation_install.replace_mission_scripting_file()
     except:
         error_dialog = QtWidgets.QErrorMessage()
-        error_dialog.setWindowTitle("Wrong DCS installation directory.")
+        error_dialog.setWindowTitle("Неверная папка установки DCS.")
         error_dialog.showMessage(
-            "Unable to modify Mission Scripting file. Possible issues with rights. Try running as admin, or please perform the modification of the MissionScripting file manually."
+            "Не удалось изменить файл MissionScripting. Возможно, не хватает прав. Запустите программу от имени администратора или измените файл MissionScripting вручную."
         )
         error_dialog.exec_()
 

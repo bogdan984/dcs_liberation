@@ -10,6 +10,6 @@ class QFlightCustomName(QGroupBox):
         self.flight = flight
 
         self.layout = QHBoxLayout()
-        self.custom_name_label = QLabel(f"Custom Name: {flight.custom_name}")
+        self.custom_name_label = QLabel(f"Своё название: {flight.custom_name}")
         self.layout.addWidget(self.custom_name_label)
         self.setLayout(self.layout)

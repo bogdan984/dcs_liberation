@@ -101,7 +101,7 @@ class PurchaseGroup(QGroupBox, Generic[TransactionItemType]):
 
 
 class UnitTransactionFrame(QFrame, Generic[TransactionItemType]):
-    BUDGET_FORMAT = "Available Budget: <b>${:.2f}M</b>"
+    BUDGET_FORMAT = "Доступный бюджет: <b>${:.2f}M</b>"
 
     def __init__(
         self,
@@ -235,7 +235,7 @@ class UnitTransactionFrame(QFrame, Generic[TransactionItemType]):
             self.purchase_adapter.buy(item, quantity)
         except TransactionError as ex:
             logging.exception(f"Purchase of {self.display_name_of(item)} failed")
-            QMessageBox.warning(self, "Purchase failed", str(ex), QMessageBox.Ok)
+            QMessageBox.warning(self, "Покупка не удалась", str(ex), QMessageBox.Ok)
         finally:
             self.post_transaction_update()
 
@@ -244,7 +244,7 @@ class UnitTransactionFrame(QFrame, Generic[TransactionItemType]):
             self.purchase_adapter.sell(item, quantity)
         except TransactionError as ex:
             logging.exception(f"Sale of {self.display_name_of(item)} failed")
-            QMessageBox.warning(self, "Sale failed", str(ex), QMessageBox.Ok)
+            QMessageBox.warning(self, "Продажа не удалась", str(ex), QMessageBox.Ok)
         finally:
             self.post_transaction_update()
 
@@ -261,16 +261,16 @@ class UnitTransactionFrame(QFrame, Generic[TransactionItemType]):
     @staticmethod
     def purchase_tooltip(is_enabled: bool) -> str:
         if is_enabled:
-            return "Buy unit. Use Shift or Ctrl key to buy multiple units at once."
+            return "Купить. Shift или Ctrl — купить сразу несколько."
         else:
-            return "Unit can not be bought."
+            return "Купить невозможно."
 
     @staticmethod
     def sell_tooltip(is_enabled: bool) -> str:
         if is_enabled:
-            return "Sell unit. Use Shift or Ctrl key to buy multiple units at once."
+            return "Продать. Shift или Ctrl — продать сразу несколько."
         else:
-            return "Unit can not be sold."
+            return "Продать невозможно."
 
     def info(self, item: TransactionItemType) -> None:
         self.info_window = QUnitInfoWindow(

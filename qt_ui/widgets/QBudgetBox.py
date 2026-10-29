@@ -12,7 +12,7 @@ class QBudgetBox(QGroupBox):
     """
 
     def __init__(self, game: Game):
-        super(QBudgetBox, self).__init__("Budget")
+        super(QBudgetBox, self).__init__("Бюджет")
 
         self.game = game
 

@@ -136,7 +136,7 @@ describe("SupplyRoute", () => {
     );
 
     const tooltip = screen.getByTestId("tooltip");
-    expect(tooltip).toHaveTextContent("This supply route is inactive.");
+    expect(tooltip).toHaveTextContent("Этот путь снабжения не используется.");
   });
 
   it("has a tooltip describing active supply routes", () => {

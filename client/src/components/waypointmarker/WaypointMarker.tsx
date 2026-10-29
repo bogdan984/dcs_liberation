@@ -72,7 +72,7 @@ const WaypointMarker = forwardRef(
       const waypoint = props.waypoint;
       marker.current?.setTooltipContent(
         `${props.number} ${waypoint.name}<br />` +
-          `${waypoint.altitude_ft.toFixed()} ft ${
+          `${waypoint.altitude_ft.toFixed()} фт ${
             waypoint.altitude_reference
           }<br />` +
           waypoint.timing
@@ -88,7 +88,7 @@ const WaypointMarker = forwardRef(
         eventHandlers={{
           dragstart: (e) => {
             const m: LMarker = e.target;
-            m.setTooltipContent("Waiting to recompute TOT...");
+            m.setTooltipContent("Ожидание пересчёта TOT...");
           },
           dragend: async (e) => {
             const m: LMarker = e.target;

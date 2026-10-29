@@ -45,9 +45,7 @@ class QPackageDialog(QDialog):
         self.add_flight_dialog: Optional[QFlightCreator] = None
 
         self.setMinimumSize(1000, 440)
-        self.setWindowTitle(
-            f"Mission Package: {self.package_model.mission_target.name}"
-        )
+        self.setWindowTitle(f"Пакет задания: {self.package_model.mission_target.name}")
         self.setWindowIcon(EVENT_ICONS["strike"])
 
         self.layout = QVBoxLayout()
@@ -58,7 +56,7 @@ class QPackageDialog(QDialog):
         self.package_type_column = QHBoxLayout()
         self.summary_row.addLayout(self.package_type_column)
 
-        self.package_type_label = QLabel("Package Type:")
+        self.package_type_label = QLabel("Тип пакета:")
         self.package_type_text = QLabel(self.package_model.description)
         # noinspection PyUnresolvedReferences
         self.package_changed.connect(
@@ -72,14 +70,14 @@ class QPackageDialog(QDialog):
         self.tot_column = QHBoxLayout()
         self.summary_row.addLayout(self.tot_column)
 
-        self.tot_label = QLabel("Time Over Target:")
+        self.tot_label = QLabel("Время над целью:")
         self.tot_column.addWidget(self.tot_label)
 
         self.tot_spinner = QTimeEdit(self.tot_qtime())
         self.tot_spinner.setMinimumTime(QTime(0, 0))
         self.tot_spinner.setDisplayFormat("hh:mm:ss")
         self.tot_spinner.timeChanged.connect(self.save_tot)
-        self.tot_spinner.setToolTip("Package TOT relative to mission TOT")
+        self.tot_spinner.setToolTip("TOT пакета относительно TOT миссии")
         self.tot_spinner.setEnabled(
             not self.package_model.package.auto_asap
             and self.package_model.package.all_flights_waiting_for_start()
@@ -88,8 +86,8 @@ class QPackageDialog(QDialog):
 
         self.auto_asap = QCheckBox("ASAP")
         self.auto_asap.setToolTip(
-            "Sets the package TOT to the earliest time that all flights can "
-            "arrive at the target."
+            "Устанавливает TOT пакета на самое раннее время, когда все звенья могут"
+            "прибыть к цели."
         )
         self.auto_asap.setChecked(self.package_model.package.auto_asap)
         self.auto_asap.setEnabled(
@@ -99,7 +97,7 @@ class QPackageDialog(QDialog):
         self.tot_column.addWidget(self.auto_asap)
 
         self.tot_help_label = QLabel(
-            '<a href="https://github.com/dcs-liberation/dcs_liberation/wiki/Mission-planning"><span style="color:#FFFFFF;">Help</span></a>'
+            '<a href="https://github.com/dcs-liberation/dcs_liberation/wiki/Mission-planning"><span style="color:#FFFFFF;">Справка</span></a>'
         )
         self.tot_help_label.setAlignment(Qt.AlignCenter)
         self.tot_help_label.setOpenExternalLinks(True)
@@ -114,14 +112,14 @@ class QPackageDialog(QDialog):
         self.button_layout = QHBoxLayout()
         self.layout.addLayout(self.button_layout)
 
-        self.add_flight_button = QPushButton("Add Flight")
+        self.add_flight_button = QPushButton("Добавить звено")
         self.add_flight_button.clicked.connect(self.on_add_flight)
         self.add_flight_button.setEnabled(
             self.package_model.package.all_flights_waiting_for_start()
         )
         self.button_layout.addWidget(self.add_flight_button)
 
-        self.delete_flight_button = QPushButton("Delete Selected")
+        self.delete_flight_button = QPushButton("Удалить выбранное")
         self.delete_flight_button.setProperty("style", "btn-danger")
         self.delete_flight_button.clicked.connect(self.on_delete_flight)
         self.delete_flight_button.setEnabled(model.rowCount() > 0)
@@ -199,7 +197,7 @@ class QPackageDialog(QDialog):
             self.package_model.delete_flight(flight)
             logging.exception("Could not create flight")
             QMessageBox.critical(
-                self, "Could not create flight", str(ex), QMessageBox.Ok
+                self, "Не удалось создать звено", str(ex), QMessageBox.Ok
             )
         # noinspection PyUnresolvedReferences
         self.package_changed.emit()
@@ -246,7 +244,7 @@ class QNewPackageDialog(QPackageDialog):
         # other UI elements until the new package has either been finalized or canceled.
         self.setModal(True)
 
-        self.save_button = QPushButton("Save")
+        self.save_button = QPushButton("Сохранить")
         self.save_button.setProperty("style", "start-button")
         self.save_button.clicked.connect(self.accept)
         self.button_layout.addWidget(self.save_button)
@@ -278,12 +276,12 @@ class QEditPackageDialog(QPackageDialog):
         super().__init__(game_model, package)
         self.ato_model = model
 
-        self.delete_button = QPushButton("Delete package")
+        self.delete_button = QPushButton("Удалить пакет")
         self.delete_button.setProperty("style", "btn-danger")
         self.delete_button.clicked.connect(self.on_delete)
         self.button_layout.addWidget(self.delete_button)
 
-        self.done_button = QPushButton("Done")
+        self.done_button = QPushButton("Готово")
         self.done_button.setProperty("style", "start-button")
         self.done_button.clicked.connect(self.accept)
         self.button_layout.addWidget(self.done_button)

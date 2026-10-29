@@ -17,7 +17,12 @@ def skill_option(
         page,
         section,
         default,
-        ["Average", "Good", "High", "Excellent"],
+        {
+            "Средний": "Average",
+            "Хороший": "Good",
+            "Высокий": "High",
+            "Отличный": "Excellent",
+        },
         detail=detail,
         tooltip=tooltip,
         **kwargs,

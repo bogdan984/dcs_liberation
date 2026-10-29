@@ -64,11 +64,10 @@ class QAircraftRecruitmentMenu(UnitTransactionFrame[Squadron]):
 
     def sell_tooltip(self, is_enabled: bool) -> str:
         if is_enabled:
-            return "Sell unit. Use Shift or Ctrl key to sell multiple units at once."
+            return "Продать. Shift или Ctrl — продать сразу несколько."
         else:
             return (
-                "Can not be sold because either no aircraft are available or are "
-                "already assigned to a mission."
+                "Нельзя продать: нет свободных ЛА или они" "уже назначены на задание."
             )
 
     def post_transaction_update(self) -> None:
@@ -96,17 +95,17 @@ class QHangarStatus(QHBoxLayout):
         next_turn = self.control_point.allocated_aircraft()
         max_amount = self.control_point.total_aircraft_parking
 
-        components = [f"{next_turn.total_present} present"]
+        components = [f"{next_turn.total_present} в наличии"]
         if next_turn.total_ordered > 0:
-            components.append(f"{next_turn.total_ordered} purchased")
+            components.append(f"{next_turn.total_ordered} куплено")
         elif next_turn.total_ordered < 0:
-            components.append(f"{-next_turn.total_ordered} sold")
+            components.append(f"{-next_turn.total_ordered} продано")
 
         transferring = next_turn.total_transferring
         if transferring > 0:
-            components.append(f"{transferring} transferring in")
+            components.append(f"{transferring} прибывают")
         if transferring < 0:
-            components.append(f"{-transferring} transferring out")
+            components.append(f"{-transferring} убывают")
 
         details = ", ".join(components)
         self.text.setText(

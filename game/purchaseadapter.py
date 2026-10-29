@@ -28,7 +28,7 @@ class PurchaseAdapter(Generic[ItemType]):
             elif self.can_buy(item):
                 self.do_purchase(item)
             else:
-                raise TransactionError(f"Cannot buy more {item}")
+                raise TransactionError(f"Больше нельзя купить: {item}")
             self.coalition.adjust_budget(-self.price_of(item))
 
     def sell(self, item: ItemType, quantity: int) -> None:
@@ -38,7 +38,7 @@ class PurchaseAdapter(Generic[ItemType]):
             elif self.can_sell(item):
                 self.do_sale(item)
             else:
-                raise TransactionError(f"Cannot sell more {item}")
+                raise TransactionError(f"Больше нельзя продать: {item}")
             self.coalition.adjust_budget(self.price_of(item))
 
     def has_pending_orders(self, item: ItemType) -> bool:
@@ -165,10 +165,10 @@ class GroundUnitPurchaseAdapter(PurchaseAdapter[GroundUnitType]):
         self.control_point.ground_unit_orders.sell({item: 1})
 
     def do_sale(self, item: GroundUnitType) -> None:
-        raise TransactionError("Sale of ground units not allowed")
+        raise TransactionError("Продажа наземных войск запрещена")
 
     def do_cancel_sale(self, item: GroundUnitType) -> None:
-        raise TransactionError("Sale of ground units not allowed")
+        raise TransactionError("Продажа наземных войск запрещена")
 
     def price_of(self, item: GroundUnitType) -> int:
         return item.price

@@ -32,77 +32,77 @@ export default function LiberationMap() {
       <ScaleControl />
       <LeafletRuler />
       <LayersControl collapsed={false}>
-        <LayersControl.BaseLayer name="Imagery Clarity" checked>
+        <LayersControl.BaseLayer name="Спутник (Clarity)" checked>
           <BasemapLayer name="ImageryClarity" />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="Imagery Firefly">
+        <LayersControl.BaseLayer name="Спутник (Firefly)">
           <BasemapLayer name="ImageryFirefly" />
         </LayersControl.BaseLayer>
-        <LayersControl.BaseLayer name="Topographic">
+        <LayersControl.BaseLayer name="Топографическая">
           <BasemapLayer name="Topographic" />
         </LayersControl.BaseLayer>
-        <LayersControl.Overlay name="Control points" checked>
+        <LayersControl.Overlay name="Контрольные точки" checked>
           <ControlPointsLayer />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Aircraft" checked>
+        <LayersControl.Overlay name="Авиация" checked>
           <AircraftLayer />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Active combat" checked>
+        <LayersControl.Overlay name="Активные бои" checked>
           <CombatLayer />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Air defenses" checked>
+        <LayersControl.Overlay name="ПВО" checked>
           <TgosLayer categories={["aa"]} />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Factories" checked>
+        <LayersControl.Overlay name="Заводы" checked>
           <TgosLayer categories={["factory"]} />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Ships" checked>
+        <LayersControl.Overlay name="Корабли" checked>
           <TgosLayer categories={["ship"]} />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Other ground objects" checked>
+        <LayersControl.Overlay name="Прочие наземные объекты" checked>
           <TgosLayer categories={["aa", "factory", "ship"]} exclude />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Supply routes" checked>
+        <LayersControl.Overlay name="Пути снабжения" checked>
           <SupplyRoutesLayer />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Front lines" checked>
+        <LayersControl.Overlay name="Линии фронта" checked>
           <FrontLinesLayer />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Enemy SAM threat range" checked>
+        <LayersControl.Overlay name="Зона поражения ЗРК противника" checked>
           <AirDefenseRangeLayer blue={false} />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Enemy SAM detection range">
+        <LayersControl.Overlay name="Зона обнаружения ЗРК противника">
           <AirDefenseRangeLayer blue={false} detection />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Enemy IADS Network">
+        <LayersControl.Overlay name="Сеть ПВО противника">
           <Iadsnetworklayer blue={false} />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Allied SAM threat range">
+        <LayersControl.Overlay name="Зона поражения союзных ЗРК">
           <AirDefenseRangeLayer blue={true} />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Allied SAM detection range">
+        <LayersControl.Overlay name="Зона обнаружения союзных ЗРК">
           <AirDefenseRangeLayer blue={true} detection />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Allied IADS Network">
+        <LayersControl.Overlay name="Союзная сеть ПВО">
           <Iadsnetworklayer blue={true} />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Selected blue flight plan">
+        <LayersControl.Overlay name="Выбранный план полёта синих">
           <FlightPlansLayer blue={true} selectedOnly />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="All blue flight plans" checked>
+        <LayersControl.Overlay name="Все планы полётов синих" checked>
           <FlightPlansLayer blue={true} />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="All red flight plans">
+        <LayersControl.Overlay name="Все планы полётов красных">
           <FlightPlansLayer blue={false} />
         </LayersControl.Overlay>
       </LayersControl>
       <LayersControl position="topleft">
         <CoalitionThreatZones blue={true} />
         <CoalitionThreatZones blue={false} />
-        <LayersControl.Overlay name="Blue navmesh">
+        <LayersControl.Overlay name="Навсетка синих">
           <NavMeshLayer blue={true} />
         </LayersControl.Overlay>
-        <LayersControl.Overlay name="Red navmesh">
+        <LayersControl.Overlay name="Навсетка красных">
           <NavMeshLayer blue={false} />
         </LayersControl.Overlay>
         <TerrainZonesLayers />

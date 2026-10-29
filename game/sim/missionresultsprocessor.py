@@ -189,13 +189,13 @@ class MissionResultsProcessor:
             try:
                 if captured.captured_by_player:
                     self.game.message(
-                        f"{captured.control_point} captured!",
-                        f"We took control of {captured.control_point}.",
+                        f"{captured.control_point} захвачен!",
+                        f"Мы взяли под контроль {captured.control_point}.",
                     )
                 else:
                     self.game.message(
-                        f"{captured.control_point} lost!",
-                        f"The enemy took control of {captured.control_point}.",
+                        f"{captured.control_point} потерян!",
+                        f"Противник взял под контроль {captured.control_point}.",
                     )
 
                 captured.control_point.capture(
@@ -250,31 +250,31 @@ class MissionResultsProcessor:
                 if ally_units_alive == 0:
                     player_won = False
                     delta = STRONG_DEFEAT_INFLUENCE
-                    status_msg = f"No allied units alive at {cp.name}-{enemy_cp.name} frontline.  Allied ground forces suffer a strong defeat."
+                    status_msg = f"На участке фронта {cp.name}-{enemy_cp.name} не осталось наших войск. Наши сухопутные войска потерпели тяжёлое поражение."
                 elif enemy_units_alive == 0:
                     player_won = True
                     delta = STRONG_DEFEAT_INFLUENCE
-                    status_msg = f"No enemy units alive at {cp.name}-{enemy_cp.name} frontline.  Allied ground forces win a strong victory."
+                    status_msg = f"На участке фронта {cp.name}-{enemy_cp.name} не осталось войск противника. Наши сухопутные войска одержали крупную победу."
                 elif cp.stances[enemy_cp.id] == CombatStance.RETREAT:
                     player_won = False
                     delta = STRONG_DEFEAT_INFLUENCE
-                    status_msg = f"Allied forces are retreating along the {cp.name}-{enemy_cp.name} frontline, suffering a strong defeat."
+                    status_msg = f"Наши войска отступают на участке {cp.name}-{enemy_cp.name} и терпят тяжёлое поражение."
                 else:
                     if enemy_casualties > ally_casualties:
                         player_won = True
                         if cp.stances[enemy_cp.id] == CombatStance.BREAKTHROUGH:
                             delta = STRONG_DEFEAT_INFLUENCE
-                            status_msg = f"Allied forces break through the {cp.name}-{enemy_cp.name} frontline, winning a strong victory"
+                            status_msg = f"Наши войска прорвали фронт на участке {cp.name}-{enemy_cp.name} и одержали крупную победу"
                         else:
                             if ratio > 3:
                                 delta = STRONG_DEFEAT_INFLUENCE
-                                status_msg = f"Enemy casualties massively outnumber allied casualties along the {cp.name}-{enemy_cp.name} frontline.  Allied forces win a strong victory."
+                                status_msg = f"Потери противника намного превышают наши на участке {cp.name}-{enemy_cp.name}. Наши войска одержали крупную победу."
                             elif ratio < 1.5:
                                 delta = MINOR_DEFEAT_INFLUENCE
-                                status_msg = f"Enemy casualties minorly outnumber allied casualties along the {cp.name}-{enemy_cp.name} frontline.  Allied forces win a minor victory."
+                                status_msg = f"Потери противника немного превышают наши на участке {cp.name}-{enemy_cp.name}. Наши войска одержали небольшую победу."
                             else:
                                 delta = DEFEAT_INFLUENCE
-                                status_msg = f"Enemy casualties outnumber allied casualties along the {cp.name}-{enemy_cp.name} frontline.  Allied forces claim a victory."
+                                status_msg = f"Потери противника превышают наши на участке {cp.name}-{enemy_cp.name}. Наши войска одержали победу."
                     elif ally_casualties > enemy_casualties:
                         if (
                             ally_units_alive > 2 * enemy_units_alive
@@ -283,23 +283,23 @@ class MissionResultsProcessor:
                             # Even with casualties if the enemy is overwhelmed, they are going to lose ground
                             player_won = True
                             delta = MINOR_DEFEAT_INFLUENCE
-                            status_msg = f"Despite suffering losses, allied forces still outnumber enemy forces along the {cp.name}-{enemy_cp.name} frontline.  Due to allied force's aggressive posture, allied forces claim a minor victory."
+                            status_msg = f"Несмотря на потери, наши войска всё ещё превосходят противника числом на участке {cp.name}-{enemy_cp.name}. Благодаря наступательной тактике наши войска одержали небольшую победу."
                         elif (
                             ally_units_alive > 3 * enemy_units_alive
                             and player_aggresive
                         ):
                             player_won = True
                             delta = STRONG_DEFEAT_INFLUENCE
-                            status_msg = f"Despite suffering losses, allied forces still heavily outnumber enemy forces along the {cp.name}-{enemy_cp.name} frontline.  Due to allied force's aggressive posture, allied forces claim a major victory."
+                            status_msg = f"Несмотря на потери, наши войска всё ещё значительно превосходят противника числом на участке {cp.name}-{enemy_cp.name}. Благодаря наступательной тактике наши войска одержали крупную победу."
                         else:
                             # But if the enemy is not outnumbered, we lose
                             player_won = False
                             if cp.stances[enemy_cp.id] == CombatStance.BREAKTHROUGH:
                                 delta = STRONG_DEFEAT_INFLUENCE
-                                status_msg = f"Allied casualties outnumber enemy casualties along the {cp.name}-{enemy_cp.name} frontline.  Allied forces have overextended themselves, suffering a major defeat."
+                                status_msg = f"Наши потери превышают потери противника на участке {cp.name}-{enemy_cp.name}. Наши войска растянулись и потерпели тяжёлое поражение."
                             else:
                                 delta = DEFEAT_INFLUENCE
-                                status_msg = f"Allied casualties outnumber enemy casualties along the {cp.name}-{enemy_cp.name} frontline.  Allied forces suffer a defeat."
+                                status_msg = f"Наши потери превышают потери противника на участке {cp.name}-{enemy_cp.name}. Наши войска потерпели поражение."
 
                     # No progress with defensive strategies
                     if player_won and cp.stances[enemy_cp.id] in [
@@ -317,8 +317,8 @@ class MissionResultsProcessor:
                 if delta == 0.0:
                     logging.debug("%s", status_msg)
                     self.game.message(
-                        "Frontline Report",
-                        f"Our ground forces from {cp.name} reached a stalemate with enemy forces from {enemy_cp.name}.",
+                        "Сводка с фронта",
+                        f"Наши сухопутные войска из {cp.name} зашли в тупик в боях с противником из {enemy_cp.name}.",
                     )
                 else:
                     if player_won:
@@ -326,16 +326,16 @@ class MissionResultsProcessor:
                         cp.base.affect_strength(delta)
                         enemy_cp.base.affect_strength(-delta)
                         self.game.message(
-                            "Frontline Report",
-                            f"Our ground forces from {cp.name} are making progress toward {enemy_cp.name}. {status_msg}",
+                            "Сводка с фронта",
+                            f"Наши сухопутные войска из {cp.name} продвигаются к {enemy_cp.name}. {status_msg}",
                         )
                     else:
                         logging.debug("%s", status_msg)
                         enemy_cp.base.affect_strength(delta)
                         cp.base.affect_strength(-delta)
                         self.game.message(
-                            "Frontline Report",
-                            f"Our ground forces from {cp.name} are losing ground against the enemy forces from "
+                            "Сводка с фронта",
+                            f"Наши сухопутные войска из {cp.name} отступают под натиском противника из"
                             f"{enemy_cp.name}. {status_msg}",
                         )
 
@@ -401,7 +401,7 @@ class MissionResultsProcessor:
 
         if total_units_redeployed > 0:
             self.game.message(
-                "Units redeployed",
-                f"{total_units_redeployed}  units have been redeployed from "
-                f"{source.name} to {destination.name}",
+                "Войска передислоцированы",
+                f"{total_units_redeployed}  ед. передислоцировано из"
+                f"{source.name} в{destination.name}",
             )

@@ -10,7 +10,7 @@ from game.version import BUILD_NUMBER, GIT_SHA, VERSION_NUMBER
 class BugReportDialog(QDialog):
     def __init__(self, parent: QWidget) -> None:
         super().__init__(parent)
-        self.setWindowTitle("Report an issue")
+        self.setWindowTitle("Сообщить об ошибке")
         self.setModal(True)
         self.setMaximumWidth(600)
 
@@ -19,22 +19,22 @@ class BugReportDialog(QDialog):
 
         components = [f"DCS Liberation {VERSION_NUMBER}"]
         if BUILD_NUMBER is not None:
-            components.append(f"Build {BUILD_NUMBER}")
+            components.append(f"Сборка {BUILD_NUMBER}")
         if GIT_SHA is not None:
-            components.append(f"Git revision {GIT_SHA}")
+            components.append(f"Ревизия Git {GIT_SHA}")
 
         self.report_data = "\n".join(components)
 
         label = QLabel(
-            "Use the button below to file a bug. The version information will be "
-            "automatically copied to your clipboard. Paste that information into the "
-            "box in the bug template that asks for the version.<br />"
+            "Нажмите кнопку ниже, чтобы сообщить об ошибке. Информация о версии будет"
+            "автоматически скопирована в буфер обмена. Вставьте её в"
+            "поле шаблона, где спрашивается версия.<br />"
             "<br />"
-            "<strong>Look for duplicate bugs before filing.</strong><br />"
+            "<strong>Перед отправкой поищите, нет ли уже такой ошибки.</strong><br />"
             "<br />"
-            "<strong>If the template asks for a save game, it is required. No matter "
-            "how easily reproducible the bug may appear, it rarely is. If it were "
-            "obvious you wouldn't be the first to find it.</strong><br />"
+            "<strong>Если шаблон просит файл сохранения, он обязателен. Какой бы"
+            "легко воспроизводимой ни казалась ошибка, это почти никогда не так. Будь она"
+            "очевидной, вы были бы не первым, кто её нашёл.</strong><br />"
             "<br />"
             f"{'<br />'.join(components)}<br />"
         )
@@ -47,7 +47,7 @@ class BugReportDialog(QDialog):
         label.setOpenExternalLinks(True)
         layout.addWidget(label)
 
-        copy_button = QPushButton("Copy details to clipboard and go to bug page")
+        copy_button = QPushButton("Скопировать данные и перейти на страницу ошибок")
         copy_button.clicked.connect(self.on_file_bug)
         layout.addWidget(copy_button)
 

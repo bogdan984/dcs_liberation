@@ -24,7 +24,7 @@ class QCampaignItem(QStandardItem):
         if campaign.is_compatible:
             name = campaign.name
         else:
-            name = f"[INCOMPATIBLE] {campaign.name}"
+            name = f"[НЕСОВМЕСТИМО] {campaign.name}"
         self.setText(name)
 
     def _icon_path(self, campaign: Campaign) -> Path:

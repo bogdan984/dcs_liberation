@@ -28,7 +28,7 @@ class QEditFlightDialog(QDialog):
         self.game_model = game_model
         self.flight = flight
 
-        self.setWindowTitle("Edit flight")
+        self.setWindowTitle("Изменить звено")
         self.setWindowIcon(EVENT_ICONS["strike"])
         self.setModal(True)
 

@@ -57,7 +57,7 @@ class QTopPanel(QFrame):
         if not self.game:
             self.passTurnButton.setEnabled(False)
 
-        self.proceedButton = QPushButton("Take off")
+        self.proceedButton = QPushButton("Взлёт")
         self.proceedButton.setIcon(CONST.ICONS["Proceed"])
         self.proceedButton.setProperty("style", "start-button")
         self.proceedButton.clicked.connect(self.launch_mission)
@@ -68,7 +68,7 @@ class QTopPanel(QFrame):
 
         self.intel_box = QIntelBox(self.game)
 
-        self.proceedBox = QGroupBox("Proceed")
+        self.proceedBox = QGroupBox("Действия")
         self.proceedBoxLayout = QHBoxLayout()
         if ui_flags.show_sim_speed_controls:
             self.proceedBoxLayout.addLayout(SimSpeedControls(sim_controller))
@@ -108,7 +108,9 @@ class QTopPanel(QFrame):
         if game.conditions.weather.clouds:
             base_m = game.conditions.weather.clouds.base
             base_ft = int(meters(base_m).feet)
-            self.conditionsWidget.setToolTip(f"Cloud Base: {base_m}m / {base_ft}ft")
+            self.conditionsWidget.setToolTip(
+                f"Нижняя граница облаков: {base_m} м / {base_ft} фт"
+            )
         else:
             self.conditionsWidget.setToolTip("")
 
@@ -152,20 +154,20 @@ class QTopPanel(QFrame):
     def confirm_no_client_launch(self) -> bool:
         result = QMessageBox.question(
             self,
-            "Continue without player pilots?",
+            "Продолжить без пилотов-игроков?",
             (
-                "No player pilots have been assigned to flights. Continuing will allow "
-                "the AI to perform the mission, but players will be unable to "
-                "participate.<br />"
+                "Ни одному звену не назначены пилоты-игроки. Если продолжить,"
+                "миссию выполнит ИИ, а игроки не смогут"
+                "участвовать.<br />"
                 "<br />"
-                "To assign player pilots to a flight, select a package from the "
-                "Packages panel on the left of the main window, and then a flight from "
-                "the Flights panel below the Packages panel. The edit button below the "
-                "Flights panel will allow you to assign specific pilots to the flight. "
-                "If you have no player pilots available, the checkbox next to the "
-                "name will convert them to a player.<br />"
-                "<br />Click 'Yes' to continue with an AI only mission"
-                "<br />Click 'No' if you'd like to make more changes."
+                "Чтобы назначить пилотов-игроков звену, выберите пакет на"
+                "панели «Пакеты» слева в главном окне, затем звено на"
+                "панели «Звенья» под ней. Кнопка «Изменить» под панелью"
+                "«Звенья» позволяет назначить звену конкретных пилотов."
+                "Если свободных пилотов-игроков нет, флажок рядом с"
+                "именем пилота сделает его игроком.<br />"
+                "<br />Нажмите «Да», чтобы продолжить миссию только с ИИ"
+                "<br />Нажмите «Нет», чтобы внести изменения."
             ),
             QMessageBox.No,
             QMessageBox.Yes,
@@ -178,26 +180,28 @@ class QTopPanel(QFrame):
         )
         mbox = QMessageBox(
             QMessageBox.Question,
-            "Continue with past start times?",
+            "Продолжить с прошедшим временем старта?",
             (
-                "Some flights in the following packages have start times set "
-                "earlier than mission start time:<br />"
+                "У некоторых звеньев в этих пакетах время старта"
+                "раньше начала миссии:<br />"
                 "<br />"
                 f"{formatted}<br />"
                 "<br />"
-                "Flight start times are estimated based on the package TOT, so it "
-                "is possible that not all flights will be able to reach the "
-                "target area at their assigned times.<br />"
+                "Время старта звеньев рассчитывается от TOT пакета, поэтому"
+                "возможно, не все звенья успеют прибыть"
+                "в район цели к назначенному времени.<br />"
                 "<br />"
-                "You can either continue with the mission as planned, with the "
-                "misplanned flights potentially flying too fast and/or missing "
-                "their rendezvous; automatically fix negative TOTs; or cancel "
-                "mission start and fix the packages manually."
+                "Можно продолжить миссию как есть (тогда"
+                "неверно спланированные звенья могут лететь слишком быстро и/или пропустить"
+                "точку сбора), автоматически исправить отрицательные TOT или отменить"
+                "старт миссии и исправить пакеты вручную."
             ),
             parent=self,
         )
-        auto = mbox.addButton("Fix TOTs automatically", QMessageBox.ActionRole)
-        ignore = mbox.addButton("Continue without fixing", QMessageBox.DestructiveRole)
+        auto = mbox.addButton("Исправить TOT автоматически", QMessageBox.ActionRole)
+        ignore = mbox.addButton(
+            "Продолжить без исправлений", QMessageBox.DestructiveRole
+        )
         cancel = mbox.addButton(QMessageBox.Cancel)
         mbox.setEscapeButton(cancel)
         mbox.exec_()
@@ -224,14 +228,14 @@ class QTopPanel(QFrame):
         )
         mbox = QMessageBox(
             QMessageBox.Critical,
-            "Flights are missing pilots",
+            "В звеньях не хватает пилотов",
             (
-                "The following flights are missing one or more pilots:<br />"
+                "В следующих звеньях не хватает одного или нескольких пилотов:<br />"
                 "<br />"
                 f"{formatted}<br />"
                 "<br />"
-                "You must either assign pilots to those flights or cancel those "
-                "missions."
+                "Назначьте пилотов этим звеньям или отмените эти"
+                "миссии."
             ),
             parent=self,
         )
@@ -258,7 +262,7 @@ class QTopPanel(QFrame):
             FastForwardStopCondition.DISABLED,
             FastForwardStopCondition.MANUAL,
         ]:
-            with logged_duration("Simulating to first contact"):
+            with logged_duration("Симуляция до первого контакта"):
                 self.sim_controller.run_to_first_contact()
         self.sim_controller.generate_miz(
             persistence.mission_path_for("liberation_nextturn.miz")
@@ -275,7 +279,7 @@ class QTopPanel(QFrame):
     def _pass_turn_button_text(self, game: Game) -> None:
         if game and game.turn > 0:
             if game.settings.turnless_mode:
-                return "End Turn"
+                return "Завершить ход"
             else:
-                return "Pass Turn"
-        return "Begin campaign"
+                return "Пропустить ход"
+        return "Начать кампанию"

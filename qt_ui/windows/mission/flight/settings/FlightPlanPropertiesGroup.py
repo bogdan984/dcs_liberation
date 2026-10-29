@@ -22,7 +22,7 @@ from qt_ui.widgets.combos.QArrivalAirfieldSelector import QArrivalAirfieldSelect
 
 class FlightPlanPropertiesGroup(QGroupBox):
     def __init__(self, game: Game, package_model: PackageModel, flight: Flight) -> None:
-        super().__init__("Flight plan properties")
+        super().__init__("Параметры плана полёта")
         self.game = game
         self.package_model = package_model
         self.flight = flight
@@ -32,7 +32,7 @@ class FlightPlanPropertiesGroup(QGroupBox):
         self.departure_time = QLabel()
         layout.addLayout(
             QLabeledWidget(
-                f"Departing from <b>{flight.departure.name}</b>", self.departure_time
+                f"Вылет из <b>{flight.departure.name}</b>", self.departure_time
             )
         )
         self.package_model.tot_changed.connect(self.update_departure_time)
@@ -49,9 +49,9 @@ class FlightPlanPropertiesGroup(QGroupBox):
         minutes = delay // 60 % 60
         seconds = delay % 60
 
-        tot_offset_layout.addWidget(QLabel("TOT Offset (minutes:seconds)"))
+        tot_offset_layout.addWidget(QLabel("Смещение TOT (минуты:секунды)"))
         tot_offset_layout.addStretch()
-        self.negative_offset_checkbox = QCheckBox("Ahead of package")
+        self.negative_offset_checkbox = QCheckBox("Раньше пакета")
         self.negative_offset_checkbox.setChecked(negative)
         self.negative_offset_checkbox.toggled.connect(self.toggle_negative_offset)
         tot_offset_layout.addWidget(self.negative_offset_checkbox)
@@ -60,28 +60,25 @@ class FlightPlanPropertiesGroup(QGroupBox):
         self.tot_offset_spinner.setMaximumTime(QTime(59, 0))
         self.tot_offset_spinner.setDisplayFormat("mm:ss")
         self.tot_offset_spinner.timeChanged.connect(self.set_tot_offset)
-        self.tot_offset_spinner.setToolTip("Flight TOT offset from package TOT")
+        self.tot_offset_spinner.setToolTip("Смещение TOT звена относительно TOT пакета")
         tot_offset_layout.addWidget(self.tot_offset_spinner)
 
         layout.addWidget(
-            QLabel(
-                "Determined based on the package TOT. Edit the "
-                "package to adjust the TOT."
-            )
+            QLabel("Определяется по TOT пакета. Измените" "пакет, чтобы поменять TOT.")
         )
 
         arrival_label = QLabel(f"<b>{flight.arrival.name}</b>")
-        layout.addLayout(QLabeledWidget("Arrival:", arrival_label))
+        layout.addLayout(QLabeledWidget("Посадка:", arrival_label))
 
         self.divert = QArrivalAirfieldSelector(
             [cp for cp in game.theater.controlpoints if cp.captured],
             flight.unit_type,
-            "None",
+            "Нет",
         )
         self.divert.currentIndexChanged.connect(self.set_divert)
         if flight.divert is not None:
             self.divert.setCurrentText(flight.divert.name)
-        layout.addLayout(QLabeledWidget("Divert:", self.divert))
+        layout.addLayout(QLabeledWidget("Запасной:", self.divert))
 
         self.setLayout(layout)
 
@@ -93,7 +90,7 @@ class FlightPlanPropertiesGroup(QGroupBox):
             # is an invalid state for calling anything in TotEstimator.
             return
         self.departure_time.setText(
-            f"At {self.flight.flight_plan.startup_time():%H:%M:%S}"
+            f"В {self.flight.flight_plan.startup_time():%H:%M:%S}"
         )
 
     def set_divert(self, index: int) -> None:
@@ -109,7 +106,7 @@ class FlightPlanPropertiesGroup(QGroupBox):
             self.flight.divert = old_divert
             logging.exception("Could not change divert airfield")
             QMessageBox.critical(
-                self, "Could not update flight plan", str(ex), QMessageBox.Ok
+                self, "Не удалось обновить план полёта", str(ex), QMessageBox.Ok
             )
 
     def set_tot_offset(self, offset: QTime) -> None:

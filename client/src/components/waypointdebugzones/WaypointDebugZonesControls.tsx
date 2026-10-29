@@ -15,10 +15,10 @@ export function WaypointDebugZonesControls() {
 
   return (
     <>
-      <LayersControl.Overlay name="Join zones">
+      <LayersControl.Overlay name="Зоны сбора">
         <JoinZonesLayer flightId={selectedFlightId} />
       </LayersControl.Overlay>
-      <LayersControl.Overlay name="Hold zones">
+      <LayersControl.Overlay name="Зоны ожидания">
         <HoldZonesLayer flightId={selectedFlightId} />
       </LayersControl.Overlay>
     </>

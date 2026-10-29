@@ -13,3 +13,12 @@ class StartType(Enum):
     WARM = "Warm"
     RUNWAY = "Runway"
     IN_FLIGHT = "In Flight"
+
+    @property
+    def display_name(self) -> str:
+        return {
+            StartType.COLD: "Холодный",
+            StartType.WARM: "Горячий",
+            StartType.RUNWAY: "С ВПП",
+            StartType.IN_FLIGHT: "В воздухе",
+        }[self]

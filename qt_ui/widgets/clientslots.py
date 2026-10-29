@@ -12,11 +12,11 @@ class MaxPlayerCount(QLabeledWidget):
         self.slots_label = QLabel(str(self.count_client_slots))
         self.ato_model.client_slots_changed.connect(self.update_count)
         super().__init__(
-            "Max Players:",
+            "Макс. игроков:",
             self.slots_label,
             (
-                "Total number of client slots. To add client slots, edit a flight "
-                "using the panel on the left."
+                "Общее число клиентских слотов. Чтобы добавить слоты, измените звено"
+                "на панели слева."
             ),
         )
 

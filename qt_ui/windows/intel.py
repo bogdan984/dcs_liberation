@@ -91,7 +91,7 @@ class AircraftIntelLayout(IntelTableLayout):
                 self.add_row(f"    {airframe.display_name}", count)
             self.add_row("")
 
-        self.add_row("<b>Total</b>", total)
+        self.add_row("<b>Всего</b>", total)
         self.add_spacer()
 
 
@@ -120,7 +120,7 @@ class ArmyIntelLayout(IntelTableLayout):
                 self.add_row(f"    {vehicle.display_name}", count)
             self.add_row("")
 
-        self.add_row("<b>Total</b>", total)
+        self.add_row("<b>Всего</b>", total)
         self.add_spacer()
 
 
@@ -134,9 +134,9 @@ class IntelTabs(QTabWidget):
     def __init__(self, game: Game, player: bool):
         super().__init__()
 
-        self.addTab(EconomyIntelTab(game, player), "Economy")
-        self.addTab(AircraftIntelTab(game, player), "Air forces")
-        self.addTab(ArmyIntelTab(game, player), "Ground forces")
+        self.addTab(EconomyIntelTab(game, player), "Экономика")
+        self.addTab(AircraftIntelTab(game, player), "ВВС")
+        self.addTab(ArmyIntelTab(game, player), "Сухопутные войска")
 
 
 class IntelWindow(QDialog):
@@ -146,7 +146,7 @@ class IntelWindow(QDialog):
         self.game = game
         self.player = True
         self.setModal(True)
-        self.setWindowTitle("Intelligence")
+        self.setWindowTitle("Разведка")
         self.setWindowIcon(ICONS["Statistics"])
         self.setMinimumSize(600, 500)
         self.selected_intel_tab = 0
@@ -167,7 +167,7 @@ class IntelWindow(QDialog):
                 self.layout().removeItem(child)
 
         # Add the new layout
-        own_faction = QCheckBox("Enemy Info")
+        own_faction = QCheckBox("Данные о противнике")
         own_faction.setChecked(not self.player)
         own_faction.stateChanged.connect(self.on_faction_changed)
 

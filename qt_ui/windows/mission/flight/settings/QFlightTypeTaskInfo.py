@@ -5,7 +5,7 @@ from qt_ui.uiconstants import AIRCRAFT_ICONS
 
 class QFlightTypeTaskInfo(QGroupBox):
     def __init__(self, flight):
-        super(QFlightTypeTaskInfo, self).__init__("Flight")
+        super(QFlightTypeTaskInfo, self).__init__("Звено")
         self.flight = flight
 
         layout = QGridLayout()
@@ -14,11 +14,11 @@ class QFlightTypeTaskInfo(QGroupBox):
         if self.flight.unit_type.dcs_id in AIRCRAFT_ICONS:
             self.aircraft_icon.setPixmap(AIRCRAFT_ICONS[self.flight.unit_type.dcs_id])
 
-        self.task = QLabel("Task:")
+        self.task = QLabel("Задача:")
         self.task_type = QLabel(str(flight.flight_type))
         self.task_type.setProperty("style", flight.flight_type.name)
 
-        self.callsign_label = QLabel("Flight Lead Callsign:")
+        self.callsign_label = QLabel("Позывной ведущего:")
         if flight.callsign is not None:
             callsign = flight.callsign.group_name()
         else:

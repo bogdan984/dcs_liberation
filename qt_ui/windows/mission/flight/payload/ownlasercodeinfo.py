@@ -15,7 +15,7 @@ class OwnLaserCodeInfo(QHBoxLayout):
         self.game = game
         self.flight_member = flight_member
 
-        self.addWidget(QLabel("Assigned TGP laser code:"))
+        self.addWidget(QLabel("Код лазера прицельного контейнера:"))
         self.addStretch()
 
         self.code_display = QLabel()
@@ -34,16 +34,16 @@ class OwnLaserCodeInfo(QHBoxLayout):
     def bind_to_selected_member(self) -> None:
         if (code := self.flight_member.tgp_laser_code) is not None:
             self.alloc_dealloc_button.setEnabled(True)
-            self.alloc_dealloc_button.setText("Release")
+            self.alloc_dealloc_button.setText("Освободить")
             self.code_display.setText(f"{code}")
         elif self.flight_member.is_player:
-            self.alloc_dealloc_button.setText("Assign")
+            self.alloc_dealloc_button.setText("Назначить")
             self.alloc_dealloc_button.setEnabled(True)
-            self.code_display.setText("Not assigned")
+            self.code_display.setText("Не назначен")
         else:
-            self.alloc_dealloc_button.setText("Assign")
+            self.alloc_dealloc_button.setText("Назначить")
             self.alloc_dealloc_button.setEnabled(False)
-            self.code_display.setText("AI does not use laser codes")
+            self.code_display.setText("ИИ не использует коды лазера")
 
     def on_alloc_dealloc_clicked(self) -> None:
         if self.flight_member.tgp_laser_code is not None:

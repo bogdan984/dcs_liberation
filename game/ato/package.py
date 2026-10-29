@@ -201,7 +201,7 @@ class Package:
         """Generates a package description based on flight composition."""
         task = self.primary_task
         if task is None:
-            return "No mission"
+            return "Нет задания"
         oca_strike_types = {FlightType.OCA_AIRCRAFT, FlightType.OCA_RUNWAY}
         if task in oca_strike_types:
             return "OCA Strike"

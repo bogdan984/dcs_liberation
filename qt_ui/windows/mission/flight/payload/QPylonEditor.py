@@ -24,7 +24,7 @@ class QPylonEditor(QComboBox):
 
         current = self.flight_member.loadout.pylons.get(self.pylon.number)
 
-        self.addItem("None", None)
+        self.addItem("Нет", None)
         if self.game.settings.restrict_weapons_by_date:
             weapons = pylon.available_on(
                 self.game.date, flight.squadron.coalition.faction
@@ -64,7 +64,7 @@ class QPylonEditor(QComboBox):
         # it's not known to be compatible.
         if weapon.clsid == "<CLEAN>":
             if not self.has_added_clean_item:
-                self.addItem("Clean", weapon)
+                self.addItem("Пусто", weapon)
                 self.has_added_clean_item = True
         return weapon
 
@@ -77,7 +77,7 @@ class QPylonEditor(QComboBox):
             )
         weapon = self.weapon_from_loadout(loadout)
         if weapon is None:
-            return "None"
+            return "Нет"
         return weapon.name
 
     def set_flight_member(self, flight_member: FlightMember) -> None:

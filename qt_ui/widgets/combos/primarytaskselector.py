@@ -22,7 +22,7 @@ class PrimaryTaskSelector(QComboBox):
     def set_aircraft(self, aircraft: AircraftType | None) -> None:
         self.clear()
         if aircraft is None:
-            self.addItem("Select aircraft type first", None)
+            self.addItem("Сначала выберите тип ЛА", None)
             self.setEnabled(False)
             self.update()
             return

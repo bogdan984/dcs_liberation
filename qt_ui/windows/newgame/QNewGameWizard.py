@@ -51,40 +51,40 @@ Possible time periods for new games
 The object is a python datetime object
 """
 TIME_PERIODS = {
-    "WW2 - Winter [1944]": datetime(1944, 1, 1),
-    "WW2 - Spring [1944]": datetime(1944, 4, 1),
-    "WW2 - Summer [1944]": datetime(1944, 6, 1),
-    "WW2 - Fall [1944]": datetime(1944, 10, 1),
-    "Early Cold War - Winter [1952]": datetime(1952, 1, 1),
-    "Early Cold War - Spring [1952]": datetime(1952, 4, 1),
-    "Early Cold War - Summer [1952]": datetime(1952, 6, 1),
-    "Early Cold War - Fall [1952]": datetime(1952, 10, 1),
-    "Cold War - Winter [1970]": datetime(1970, 1, 1),
-    "Cold War - Spring [1970]": datetime(1970, 4, 1),
-    "Cold War - Summer [1970]": datetime(1970, 6, 1),
-    "Cold War - Fall [1970]": datetime(1970, 10, 1),
-    "Late Cold War - Winter [1985]": datetime(1985, 1, 1),
-    "Late Cold War - Spring [1985]": datetime(1985, 4, 1),
-    "Late Cold War - Summer [1985]": datetime(1985, 6, 1),
-    "Late Cold War - Fall [1985]": datetime(1985, 10, 1),
-    "Gulf War - Winter [1990]": datetime(1990, 1, 1),
-    "Gulf War - Spring [1990]": datetime(1990, 4, 1),
-    "Gulf War - Summer [1990]": datetime(1990, 6, 1),
-    "Mid-90s - Winter [1995]": datetime(1995, 1, 1),
-    "Mid-90s - Spring [1995]": datetime(1995, 4, 1),
-    "Mid-90s - Summer [1995]": datetime(1995, 6, 1),
-    "Mid-90s - Fall [1995]": datetime(1995, 10, 1),
-    "Gulf War - Fall [1990]": datetime(1990, 10, 1),
-    "Modern - Winter [2010]": datetime(2010, 1, 1),
-    "Modern - Spring [2010]": datetime(2010, 4, 1),
-    "Modern - Summer [2010]": datetime(2010, 6, 1),
-    "Modern - Fall [2010]": datetime(2010, 10, 1),
-    "Georgian War [2008]": datetime(2008, 8, 7),
-    "Syrian War [2011]": datetime(2011, 3, 15),
-    "6 days war [1967]": datetime(1967, 6, 5),
-    "Yom Kippour War [1973]": datetime(1973, 10, 6),
-    "First Lebanon War [1982]": datetime(1982, 6, 6),
-    "Arab-Israeli War [1948]": datetime(1948, 5, 15),
+    "ВМВ - Зима [1944]": datetime(1944, 1, 1),
+    "ВМВ - Весна [1944]": datetime(1944, 4, 1),
+    "ВМВ - Лето [1944]": datetime(1944, 6, 1),
+    "ВМВ - Осень [1944]": datetime(1944, 10, 1),
+    "Ранняя холодная война - Зима [1952]": datetime(1952, 1, 1),
+    "Ранняя холодная война - Весна [1952]": datetime(1952, 4, 1),
+    "Ранняя холодная война - Лето [1952]": datetime(1952, 6, 1),
+    "Ранняя холодная война - Осень [1952]": datetime(1952, 10, 1),
+    "Холодная война - Зима [1970]": datetime(1970, 1, 1),
+    "Холодная война - Весна [1970]": datetime(1970, 4, 1),
+    "Холодная война - Лето [1970]": datetime(1970, 6, 1),
+    "Холодная война - Осень [1970]": datetime(1970, 10, 1),
+    "Поздняя холодная война - Зима [1985]": datetime(1985, 1, 1),
+    "Поздняя холодная война - Весна [1985]": datetime(1985, 4, 1),
+    "Поздняя холодная война - Лето [1985]": datetime(1985, 6, 1),
+    "Поздняя холодная война - Осень [1985]": datetime(1985, 10, 1),
+    "Война в Заливе - Зима [1990]": datetime(1990, 1, 1),
+    "Война в Заливе - Весна [1990]": datetime(1990, 4, 1),
+    "Война в Заливе - Лето [1990]": datetime(1990, 6, 1),
+    "Середина 90-х - Зима [1995]": datetime(1995, 1, 1),
+    "Середина 90-х - Весна [1995]": datetime(1995, 4, 1),
+    "Середина 90-х - Лето [1995]": datetime(1995, 6, 1),
+    "Середина 90-х - Осень [1995]": datetime(1995, 10, 1),
+    "Война в Заливе - Осень [1990]": datetime(1990, 10, 1),
+    "Современность - Зима [2010]": datetime(2010, 1, 1),
+    "Современность - Весна [2010]": datetime(2010, 4, 1),
+    "Современность - Лето [2010]": datetime(2010, 6, 1),
+    "Современность - Осень [2010]": datetime(2010, 10, 1),
+    "Грузинская война [2008]": datetime(2008, 8, 7),
+    "Сирийская война [2011]": datetime(2011, 3, 15),
+    "Шестидневная война [1967]": datetime(1967, 6, 5),
+    "Война Судного дня [1973]": datetime(1973, 10, 6),
+    "Первая ливанская война [1982]": datetime(1982, 6, 6),
+    "Арабо-израильская война [1948]": datetime(1948, 5, 15),
 }
 
 
@@ -140,7 +140,7 @@ class NewGameWizard(QtWidgets.QWizard):
         )
         self.setWizardStyle(QtWidgets.QWizard.ModernStyle)
 
-        self.setWindowTitle("New Game")
+        self.setWindowTitle("Новая игра")
 
         # Resize wizard to the size of the largest page to keep size and position
         # consistent.
@@ -248,15 +248,15 @@ class IntroPage(QtWidgets.QWizardPage):
     def __init__(self, parent=None):
         super(IntroPage, self).__init__(parent)
 
-        self.setTitle("Introduction")
+        self.setTitle("Введение")
         self.setPixmap(
             QtWidgets.QWizard.WatermarkPixmap,
             QtGui.QPixmap("./resources/ui/wizard/watermark1.png"),
         )
 
         label = QtWidgets.QLabel(
-            "This wizard will help you setup a new game.\n\n"
-            "Please make sure you saved and backed up your previous game before going through."
+            "Этот мастер поможет создать новую игру.\n\n"
+            "Перед продолжением сохраните предыдущую игру и сделайте её резервную копию."
         )
         label.setWordWrap(True)
 
@@ -271,10 +271,8 @@ class FactionSelection(QtWidgets.QWizardPage):
 
         self.factions = factions
 
-        self.setTitle("Faction selection")
-        self.setSubTitle(
-            "\nChoose the two opposing factions and select the player side."
-        )
+        self.setTitle("Выбор фракций")
+        self.setSubTitle("\nВыберите две противоборствующие фракции и сторону игрока.")
         self.setPixmap(
             QtWidgets.QWizard.LogoPixmap,
             QtGui.QPixmap("./resources/ui/misc/generator.png"),
@@ -283,18 +281,18 @@ class FactionSelection(QtWidgets.QWizardPage):
         self.setMinimumHeight(250)
 
         # Factions selection
-        self.factionsGroup = QtWidgets.QGroupBox("Factions")
+        self.factionsGroup = QtWidgets.QGroupBox("Фракции")
         self.factionsGroupLayout = QtWidgets.QHBoxLayout()
         self.blueGroupLayout = QtWidgets.QGridLayout()
         self.redGroupLayout = QtWidgets.QGridLayout()
 
-        blueFaction = QtWidgets.QLabel("<b>Player Faction :</b>")
+        blueFaction = QtWidgets.QLabel("<b>Фракция игрока:</b>")
         self.blueFactionSelect = QtWidgets.QComboBox()
         for f in self.factions.iter_faction_names():
             self.blueFactionSelect.addItem(f)
         blueFaction.setBuddy(self.blueFactionSelect)
 
-        redFaction = QtWidgets.QLabel("<b>Enemy Faction :</b>")
+        redFaction = QtWidgets.QLabel("<b>Фракция противника:</b>")
         self.redFactionSelect = QtWidgets.QComboBox()
         redFaction.setBuddy(self.redFactionSelect)
 
@@ -327,7 +325,7 @@ class FactionSelection(QtWidgets.QWizardPage):
 
         # Docs Link
         docsText = QtWidgets.QLabel(
-            '<a href="https://github.com/dcs-liberation/dcs_liberation/wiki/Custom-Factions"><span style="color:#FFFFFF;">How to create your own faction</span></a>'
+            '<a href="https://github.com/dcs-liberation/dcs_liberation/wiki/Custom-Factions"><span style="color:#FFFFFF;">Как создать свою фракцию</span></a>'
         )
         docsText.setAlignment(Qt.AlignCenter)
         docsText.setOpenExternalLinks(True)
@@ -402,8 +400,8 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
 
         self.faction_selection = faction_selection
 
-        self.setTitle("Theater configuration")
-        self.setSubTitle("\nChoose a terrain and time period for this game.")
+        self.setTitle("Театр военных действий")
+        self.setSubTitle("\nВыберите карту и период для этой игры.")
         self.setPixmap(
             QtWidgets.QWizard.LogoPixmap,
             QtGui.QPixmap("./resources/ui/wizard/logo1.png"),
@@ -416,7 +414,7 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
 
         # List of campaigns
         show_incompatible_campaigns_checkbox = QCheckBox(
-            text="Show incompatible campaigns"
+            text="Показать несовместимые кампании"
         )
         show_incompatible_campaigns_checkbox.setChecked(False)
         self.campaignList = QCampaignList(
@@ -437,24 +435,24 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
         self.performanceText.setMaximumHeight(90)
 
         # Campaign settings
-        mapSettingsGroup = QtWidgets.QGroupBox("Map Settings")
+        mapSettingsGroup = QtWidgets.QGroupBox("Настройки карты")
         mapSettingsLayout = QtWidgets.QGridLayout()
         invertMap = QtWidgets.QCheckBox()
         self.registerField("invertMap", invertMap)
-        mapSettingsLayout.addWidget(QtWidgets.QLabel("Invert Map"), 0, 0)
+        mapSettingsLayout.addWidget(QtWidgets.QLabel("Поменять стороны"), 0, 0)
         mapSettingsLayout.addWidget(invertMap, 0, 1)
         self.advanced_iads = QtWidgets.QCheckBox()
         self.registerField("advanced_iads", self.advanced_iads)
-        self.iads_label = QtWidgets.QLabel("Advanced IADS (WIP)")
+        self.iads_label = QtWidgets.QLabel("Продвинутая ПВО (IADS, в разработке)")
         mapSettingsLayout.addWidget(self.iads_label, 1, 0)
         mapSettingsLayout.addWidget(self.advanced_iads, 1, 1)
         mapSettingsGroup.setLayout(mapSettingsLayout)
 
         # Time Period
-        timeGroup = QtWidgets.QGroupBox("Time Period")
-        timePeriod = QtWidgets.QLabel("Start date :")
+        timeGroup = QtWidgets.QGroupBox("Период")
+        timePeriod = QtWidgets.QLabel("Дата начала:")
         timePeriodSelect = QtWidgets.QComboBox()
-        timePeriodPresetLabel = QLabel("Use preset :")
+        timePeriodPresetLabel = QLabel("Готовый период:")
         timePeriodPreset = QtWidgets.QCheckBox()
         timePeriodPreset.setChecked(True)
         self.calendar = QLiberationCalendar()
@@ -493,8 +491,8 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
             campaign = self.campaignList.selected_campaign
             self.setField("selectedCampaign", campaign)
             if campaign is None:
-                self.campaignMapDescription.setText("No campaign selected")
-                self.performanceText.setText("No campaign selected")
+                self.campaignMapDescription.setText("Кампания не выбрана")
+                self.performanceText.setText("Кампания не выбрана")
                 return
 
             self.campaignMapDescription.setText(template.render({"campaign": campaign}))
@@ -515,10 +513,10 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
             self.advanced_iads.setChecked(campaign.advanced_iads)
             if not campaign.advanced_iads:
                 self.advanced_iads.setToolTip(
-                    "Advanced IADS is not supported by this campaign"
+                    "Эта кампания не поддерживает продвинутую ПВО"
                 )
             else:
-                self.advanced_iads.setToolTip("Enable Advanced IADS")
+                self.advanced_iads.setToolTip("Включить продвинутую ПВО")
 
             self.campaign_selected.emit(campaign)
 
@@ -532,10 +530,10 @@ class TheaterConfiguration(QtWidgets.QWizardPage):
         on_campaign_selected()
 
         docsText = QtWidgets.QLabel(
-            "<p>Want more campaigns? You can "
-            '<a href="https://github.com/dcs-liberation/dcs_liberation/wiki/Campaign-maintenance"><span style="color:#FFFFFF;">offer to help</span></a>, '
-            '<a href="https://github.com/dcs-liberation/dcs_liberation/wiki/Community-campaigns"><span style="color:#FFFFFF;">play a community campaign</span></a>, '
-            'or <a href="https://github.com/dcs-liberation/dcs_liberation/wiki/Custom-Campaigns"><span style="color:#FFFFFF;">create your own</span></a>.'
+            "<p>Хотите больше кампаний? Можно"
+            '<a href="https://github.com/dcs-liberation/dcs_liberation/wiki/Campaign-maintenance"><span style="color:#FFFFFF;">помочь с их поддержкой</span></a>, '
+            '<a href="https://github.com/dcs-liberation/dcs_liberation/wiki/Community-campaigns"><span style="color:#FFFFFF;">сыграть кампанию сообщества</span></a>, '
+            'или <a href="https://github.com/dcs-liberation/dcs_liberation/wiki/Custom-Campaigns"><span style="color:#FFFFFF;">создать свою</span></a>.'
             "</p>"
         )
         docsText.setAlignment(Qt.AlignCenter)
@@ -596,10 +594,8 @@ class DifficultyAndAutomationOptions(QtWidgets.QWizardPage):
     ) -> None:
         super().__init__(parent)
 
-        self.setTitle("Difficulty and automation options")
-        self.setSubTitle(
-            "\nOptions controlling game difficulty and level of " "player involvement."
-        )
+        self.setTitle("Сложность и автоматизация")
+        self.setSubTitle("\nПараметры сложности игры и степени" "участия игрока.")
         self.setPixmap(
             QtWidgets.QWizard.LogoPixmap,
             QtGui.QPixmap("./resources/ui/wizard/logo1.png"),
@@ -607,47 +603,49 @@ class DifficultyAndAutomationOptions(QtWidgets.QWizardPage):
 
         layout = QtWidgets.QVBoxLayout()
 
-        economy_group = QtWidgets.QGroupBox("Economy options")
+        economy_group = QtWidgets.QGroupBox("Экономика")
         layout.addWidget(economy_group)
         economy_layout = QtWidgets.QVBoxLayout()
         economy_group.setLayout(economy_layout)
 
-        economy_layout.addWidget(QLabel("Player income multiplier"))
+        economy_layout.addWidget(QLabel("Множитель дохода игрока"))
         self.player_income = FloatSpinSlider(0, 5, 1, divisor=10)
         self.registerField("player_income_multiplier", self.player_income.spinner)
         economy_layout.addLayout(self.player_income)
 
-        economy_layout.addWidget(QLabel("Enemy income multiplier"))
+        economy_layout.addWidget(QLabel("Множитель дохода противника"))
         self.enemy_income = FloatSpinSlider(0, 5, 1, divisor=10)
         self.registerField("enemy_income_multiplier", self.enemy_income.spinner)
         economy_layout.addLayout(self.enemy_income)
 
-        self.player_budget = BudgetInputs("Player starting budget", DEFAULT_BUDGET)
+        self.player_budget = BudgetInputs("Стартовый бюджет игрока", DEFAULT_BUDGET)
         self.registerField("starting_money", self.player_budget.starting_money)
         economy_layout.addLayout(self.player_budget)
 
-        self.enemy_budget = BudgetInputs("Enemy starting budget", DEFAULT_BUDGET)
+        self.enemy_budget = BudgetInputs("Стартовый бюджет противника", DEFAULT_BUDGET)
         self.registerField("enemy_starting_money", self.enemy_budget.starting_money)
         economy_layout.addLayout(self.enemy_budget)
 
-        assist_group = QtWidgets.QGroupBox("Player assists")
+        assist_group = QtWidgets.QGroupBox("Помощь игроку")
         layout.addWidget(assist_group)
         assist_layout = QtWidgets.QGridLayout()
         assist_group.setLayout(assist_layout)
 
-        assist_layout.addWidget(QtWidgets.QLabel("Automate runway repairs"), 0, 0)
+        assist_layout.addWidget(QtWidgets.QLabel("Автоматический ремонт ВПП"), 0, 0)
         runway_repairs = QtWidgets.QCheckBox()
         runway_repairs.setChecked(default_settings.automate_runway_repair)
         self.registerField("automate_runway_repairs", runway_repairs)
         assist_layout.addWidget(runway_repairs, 0, 1, Qt.AlignRight)
 
-        assist_layout.addWidget(QtWidgets.QLabel("Automate front-line purchases"), 1, 0)
+        assist_layout.addWidget(
+            QtWidgets.QLabel("Автоматические закупки для фронта"), 1, 0
+        )
         front_line = QtWidgets.QCheckBox()
         front_line.setChecked(default_settings.automate_front_line_reinforcements)
         self.registerField("automate_front_line_purchases", front_line)
         assist_layout.addWidget(front_line, 1, 1, Qt.AlignRight)
 
-        assist_layout.addWidget(QtWidgets.QLabel("Automate aircraft purchases"), 2, 0)
+        assist_layout.addWidget(QtWidgets.QLabel("Автоматические закупки ЛА"), 2, 0)
         aircraft = QtWidgets.QCheckBox()
         aircraft.setChecked(default_settings.automate_aircraft_reinforcements)
         self.registerField("automate_aircraft_purchases", aircraft)
@@ -697,7 +695,7 @@ class PluginGroupBox(QtWidgets.QGroupBox):
             self.checkboxes.append(checkbox)
 
         if not self.plugin.options:
-            layout.addWidget(QLabel("Plugin has no settings."))
+            layout.addWidget(QLabel("У плагина нет настроек."))
 
     def on_toggle(self, enabled: bool) -> None:
         self.plugin.enabled = enabled
@@ -710,8 +708,8 @@ class PluginsPage(QtWidgets.QWizardPage):
         super().__init__(parent)
         self.lua_plugins_manager = lua_plugins_manager
 
-        self.setTitle("Plugins")
-        self.setSubTitle("Enable plugins with the checkbox next to their name")
+        self.setTitle("Плагины")
+        self.setSubTitle("Включайте плагины флажком рядом с названием")
         self.setPixmap(
             QtWidgets.QWizard.LogoPixmap,
             QtGui.QPixmap("./resources/ui/wizard/logo1.png"),
@@ -743,15 +741,15 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self, default_settings: Settings, mod_settings: ModSettings, parent=None
     ) -> None:
         super().__init__(parent)
-        self.setTitle("Generator settings")
-        self.setSubTitle("\nOptions affecting the generation of the game.")
+        self.setTitle("Настройки генератора")
+        self.setSubTitle("\nПараметры, влияющие на генерацию игры.")
         self.setPixmap(
             QtWidgets.QWizard.LogoPixmap,
             QtGui.QPixmap("./resources/ui/wizard/logo1.png"),
         )
 
         # Campaign settings
-        generatorSettingsGroup = QtWidgets.QGroupBox("Generator Settings")
+        generatorSettingsGroup = QtWidgets.QGroupBox("Настройки генератора")
         no_carrier = QtWidgets.QCheckBox()
         self.registerField("no_carrier", no_carrier)
         no_lha = QtWidgets.QCheckBox()
@@ -771,21 +769,25 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         )
 
         generatorLayout = QtWidgets.QGridLayout()
-        generatorLayout.addWidget(QtWidgets.QLabel("No Aircraft Carriers"), 1, 0)
+        generatorLayout.addWidget(QtWidgets.QLabel("Без авианосцев"), 1, 0)
         generatorLayout.addWidget(no_carrier, 1, 1)
-        generatorLayout.addWidget(QtWidgets.QLabel("No LHA"), 2, 0)
+        generatorLayout.addWidget(QtWidgets.QLabel("Без УДК"), 2, 0)
         generatorLayout.addWidget(no_lha, 2, 1)
-        generatorLayout.addWidget(QtWidgets.QLabel("Use Supercarrier module"), 3, 0)
+        generatorLayout.addWidget(
+            QtWidgets.QLabel("Использовать модуль Supercarrier"), 3, 0
+        )
         generatorLayout.addWidget(supercarrier, 3, 1)
-        generatorLayout.addWidget(QtWidgets.QLabel("No Player Navy"), 4, 0)
+        generatorLayout.addWidget(QtWidgets.QLabel("Без флота игрока"), 4, 0)
         generatorLayout.addWidget(no_player_navy, 4, 1)
-        generatorLayout.addWidget(QtWidgets.QLabel("No Enemy Navy"), 5, 0)
+        generatorLayout.addWidget(QtWidgets.QLabel("Без флота противника"), 5, 0)
         generatorLayout.addWidget(no_enemy_navy, 5, 1)
-        generatorLayout.addWidget(QtWidgets.QLabel("Desired mission duration"), 6, 0)
+        generatorLayout.addWidget(
+            QtWidgets.QLabel("Желаемая длительность миссии"), 6, 0
+        )
         generatorLayout.addLayout(desired_player_mission_duration, 7, 0)
         generatorSettingsGroup.setLayout(generatorLayout)
 
-        modSettingsGroup = QtWidgets.QGroupBox("Mod Settings")
+        modSettingsGroup = QtWidgets.QGroupBox("Моды")
 
         a4_skyhawk = QtWidgets.QCheckBox()
         a4_skyhawk.setChecked(mod_settings.a4_skyhawk)
@@ -836,14 +838,14 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         self.registerField("fa18efg", fa18efg)
 
         modHelpText = QtWidgets.QLabel(
-            "<p>Select the mods you have installed. If your chosen factions support them, you'll be able to use these mods in your campaign.</p>"
+            "<p>Отметьте установленные моды. Если выбранные фракции их поддерживают, их можно будет использовать в кампании.</p>"
         )
         modHelpText.setAlignment(Qt.AlignCenter)
 
         modLayout = QtWidgets.QGridLayout()
         modLayout_row = 1
         modLayout.addWidget(
-            QtWidgets.QLabel("A-4E Skyhawk (version 2.3.0)"), modLayout_row, 0
+            QtWidgets.QLabel("A-4E Skyhawk (версия 2.3.0)"), modLayout_row, 0
         )
         modLayout.addWidget(a4_skyhawk, modLayout_row, 1)
         modLayout_row += 1
@@ -851,12 +853,12 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         modLayout.addWidget(f22_raptor, modLayout_row, 1)
         modLayout_row += 1
         modLayout.addWidget(
-            QtWidgets.QLabel("F-104 Starfighter (version 2.9.23.105)"), modLayout_row, 0
+            QtWidgets.QLabel("F-104 Starfighter (версия 2.9.23.105)"), modLayout_row, 0
         )
         modLayout.addWidget(f104_starfighter, modLayout_row, 1)
         modLayout_row += 1
         modLayout.addWidget(
-            QtWidgets.QLabel("F-4B&C Phantom (version 2.9.14.207)"), modLayout_row, 0
+            QtWidgets.QLabel("F-4B&C Phantom (версия 2.9.14.207)"), modLayout_row, 0
         )
         modLayout.addWidget(f4_phantom, modLayout_row, 1)
         modLayout_row += 1
@@ -866,7 +868,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         modLayout.addWidget(hercules, modLayout_row, 1)
         modLayout_row += 1
         modLayout.addWidget(
-            QtWidgets.QLabel("UH-60L Black Hawk (version 2.15)"), modLayout_row, 0
+            QtWidgets.QLabel("UH-60L Black Hawk (версия 2.15)"), modLayout_row, 0
         )
         modLayout.addWidget(uh_60l, modLayout_row, 1)
         modLayout_row += 1
@@ -874,7 +876,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         modLayout.addWidget(QtWidgets.QWidget(), modLayout_row, 0)
         modLayout_row += 1
         modLayout.addWidget(
-            QtWidgets.QLabel("JAS 39 Gripen (version v1.8.5-beta)"), modLayout_row, 0
+            QtWidgets.QLabel("JAS 39 Gripen (версия v1.8.5-beta)"), modLayout_row, 0
         )
         modLayout.addWidget(jas39_gripen, modLayout_row, 1)
         modLayout_row += 1
@@ -892,7 +894,7 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         modSettingsGroup.setLayout(modLayout)
         modLayout_row += 1
         modLayout.addWidget(
-            QtWidgets.QLabel("F/A-18EFG Super Hornet (version 2.4.5.260501.RC1)"),
+            QtWidgets.QLabel("F/A-18EFG Super Hornet (версия 2.4.5.260501.RC1)"),
             modLayout_row,
             0,
         )
@@ -911,7 +913,7 @@ class ConclusionPage(QtWidgets.QWizardPage):
     def __init__(self, parent=None):
         super(ConclusionPage, self).__init__(parent)
 
-        self.setTitle("Conclusion")
+        self.setTitle("Завершение")
         self.setSubTitle("\n\n")
         self.setPixmap(
             QtWidgets.QWizard.WatermarkPixmap,
@@ -919,7 +921,7 @@ class ConclusionPage(QtWidgets.QWizardPage):
         )
 
         self.label = QtWidgets.QLabel(
-            "Click 'Finish' to generate and start the new game."
+            "Нажмите «Завершить», чтобы создать и начать новую игру."
         )
         self.label.setWordWrap(True)
 

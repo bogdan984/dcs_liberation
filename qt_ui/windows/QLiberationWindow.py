@@ -96,7 +96,7 @@ class QLiberationWindow(QMainWindow):
         self.setGeometry(300, 100, 270, 100)
         self.updateWindowTitle()
         self.setWindowIcon(QIcon("./resources/icon.png"))
-        self.statusBar().showMessage("Ready")
+        self.statusBar().showMessage("Готово")
 
         self.initUi(ui_flags)
         self.initActions()
@@ -163,35 +163,35 @@ class QLiberationWindow(QMainWindow):
         GameUpdateSignal.get_instance().game_generated.connect(self.onGameGenerated)
 
     def initActions(self):
-        self.newGameAction = QAction("&New Game", self)
+        self.newGameAction = QAction("&Новая игра", self)
         self.newGameAction.setIcon(QIcon(CONST.ICONS["New"]))
         self.newGameAction.triggered.connect(self.newGame)
         self.newGameAction.setShortcut("CTRL+N")
 
-        self.openAction = QAction("&Open", self)
+        self.openAction = QAction("&Открыть", self)
         self.openAction.setIcon(QIcon(CONST.ICONS["Open"]))
         self.openAction.triggered.connect(self.openFile)
         self.openAction.setShortcut("CTRL+O")
 
-        self.saveGameAction = QAction("&Save", self)
+        self.saveGameAction = QAction("&Сохранить", self)
         self.saveGameAction.setIcon(QIcon(CONST.ICONS["Save"]))
         self.saveGameAction.triggered.connect(self.saveGame)
         self.saveGameAction.setShortcut("CTRL+S")
 
-        self.saveAsAction = QAction("Save &As", self)
+        self.saveAsAction = QAction("Сохранить &как", self)
         self.saveAsAction.setIcon(QIcon(CONST.ICONS["Save"]))
         self.saveAsAction.triggered.connect(self.saveGameAs)
         self.saveAsAction.setShortcut("CTRL+A")
 
-        self.showAboutDialogAction = QAction("&About DCS Liberation", self)
+        self.showAboutDialogAction = QAction("&О DCS Liberation", self)
         self.showAboutDialogAction.setIcon(QIcon.fromTheme("help-about"))
         self.showAboutDialogAction.triggered.connect(self.showAboutDialog)
 
-        self.showLiberationPrefDialogAction = QAction("&Preferences", self)
+        self.showLiberationPrefDialogAction = QAction("&Параметры", self)
         self.showLiberationPrefDialogAction.setIcon(QIcon.fromTheme("help-about"))
         self.showLiberationPrefDialogAction.triggered.connect(self.showLiberationDialog)
 
-        self.openDiscordAction = QAction("&Discord Server", self)
+        self.openDiscordAction = QAction("Сервер &Discord", self)
         self.openDiscordAction.setIcon(CONST.ICONS["Discord"])
         self.openDiscordAction.triggered.connect(
             lambda: webbrowser.open_new_tab(
@@ -199,7 +199,7 @@ class QLiberationWindow(QMainWindow):
             )
         )
 
-        self.openGithubAction = QAction("&Github Repo", self)
+        self.openGithubAction = QAction("Репозиторий &Github", self)
         self.openGithubAction.setIcon(CONST.ICONS["Github"])
         self.openGithubAction.triggered.connect(
             lambda: webbrowser.open_new_tab(
@@ -207,38 +207,38 @@ class QLiberationWindow(QMainWindow):
             )
         )
 
-        self.ukraineAction = QAction("&Ukraine", self)
+        self.ukraineAction = QAction("&Украина", self)
         self.ukraineAction.setIcon(CONST.ICONS["Ukraine"])
         self.ukraineAction.triggered.connect(
             lambda: webbrowser.open_new_tab("https://shdwp.github.io/ukraine/")
         )
 
-        self.bug_report_action = QAction("Report an &issue", self)
+        self.bug_report_action = QAction("Сообщить об &ошибке", self)
         self.bug_report_action.setIcon(CONST.ICONS["Bug"])
         self.bug_report_action.triggered.connect(self.show_bug_report_dialog)
 
-        self.openLogsAction = QAction("Show &logs", self)
+        self.openLogsAction = QAction("Показать &журнал", self)
         self.openLogsAction.triggered.connect(self.showLogsDialog)
 
-        self.openSettingsAction = QAction("Settings", self)
+        self.openSettingsAction = QAction("Настройки", self)
         self.openSettingsAction.setIcon(CONST.ICONS["Settings"])
         self.openSettingsAction.triggered.connect(self.showSettingsDialog)
 
-        self.openStatsAction = QAction("Stats", self)
+        self.openStatsAction = QAction("Статистика", self)
         self.openStatsAction.setIcon(CONST.ICONS["Statistics"])
         self.openStatsAction.triggered.connect(self.showStatsDialog)
 
-        self.openNotesAction = QAction("Notes", self)
+        self.openNotesAction = QAction("Заметки", self)
         self.openNotesAction.setIcon(CONST.ICONS["Notes"])
         self.openNotesAction.triggered.connect(self.showNotesDialog)
 
-        self.openAirWingAction = QAction("Air Wing", self)
+        self.openAirWingAction = QAction("Авиакрыло", self)
         self.openAirWingAction.triggered.connect(self.showAirWingDialog)
 
-        self.openTransfersAction = QAction("Transfers", self)
+        self.openTransfersAction = QAction("Переброски", self)
         self.openTransfersAction.triggered.connect(self.showTransfersDialog)
 
-        self.importTemplatesAction = QAction("Import Layouts", self)
+        self.importTemplatesAction = QAction("Импорт компоновок", self)
         self.importTemplatesAction.triggered.connect(self.import_templates)
 
         self.enable_game_actions(False)
@@ -257,18 +257,18 @@ class QLiberationWindow(QMainWindow):
         self.saveAsAction.setVisible(enabled)
 
     def initToolbar(self):
-        self.tool_bar = self.addToolBar("File")
+        self.tool_bar = self.addToolBar("Файл")
         self.tool_bar.addAction(self.newGameAction)
         self.tool_bar.addAction(self.openAction)
         self.tool_bar.addAction(self.saveGameAction)
 
-        self.links_bar = self.addToolBar("Links")
+        self.links_bar = self.addToolBar("Ссылки")
         self.links_bar.addAction(self.openDiscordAction)
         self.links_bar.addAction(self.openGithubAction)
         self.links_bar.addAction(self.bug_report_action)
         self.links_bar.addAction(self.ukraineAction)
 
-        self.actions_bar = self.addToolBar("Actions")
+        self.actions_bar = self.addToolBar("Действия")
         self.actions_bar.addAction(self.openSettingsAction)
         self.actions_bar.addAction(self.openStatsAction)
         self.actions_bar.addAction(self.openNotesAction)
@@ -278,7 +278,7 @@ class QLiberationWindow(QMainWindow):
     def initMenuBar(self):
         self.menu = self.menuBar()
 
-        file_menu = self.menu.addMenu("&File")
+        file_menu = self.menu.addMenu("&Файл")
         file_menu.addAction(self.newGameAction)
         file_menu.addAction(self.openAction)
         file_menu.addSeparator()
@@ -287,29 +287,29 @@ class QLiberationWindow(QMainWindow):
         file_menu.addSeparator()
         file_menu.addAction(self.showLiberationPrefDialogAction)
         file_menu.addSeparator()
-        file_menu.addAction("E&xit", self.close)
+        file_menu.addAction("&Выход", self.close)
 
-        tools_menu = self.menu.addMenu("&Developer tools")
+        tools_menu = self.menu.addMenu("Инструменты &разработчика")
         tools_menu.addAction(self.importTemplatesAction)
 
-        help_menu = self.menu.addMenu("&Help")
+        help_menu = self.menu.addMenu("&Справка")
         help_menu.addAction(self.openDiscordAction)
         help_menu.addAction(self.openGithubAction)
         help_menu.addAction(self.ukraineAction)
         help_menu.addAction(
-            "&Releases",
+            "&Релизы",
             lambda: webbrowser.open_new_tab(
                 "https://github.com/dcs-liberation/dcs_liberation/releases"
             ),
         )
         help_menu.addAction(
-            "&Online Manual",
+            "&Онлайн-руководство",
             lambda: webbrowser.open_new_tab(
                 "https://github.com/dcs-liberation/dcs_liberation/wiki"
             ),
         )
         help_menu.addAction(
-            "&ED Forum Thread",
+            "Тема на форуме &ED",
             lambda: webbrowser.open_new_tab(
                 "https://forums.eagle.ru/showthread.php?t=214834"
             ),
@@ -354,7 +354,7 @@ class QLiberationWindow(QMainWindow):
             save_dir = str(SaveManager.default_save_directory())
         file = QFileDialog.getOpenFileName(
             self,
-            "Select game file to open",
+            "Выберите файл игры",
             dir=save_dir,
             filter="*.liberation.zip",
         )
@@ -402,7 +402,7 @@ class QLiberationWindow(QMainWindow):
             save_dir = str(SaveManager.default_save_directory())
         file = QFileDialog.getSaveFileName(
             self,
-            "Save As",
+            "Сохранить как",
             dir=save_dir,
             filter="*.liberation.zip",
         )
@@ -437,9 +437,9 @@ class QLiberationWindow(QMainWindow):
             logging.exception("Incompatible save game")
             QMessageBox.critical(
                 self,
-                "Could not load save game",
-                "The save game you have loaded is incompatible with this "
-                "version of DCS Liberation.\n"
+                "Не удалось загрузить сохранение",
+                "Загруженное сохранение несовместимо с этой"
+                "версией DCS Liberation.\n"
                 "\n"
                 f"{traceback.format_exc()}",
                 QMessageBox.Ok,
@@ -510,26 +510,26 @@ class QLiberationWindow(QMainWindow):
             "<h3>DCS Liberation "
             + VERSION
             + "</h3>"
-            + "<b>Source code :</b> https://github.com/dcs-liberation/dcs_liberation"
-            + "<h4>Authors</h4>"
-            + "<p>DCS Liberation was originally developed by <b>shdwp</b>, DCS Liberation 2.0 is a partial rewrite based on this work by <b>Khopa</b>."
-            "<h4>Contributors</h4>"
+            + "<b>Исходный код:</b> https://github.com/dcs-liberation/dcs_liberation"
+            + "<h4>Авторы</h4>"
+            + "<p>Изначально DCS Liberation разработал <b>shdwp</b>, DCS Liberation 2.0 — частичная переработка на основе его работы, выполненная <b>Khopa</b>."
+            "<h4>Участники</h4>"
             + ", ".join(contributors)
-            + "<h4>Special Thanks  :</h4>"
-            "<b>rp-</b> <i>for the pydcs framework</i><br/>"
-            "<b>Grimes (mrSkortch)</b> & <b>Speed</b> <i>for the MIST framework</i><br/>"
-            "<b>Ciribob </b> <i>for the JTACAutoLase.lua script</i><br/>"
-            "<b>Walder </b> <i>for the Skynet-IADS script</i><br/>"
-            "<b>Anubis Yinepu </b> <i>for the Hercules Cargo script</i><br/>"
-            '<a href="https://www.flaticon.com/free-icons/bug" title="bug icons" style="color: #ffffff">Bug icons created by Freepik - Flaticon</a><br />'
-            'Contains information from <a href="https://osmdata.openstreetmap.de/" style="color: #ffffff">OpenStreetMap © OpenStreetMap contributors</a>, which is made available here under the <a href="https://opendatacommons.org/licenses/odbl/1-0/" style="color: #ffffff">Open Database License (ODbL)</a>.<br />'
-            '<a href="https://download.geofabrik.de/index.html/" style="color: #ffffff">OpenStreetMap Data Extracts from Geofabrik</a><br />'
+            + "<h4>Особая благодарность:</h4>"
+            "<b>rp-</b> <i>за фреймворк pydcs</i><br/>"
+            "<b>Grimes (mrSkortch)</b> & <b>Speed</b> <i>за фреймворк MIST</i><br/>"
+            "<b>Ciribob </b> <i>за скрипт JTACAutoLase.lua</i><br/>"
+            "<b>Walder </b> <i>за скрипт Skynet-IADS</i><br/>"
+            "<b>Anubis Yinepu </b> <i>за скрипт Hercules Cargo</i><br/>"
+            '<a href="https://www.flaticon.com/free-icons/bug" title="bug icons" style="color: #ffffff">Иконки ошибок — Freepik, Flaticon</a><br />'
+            'Содержит данные из <a href="https://osmdata.openstreetmap.de/" style="color: #ffffff">OpenStreetMap © OpenStreetMap contributors</a>, предоставленные на условиях <a href="https://opendatacommons.org/licenses/odbl/1-0/" style="color: #ffffff">Open Database License (ODbL)</a>.<br />'
+            '<a href="https://download.geofabrik.de/index.html/" style="color: #ffffff">Выгрузки данных OpenStreetMap от Geofabrik</a><br />'
             '<a href="https://www.earthdata.nasa.gov/" style="color: #ffffff">NASA EarthData</a><br />'
-            + "<h4>Splash Screen  :</h4>"
-            + "Artwork by Andriy Dankovych (CC BY-SA) [https://www.facebook.com/AndriyDankovych]"
+            + "<h4>Заставка:</h4>"
+            + "Автор иллюстрации: Andriy Dankovych (CC BY-SA) [https://www.facebook.com/AndriyDankovych]"
         )
         about = QMessageBox()
-        about.setWindowTitle("About DCS Liberation")
+        about.setWindowTitle("О DCS Liberation")
         about.setIcon(QMessageBox.Icon.Information)
         about.setText(text)
         logging.info(about.textFormat())
@@ -613,8 +613,8 @@ class QLiberationWindow(QMainWindow):
     def closeEvent(self, event: QCloseEvent) -> None:
         result = QMessageBox.question(
             self,
-            "Quit Liberation?",
-            "Are you sure you want to quit? All unsaved progress will be lost.",
+            "Выйти из Liberation?",
+            "Точно выйти? Весь несохранённый прогресс будет потерян.",
             QMessageBox.Yes | QMessageBox.No,
         )
         if result == QMessageBox.Yes:

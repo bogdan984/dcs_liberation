@@ -26,23 +26,23 @@ class QArmorChart(QFrame):
         ]
 
         self.alliedArmorSerie = QtCharts.QLineSeries()
-        self.alliedArmorSerie.setName("Allied vehicle count")
+        self.alliedArmorSerie.setName("Число техники союзников")
         for a, i in enumerate(self.alliedArmor):
             self.alliedArmorSerie.append(QPoint(a, i))
 
         self.enemyArmorSerie = QtCharts.QLineSeries()
         self.enemyArmorSerie.setColor(Qt.red)
-        self.enemyArmorSerie.setName("Enemy vehicle count")
+        self.enemyArmorSerie.setName("Число техники противника")
         for a, i in enumerate(self.enemyArmor):
             self.enemyArmorSerie.append(QPoint(a, i))
 
         self.chart = QtCharts.QChart()
         self.chart.addSeries(self.alliedArmorSerie)
         self.chart.addSeries(self.enemyArmorSerie)
-        self.chart.setTitle("Combat vehicles over time")
+        self.chart.setTitle("Боевая техника по ходам")
 
         self.chart.createDefaultAxes()
-        self.chart.axisX().setTitleText("Turn")
+        self.chart.axisX().setTitleText("Ход")
         self.chart.axisX().setLabelFormat("%i")
         self.chart.axisX().setRange(0, len(self.alliedArmor))
         self.chart.axisX().applyNiceNumbers()

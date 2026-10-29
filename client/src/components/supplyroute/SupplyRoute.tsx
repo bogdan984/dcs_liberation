@@ -17,7 +17,7 @@ interface SupplyRouteProps {
 
 function SupplyRouteTooltip(props: SupplyRouteProps) {
   if (!props.route.active_transports.length) {
-    return <Tooltip>This supply route is inactive.</Tooltip>;
+    return <Tooltip>Этот путь снабжения не используется.</Tooltip>;
   }
 
   return (

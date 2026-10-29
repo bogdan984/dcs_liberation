@@ -20,7 +20,7 @@ class LiverySelector(QComboBox):
     def set_squadron(self, squadron: Squadron) -> None:
         selected_idx: int | None = None
         self.clear()
-        self.addItem("Default", None)
+        self.addItem("По умолчанию", None)
         for idx, livery in enumerate(
             squadron.aircraft.dcs_unit_type.iter_liveries_for_country(
                 dcs.countries.get_by_name(squadron.country)

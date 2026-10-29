@@ -36,10 +36,10 @@ function destinationTooltipText(
     destination.distanceTo(cp.position)
   ).toFixed(1);
   if (!inRange) {
-    return `Out of range (${distance}nm away)`;
+    return `Вне досягаемости (${distance} миль)`;
   }
   const dest = formatLatLng(destination);
-  return `${cp.name} moving ${distance}nm to ${dest} next turn`;
+  return `${cp.name} переместится на ${distance} миль в ${dest} в следующий ход`;
 }
 
 interface PrimaryMarkerProps {

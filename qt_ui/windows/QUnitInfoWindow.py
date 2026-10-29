@@ -52,7 +52,7 @@ class QUnitInfoWindow(QDialog):
         self.game = game
         self.unit_type = unit_type
         self.name = unit_type.display_name
-        self.setWindowTitle(f"Unit Info: {self.name}")
+        self.setWindowTitle(f"Сведения о единице: {self.name}")
         self.setWindowIcon(QIcon("./resources/icon.png"))
         self.setMinimumHeight(570)
         self.setMaximumWidth(640)
@@ -78,20 +78,20 @@ class QUnitInfoWindow(QDialog):
         self.details_grid_layout.setContentsMargins(0, 0, 0, 0)
 
         self.name_box = QLabel(
-            f"<b>Name:</b> {unit_type.manufacturer} {unit_type.display_name}"
+            f"<b>Название:</b> {unit_type.manufacturer} {unit_type.display_name}"
         )
         self.name_box.setProperty("style", "info-element")
 
         self.country_box = QLabel(
-            f"<b>Country of Origin:</b> {unit_type.country_of_origin}"
+            f"<b>Страна-производитель:</b> {unit_type.country_of_origin}"
         )
         self.country_box.setProperty("style", "info-element")
 
-        self.role_box = QLabel(f"<b>Role:</b> {unit_type.role}")
+        self.role_box = QLabel(f"<b>Роль:</b> {unit_type.role}")
         self.role_box.setProperty("style", "info-element")
 
         self.year_box = QLabel(
-            f"<b>Variant Introduction:</b> {unit_type.year_introduced}"
+            f"<b>Год появления модификации:</b> {unit_type.year_introduced}"
         )
         self.year_box.setProperty("style", "info-element")
 
@@ -107,7 +107,7 @@ class QUnitInfoWindow(QDialog):
         # If it's an aircraft, include the task list.
         if isinstance(unit_type, AircraftType):
             tasks = ", ".join(str(t) for t in unit_type.iter_task_capabilities())
-            self.tasks_box = QLabel(f"<b>In-Game Tasks:</b> {tasks}")
+            self.tasks_box = QLabel(f"<b>Задачи в игре:</b> {tasks}")
             self.tasks_box.setProperty("style", "info-element")
             self.gridLayout.addWidget(self.tasks_box, 2, 0)
 

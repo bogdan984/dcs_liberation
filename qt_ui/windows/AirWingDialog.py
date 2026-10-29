@@ -52,7 +52,7 @@ class SquadronDelegate(TwoColumnRowDelegate):
             active = len(squadron.active_pilots)
             available = len(squadron.available_pilots)
             on_leave = len(squadron.pilots_on_leave)
-            return f"{active} active, {available} unassigned, {on_leave} on leave"
+            return f"{active} в строю, {available} без задачи, {on_leave} в отпуске"
         return ""
 
 
@@ -108,7 +108,7 @@ class AircraftInventoryData:
 
     @classmethod
     def headers(cls) -> list[str]:
-        return ["Base", "Type", "Flight Type", "Target", "Pilot", "Player"]
+        return ["База", "Тип", "Задача", "Цель", "Пилот", "Игрок"]
 
     @property
     def columns(self) -> Iterator[str]:
@@ -127,11 +127,11 @@ class AircraftInventoryData:
         for idx in range(0, num_units):
             pilot = flight.roster.pilot_at(idx)
             if pilot is None:
-                pilot_name = "Unassigned"
+                pilot_name = "Не назначен"
                 player = ""
             else:
                 pilot_name = pilot.name
-                player = "Player" if pilot.player else "AI"
+                player = "Игрок" if pilot.player else "AI"
             yield AircraftInventoryData(
                 flight.departure.name,
                 flight.unit_type.display_name,
@@ -149,10 +149,10 @@ class AircraftInventoryData:
             yield AircraftInventoryData(
                 squadron.name,
                 squadron.aircraft.display_name,
-                "Idle",
-                "N/A",
-                "N/A",
-                "N/A",
+                "Свободен",
+                "Н/Д",
+                "Н/Д",
+                "Н/Д",
             )
 
 
@@ -170,11 +170,11 @@ class AirInventoryView(QWidget):
         checkbox_row = QHBoxLayout()
         layout.addLayout(checkbox_row)
 
-        self.only_unallocated_cb = QCheckBox("Unallocated only")
+        self.only_unallocated_cb = QCheckBox("Только свободные")
         self.only_unallocated_cb.toggled.connect(self.set_only_unallocated)
         checkbox_row.addWidget(self.only_unallocated_cb)
 
-        self.enemy_info_cb = QCheckBox("Show enemy info")
+        self.enemy_info_cb = QCheckBox("Показать данные противника")
         self.enemy_info_cb.toggled.connect(self.set_enemy_info)
         checkbox_row.addWidget(self.enemy_info_cb)
 
@@ -240,9 +240,9 @@ class AirWingTabs(QTabWidget):
                 game_model.game.theater,
                 game_model.sim_controller,
             ),
-            "Squadrons",
+            "Эскадрильи",
         )
-        self.addTab(AirInventoryView(game_model), "Inventory")
+        self.addTab(AirInventoryView(game_model), "Парк ЛА")
 
 
 class AirWingDialog(QDialog):
@@ -253,7 +253,7 @@ class AirWingDialog(QDialog):
         self.air_wing_model = game_model.blue_air_wing_model
 
         self.setMinimumSize(1000, 440)
-        self.setWindowTitle(f"Air Wing")
+        self.setWindowTitle(f"Авиакрыло")
         # TODO: self.setWindowIcon()
 
         layout = QVBoxLayout()

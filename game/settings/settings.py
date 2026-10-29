@@ -46,28 +46,28 @@ class CombatResolutionMethod(Enum):
     SKIP = "Skip combat"
 
 
-DIFFICULTY_PAGE = "Difficulty"
+DIFFICULTY_PAGE = "Сложность"
 
-AI_DIFFICULTY_SECTION = "AI Difficulty"
-MISSION_DIFFICULTY_SECTION = "Mission Difficulty"
-MISSION_RESTRICTIONS_SECTION = "Mission Restrictions"
+AI_DIFFICULTY_SECTION = "Сложность ИИ"
+MISSION_DIFFICULTY_SECTION = "Сложность миссий"
+MISSION_RESTRICTIONS_SECTION = "Ограничения миссий"
 
-CAMPAIGN_MANAGEMENT_PAGE = "Campaign Management"
+CAMPAIGN_MANAGEMENT_PAGE = "Управление кампанией"
 
-GENERAL_SECTION = "General"
-PILOTS_AND_SQUADRONS_SECTION = "Pilots and Squadrons"
-HQ_AUTOMATION_SECTION = "HQ Automation"
+GENERAL_SECTION = "Общие"
+PILOTS_AND_SQUADRONS_SECTION = "Пилоты и эскадрильи"
+HQ_AUTOMATION_SECTION = "Автоматизация штаба"
 
-MISSION_GENERATOR_PAGE = "Mission Generator"
+MISSION_GENERATOR_PAGE = "Генератор миссий"
 
-COMMANDERS_SECTION = "Battlefield Commanders"
+COMMANDERS_SECTION = "Командиры на поле боя"
 
-GAMEPLAY_SECTION = "Gameplay"
+GAMEPLAY_SECTION = "Игровой процесс"
 
 # TODO: Make sections a type and add headers.
 # This section had the header: "Disabling settings below may improve performance, but
 # will impact the overall quality of the experience."
-PERFORMANCE_SECTION = "Performance"
+PERFORMANCE_SECTION = "Производительность"
 
 
 @dataclass
@@ -77,25 +77,25 @@ class Settings:
     # Difficulty settings
     # AI Difficulty
     player_skill: str = skill_option(
-        "Player coalition skill",
+        "Уровень ИИ коалиции игрока",
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
         default="Good",
     )
     enemy_skill: str = skill_option(
-        "Enemy coalition skill",
+        "Уровень ИИ коалиции противника",
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
         default="Average",
     )
     enemy_vehicle_skill: str = skill_option(
-        "Enemy AA and vehicles skill",
+        "Уровень вражеской ПВО и техники",
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
         default="Average",
     )
     player_income_multiplier: float = bounded_float_option(
-        "Player income multiplier",
+        "Множитель дохода игрока",
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
         min=0,
@@ -104,7 +104,7 @@ class Settings:
         default=1.0,
     )
     enemy_income_multiplier: float = bounded_float_option(
-        "Enemy income multiplier",
+        "Множитель дохода противника",
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
         min=0,
@@ -113,107 +113,120 @@ class Settings:
         default=1.0,
     )
     invulnerable_player_pilots: bool = boolean_option(
-        "Player pilots cannot be killed",
+        "Пилоты игроков не могут погибнуть",
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
         detail=(
-            "Aircraft are vulnerable, but the player's pilot will be returned to the "
-            "squadron at the end of the mission"
+            "Самолёты уязвимы, но пилот игрока вернётся в эскадрилью " "в конце миссии"
         ),
         default=True,
     )
     # Mission Difficulty
     manpads: bool = boolean_option(
-        "Manpads on frontlines",
+        "ПЗРК на линии фронта",
         page=DIFFICULTY_PAGE,
         section=MISSION_DIFFICULTY_SECTION,
         default=True,
     )
     night_disabled: bool = boolean_option(
-        "No night missions",
+        "Без ночных миссий",
         page=DIFFICULTY_PAGE,
         section=MISSION_DIFFICULTY_SECTION,
         default=False,
     )
     # Mission Restrictions
     labels: str = choices_option(
-        "In game labels",
-        page=DIFFICULTY_PAGE,
-        section=MISSION_RESTRICTIONS_SECTION,
-        choices=["Full", "Abbreviated", "Dot Only", "Neutral Dot", "Off"],
-        default="Full",
-    )
-    map_coalition_visibility: ForcedOptions.Views = choices_option(
-        "Map visibility options",
+        "Метки в игре",
         page=DIFFICULTY_PAGE,
         section=MISSION_RESTRICTIONS_SECTION,
         choices={
-            "All": ForcedOptions.Views.All,
-            "Fog of war": ForcedOptions.Views.Allies,
-            "Allies only": ForcedOptions.Views.OnlyAllies,
-            "Own aircraft only": ForcedOptions.Views.MyAircraft,
-            "Map only": ForcedOptions.Views.OnlyMap,
+            "Полные": "Full",
+            "Сокращённые": "Abbreviated",
+            "Только точка": "Dot Only",
+            "Нейтральная точка": "Neutral Dot",
+            "Выключены": "Off",
+        },
+        default="Full",
+    )
+    map_coalition_visibility: ForcedOptions.Views = choices_option(
+        "Видимость на карте",
+        page=DIFFICULTY_PAGE,
+        section=MISSION_RESTRICTIONS_SECTION,
+        choices={
+            "Всё": ForcedOptions.Views.All,
+            "Туман войны": ForcedOptions.Views.Allies,
+            "Только союзники": ForcedOptions.Views.OnlyAllies,
+            "Только свой ЛА": ForcedOptions.Views.MyAircraft,
+            "Только карта": ForcedOptions.Views.OnlyMap,
         },
         default=ForcedOptions.Views.All,
     )
     external_views_allowed: bool = boolean_option(
-        "Allow external views",
+        "Разрешить внешние виды",
         DIFFICULTY_PAGE,
         MISSION_RESTRICTIONS_SECTION,
         default=True,
     )
 
     easy_communication: Optional[bool] = choices_option(
-        "Easy Communication",
+        "Упрощённая связь",
         page=DIFFICULTY_PAGE,
         section=MISSION_RESTRICTIONS_SECTION,
-        choices={"Player preference": None, "Enforced on": True, "Enforced off": False},
+        choices={
+            "На выбор игрока": None,
+            "Принудительно вкл.": True,
+            "Принудительно выкл.": False,
+        },
         default=None,
     )
 
     battle_damage_assessment: Optional[bool] = choices_option(
-        "Battle damage assessment",
+        "Оценка боевых повреждений",
         page=DIFFICULTY_PAGE,
         section=MISSION_RESTRICTIONS_SECTION,
-        choices={"Player preference": None, "Enforced on": True, "Enforced off": False},
+        choices={
+            "На выбор игрока": None,
+            "Принудительно вкл.": True,
+            "Принудительно выкл.": False,
+        },
         default=None,
     )
 
     # Campaign management
     # General
     restrict_weapons_by_date: bool = boolean_option(
-        "Restrict weapons by date",
+        "Ограничить оружие по дате",
         page=CAMPAIGN_MANAGEMENT_PAGE,
         section=GENERAL_SECTION,
         default=True,
         detail=(
-            "Restricts weapon availability based on the campaign date. May not apply to "
-            "custom loadouts due to incomplete data."
+            "Ограничивает доступность оружия датой кампании. Может не применяться "
+            "к своим подвескам из-за неполных данных."
         ),
     )
     # Pilots and Squadrons
     ai_pilot_levelling: bool = boolean_option(
-        "Allow AI pilot leveling",
+        "Рост уровня пилотов ИИ",
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
         default=True,
         detail=(
-            "Set whether or not AI pilots will level up after completing a number of"
-            " sorties. Since pilot level affects the AI skill, you may wish to disable"
-            " this, lest you face an Ace!"
+            "Повышают ли пилоты ИИ уровень после определённого числа вылетов."
+            " Уровень пилота влияет на мастерство ИИ, так что это можно отключить,"
+            " чтобы не встретить аса!"
         ),
     )
     #: Feature flag for squadron limits.
     enable_squadron_pilot_limits: bool = boolean_option(
-        "Enable per-squadron pilot limits (WIP)",
+        "Лимит пилотов на эскадрилью (в разработке)",
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
         default=False,
         detail=(
-            "If set, squadrons will be limited to a maximum number of pilots and dead "
-            "pilots will replenish at a fixed rate, each defined with the settings"
-            "below. Auto-purchase may buy aircraft for which there are no pilots"
-            "available, so this feature is still a work-in-progress."
+            "Если включено, число пилотов в эскадрильях ограничено, а погибшие "
+            "пилоты восполняются с фиксированной скоростью (см. настройки ниже). "
+            "Автозакупка может купить ЛА, для которых нет пилотов, "
+            "поэтому функция ещё в разработке."
         ),
     )
     #: The maximum number of pilots a squadron can have at one time. Changing this after
@@ -221,75 +234,79 @@ class Settings:
     #: squadron will not be removed if the limit is lowered and pilots will not be
     #: immediately created if the limit is raised.
     squadron_pilot_limit: int = bounded_int_option(
-        "Maximum number of pilots per squadron",
+        "Максимум пилотов в эскадрилье",
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
         default=12,
         min=12,
         max=72,
         detail=(
-            "Sets the maximum number of pilots a squadron may have active. "
-            "Changing this value will not have an immediate effect, but will alter "
-            "replenishment for future turns."
+            "Максимальное число активных пилотов эскадрильи. "
+            "Изменение подействует не сразу, но повлияет "
+            "на пополнение в следующих ходах."
         ),
     )
     #: The number of pilots a squadron can replace per turn.
     squadron_replenishment_rate: int = bounded_int_option(
-        "Squadron pilot replenishment rate",
+        "Скорость пополнения пилотов",
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
         default=4,
         min=1,
         max=20,
         detail=(
-            "Sets the maximum number of pilots that will be recruited to each squadron "
-            "at the end of each turn. Squadrons will not recruit new pilots beyond the "
-            "pilot limit, but each squadron with room for more pilots will recruit "
-            "this many pilots each turn up to the limit."
+            "Сколько пилотов максимум набирает каждая эскадрилья в конце хода. "
+            "Сверх лимита пилоты не набираются, но каждая эскадрилья со свободными "
+            "местами каждый ход набирает столько пилотов, пока не дойдёт до лимита."
         ),
     )
 
     # HQ Automation
     automate_runway_repair: bool = boolean_option(
-        "Automate runway repairs",
+        "Автоматический ремонт ВПП",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         default=False,
         remember_player_choice=True,
     )
     automate_front_line_reinforcements: bool = boolean_option(
-        "Automate front-line purchases",
+        "Автоматические закупки для фронта",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         default=False,
         remember_player_choice=True,
     )
     automate_aircraft_reinforcements: bool = boolean_option(
-        "Automate aircraft purchases",
+        "Автоматические закупки ЛА",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         default=False,
         remember_player_choice=True,
     )
     auto_ato_behavior: AutoAtoBehavior = choices_option(
-        "Automatic package planning behavior",
+        "Автоматическое планирование пакетов",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         default=AutoAtoBehavior.Default,
-        choices={v.value: v for v in AutoAtoBehavior},
+        choices={
+            "Выключено": AutoAtoBehavior.Disabled,
+            "Никогда не назначать пилотов-игроков": AutoAtoBehavior.Never,
+            "Без предпочтений": AutoAtoBehavior.Default,
+            "Предпочитать пилотов-игроков": AutoAtoBehavior.Prefer,
+        },
         detail=(
-            "Aircraft auto-purchase is directed by the auto-planner, so disabling "
-            "auto-planning disables auto-purchase."
+            "Автозакупкой ЛА управляет автопланировщик, поэтому отключение "
+            "автопланирования отключает и автозакупку."
         ),
     )
     auto_ato_player_missions_asap: bool = boolean_option(
-        "Automatically generated packages with players are scheduled ASAP",
+        "Автопакеты с игроками планируются как можно раньше",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         default=True,
     )
     automate_front_line_stance: bool = boolean_option(
-        "Automatically manage front line stances",
+        "Автоматически управлять тактикой на фронте",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         default=True,
@@ -300,7 +317,7 @@ class Settings:
 
     # Commanders
     game_master_slots: int = bounded_int_option(
-        "Game master",
+        "Мастер игры",
         page=MISSION_GENERATOR_PAGE,
         section=COMMANDERS_SECTION,
         default=0,
@@ -308,7 +325,7 @@ class Settings:
         max=100,
     )
     tactical_commander_slots: int = bounded_int_option(
-        "Tactical commander",
+        "Тактический командир",
         page=MISSION_GENERATOR_PAGE,
         section=COMMANDERS_SECTION,
         default=0,
@@ -316,7 +333,7 @@ class Settings:
         max=100,
     )
     jtac_operator_slots: int = bounded_int_option(
-        "JTAC/Operator",
+        "JTAC/оператор",
         page=MISSION_GENERATOR_PAGE,
         section=COMMANDERS_SECTION,
         default=0,
@@ -324,7 +341,7 @@ class Settings:
         max=100,
     )
     observer_slots: int = bounded_int_option(
-        "Observer",
+        "Наблюдатель",
         page=MISSION_GENERATOR_PAGE,
         section=COMMANDERS_SECTION,
         default=0,
@@ -334,155 +351,155 @@ class Settings:
 
     # Gameplay
     ai_has_unlimited_fuel: bool = boolean_option(
-        "Unlimited fuel for AI flights",
+        "Бесконечное топливо для звеньев ИИ",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
         default=True,
         detail=(
-            "If enabled, AI-only flights will have unlimited fuel. This can be "
-            "disabled to force AI flights to play by the same rules as players, but be "
-            "warned that the DCS AI is not particularly fuel conscious, so will often "
-            "run out of fuel when players would not."
+            "Если включено, у звеньев только из ИИ топливо бесконечно. Можно "
+            "отключить, чтобы ИИ играл по тем же правилам, что и игроки, но учтите: "
+            "ИИ DCS не слишком бережёт топливо и часто остаётся без него там, "
+            "где игрок бы справился."
         ),
     )
     reload_pre_sim_checkpoint_on_abort: bool = boolean_option(
-        "Reset mission to pre-take off conditions on abort",
+        "При прерывании возвращать миссию к состоянию до взлёта",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
         default=True,
         detail=(
-            "If enabled, the game will automatically reload a pre-take off save when "
-            "aborting take off. If this is disabled, you will need to manually re-load "
-            "your game after aborting take off."
+            "Если включено, при прерывании взлёта игра автоматически загрузит "
+            "сохранение до взлёта. Если выключено, после прерывания взлёта игру "
+            "нужно будет загрузить вручную."
         ),
     )
     turnless_mode: bool = boolean_option(
-        "Enable turnless mode (WIP)",
+        "Режим без ходов (в разработке)",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
         default=False,
         detail=(
-            "If enabled, turns do not end after mission completion. A new mission "
-            "can be started picking up from where the previous mission ended."
+            "Если включено, ход не заканчивается после миссии. Новую миссию "
+            "можно начать с того места, где закончилась предыдущая."
         ),
     )
     fast_forward_stop_condition: FastForwardStopCondition = choices_option(
-        "Fast forward until",
+        "Ускорять время до",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
         default=FastForwardStopCondition.DISABLED,
         choices={
-            "No fast forward": FastForwardStopCondition.DISABLED,
-            "Player startup time": FastForwardStopCondition.PLAYER_STARTUP,
-            "Player taxi time": FastForwardStopCondition.PLAYER_TAXI,
-            "Player takeoff time": FastForwardStopCondition.PLAYER_TAKEOFF,
-            "Player at IP": FastForwardStopCondition.PLAYER_AT_IP,
-            "First contact": FastForwardStopCondition.FIRST_CONTACT,
-            "Manual": FastForwardStopCondition.MANUAL,
+            "Без ускорения": FastForwardStopCondition.DISABLED,
+            "Время запуска игрока": FastForwardStopCondition.PLAYER_STARTUP,
+            "Время руления игрока": FastForwardStopCondition.PLAYER_TAXI,
+            "Время взлёта игрока": FastForwardStopCondition.PLAYER_TAKEOFF,
+            "Игрок на IP": FastForwardStopCondition.PLAYER_AT_IP,
+            "Первый контакт": FastForwardStopCondition.FIRST_CONTACT,
+            "Вручную": FastForwardStopCondition.MANUAL,
         },
         detail=(
-            "Determines when fast forwarding stops: "
-            "No fast forward: disables fast forward. "
-            "Player startup time: fast forward until player startup time. "
-            "Player taxi time: fast forward until player taxi time. "
-            "Player takeoff time: fast forward until player takeoff time. "
-            "First contact: fast forward until first contact between blue and red units. "
-            "Manual: manually control fast forward. Show manual controls with --show-sim-speed-controls."
+            "Когда прекращается ускорение времени: "
+            "Без ускорения — ускорение отключено. "
+            "Время запуска игрока — ускорять до времени запуска двигателей игрока. "
+            "Время руления игрока — ускорять до времени руления игрока. "
+            "Время взлёта игрока — ускорять до времени взлёта игрока. "
+            "Первый контакт — ускорять до первого контакта синих и красных. "
+            "Вручную — ручное управление ускорением. Кнопки управления включаются ключом --show-sim-speed-controls."
         ),
     )
     combat_resolution_method: CombatResolutionMethod = choices_option(
-        "Resolve combat when fast forwarding by",
+        "Бой при ускорении времени",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
         default=CombatResolutionMethod.SKIP,
         choices={
-            "Pause": CombatResolutionMethod.PAUSE,
-            "Resolving combat (WIP)": CombatResolutionMethod.RESOLVE,
-            "Skipping combat": CombatResolutionMethod.SKIP,
+            "Пауза": CombatResolutionMethod.PAUSE,
+            "Расчёт боя (в разработке)": CombatResolutionMethod.RESOLVE,
+            "Пропуск боя": CombatResolutionMethod.SKIP,
         },
         detail=(
-            "Determines what happens when combat occurs when fast forwarding. "
-            "Pause: pause fast forward and generate mission. Fast forwarding may stop before the condition specified in the above setting. "
-            "Resolving combat (WIP): auto resolve combat. This method is very rudimentary and will result in large losses. "
-            "Skipping combat: skip combat as if it did not occur."
+            "Что происходит, если при ускорении времени начинается бой. "
+            "Пауза — остановить ускорение и сгенерировать миссию. Ускорение может прекратиться раньше условия из настройки выше. "
+            "Расчёт боя (в разработке) — автоматически рассчитать бой. Метод очень примитивный и приводит к большим потерям. "
+            "Пропуск боя — пропустить бой, как будто его не было."
         ),
     )
     supercarrier: bool = boolean_option(
-        "Use supercarrier module",
+        "Использовать модуль Supercarrier",
         MISSION_GENERATOR_PAGE,
         GAMEPLAY_SECTION,
         default=False,
         remember_player_choice=True,
     )
     generate_marks: bool = boolean_option(
-        "Put objective markers on the map",
+        "Отмечать цели на карте",
         MISSION_GENERATOR_PAGE,
         GAMEPLAY_SECTION,
         default=True,
     )
     generate_dark_kneeboard: bool = boolean_option(
-        "Generate dark kneeboard",
+        "Тёмный планшет (kneeboard)",
         MISSION_GENERATOR_PAGE,
         GAMEPLAY_SECTION,
         default=False,
         detail=(
-            "Dark kneeboard for night missions. This will likely make the kneeboard on "
-            "the pilot leg unreadable."
+            "Тёмный планшет для ночных миссий. Скорее всего, планшет на "
+            "колене пилота станет нечитаемым."
         ),
     )
     never_delay_player_flights: bool = boolean_option(
-        "Player flights ignore TOT and spawn immediately",
+        "Звенья игроков игнорируют TOT и появляются сразу",
         MISSION_GENERATOR_PAGE,
         GAMEPLAY_SECTION,
         default=False,
         detail=(
-            "Does not adjust package waypoint times. Should not be used if players "
-            "have runway or in-air starts."
+            "Не меняет время путевых точек пакетов. Не используйте, если игроки "
+            "стартуют с ВПП или в воздухе."
         ),
         tooltip=(
-            "Always spawns player aircraft immediately, even if their start time is "
-            "more than 10 minutes after the start of the mission. <strong>This does "
-            "not alter the timing of your mission. Your TOT will not change. This "
-            "option only allows the player to wait on the ground.</strong>"
+            "Всегда создаёт ЛА игроков сразу, даже если их время старта больше чем "
+            "через 10 минут после начала миссии. <strong>Это не меняет "
+            "расписание миссии. Ваш TOT не изменится. Параметр лишь "
+            "позволяет игроку подождать на земле.</strong>"
         ),
     )
     default_start_type: StartType = choices_option(
-        "Default start type for AI aircraft",
+        "Тип старта ИИ по умолчанию",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
-        choices={v.value: v for v in StartType},
+        choices={v.display_name: v for v in StartType},
         default=StartType.COLD,
         detail=(
-            "Warning: Options other than Cold will significantly reduce the number of "
-            "targets available for OCA/Aircraft missions, and OCA/Aircraft flights "
-            "will not be included in automatically planned OCA packages."
+            "Внимание: любой вариант, кроме холодного, заметно сократит число "
+            "целей для заданий OCA/Aircraft, а звенья OCA/Aircraft не будут "
+            "включаться в автоматически планируемые пакеты OCA."
         ),
     )
     # Mission specific
     desired_player_mission_duration: timedelta = minutes_option(
-        "Desired mission duration",
+        "Желаемая длительность миссии",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
         default=timedelta(minutes=60),
         min=30,
         max=150,
         detail=(
-            "Period of time after the start of a turn where "
-            "there is coverage by one or more CAP flight(s), "
-            "refuelling flights not tied to a specific package are on station, "
-            "and other flights have their TOTs."
+            "Время от начала хода, в течение которого "
+            "действует прикрытие одним или несколькими звеньями CAP, "
+            "заправщики, не привязанные к пакету, находятся в зоне, "
+            "а у остальных звеньев наступает их TOT."
         ),
     )
 
     # Performance
     perf_smoke_gen: bool = boolean_option(
-        "Smoke visual effect on the front line",
+        "Дым на линии фронта",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=True,
     )
     perf_smoke_spacing: int = bounded_int_option(
-        "Smoke generator spacing (higher means less smoke)",
+        "Шаг генераторов дыма (больше — меньше дыма)",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=1600,
@@ -490,60 +507,60 @@ class Settings:
         max=24000,
     )
     perf_red_alert_state: bool = boolean_option(
-        "SAM starts in red alert mode",
+        "ЗРК стартуют в режиме боевой готовности",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=True,
     )
     perf_artillery: bool = boolean_option(
-        "Artillery strikes",
+        "Артиллерийские удары",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=True,
     )
     generate_fire_tasks_for_missile_sites: bool = boolean_option(
-        "Generate fire tasks for missile sites",
+        "Задачи на пуск для ракетных позиций",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         detail=(
-            "If enabled, missile sites like V2s and Scuds will fire on random targets "
-            "at the start of the mission."
+            "Если включено, ракетные позиции (V2, Scud и т. п.) в начале миссии "
+            "стреляют по случайным целям."
         ),
         default=True,
     )
     perf_moving_units: bool = boolean_option(
-        "Moving ground units",
+        "Движущаяся наземная техника",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=True,
     )
     convoys_travel_full_distance: bool = boolean_option(
-        "Convoys drive the full distance between control points",
+        "Колонны проходят весь путь между контрольными точками",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=True,
     )
     perf_infantry: bool = boolean_option(
-        "Generate infantry squads alongside vehicles",
+        "Пехотные отделения вместе с техникой",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=True,
     )
     perf_destroyed_units: bool = boolean_option(
-        "Generate carcasses for units destroyed in previous turns",
+        "Остовы техники, уничтоженной в прошлые ходы",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=True,
     )
     # Performance culling
     perf_culling: bool = boolean_option(
-        "Culling of distant units enabled",
+        "Отсечение дальних единиц",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=False,
     )
     perf_culling_distance: int = bounded_int_option(
-        "Culling distance (km)",
+        "Дистанция отсечения (км)",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=100,
@@ -552,13 +569,13 @@ class Settings:
         causes_expensive_game_update=True,
     )
     perf_do_not_cull_threatening_iads: bool = boolean_option(
-        "Do not cull threatening IADS",
+        "Не отсекать угрожающую ПВО",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=True,
     )
     perf_do_not_cull_carrier: bool = boolean_option(
-        "Do not cull carrier's surroundings",
+        "Не отсекать окрестности авианосца",
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=True,

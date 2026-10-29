@@ -60,9 +60,9 @@ class PendingTransfersList(QListView):
         if not self.transfer_model.transfer_at_index(index).player:
             return
 
-        menu = QMenu("Menu")
+        menu = QMenu("Меню")
 
-        delete_action = QAction("Cancel")
+        delete_action = QAction("Отменить")
         delete_action.triggered.connect(lambda: self.cancel_transfer(index))
         menu.addAction(delete_action)
 
@@ -81,7 +81,7 @@ class PendingTransfersDialog(QDialog):
         self.transfer_model = game_model.transfer_model
 
         self.setMinimumSize(1000, 440)
-        self.setWindowTitle(f"Pending Transfers")
+        self.setWindowTitle(f"Ожидающие переброски")
         # TODO: self.setWindowIcon()
 
         layout = QVBoxLayout()
@@ -98,7 +98,7 @@ class PendingTransfersDialog(QDialog):
 
         button_layout.addStretch()
 
-        self.cancel_button = QPushButton("Cancel Transfer")
+        self.cancel_button = QPushButton("Отменить переброску")
         self.cancel_button.setProperty("style", "btn-danger")
         self.cancel_button.clicked.connect(self.on_cancel_transfer)
         self.cancel_button.setEnabled(

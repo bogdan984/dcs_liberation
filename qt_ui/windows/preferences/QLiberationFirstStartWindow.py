@@ -16,7 +16,7 @@ class QLiberationFirstStartWindow(QDialog):
         super(QLiberationFirstStartWindow, self).__init__()
 
         self.setModal(True)
-        self.setWindowTitle("First start configuration")
+        self.setWindowTitle("Первоначальная настройка")
         self.setMinimumSize(500, 200)
         self.setWindowIcon(QIcon("./resources/icon.png"))
         self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.Dialog | Qt.WindowTitleHint)
@@ -24,53 +24,53 @@ class QLiberationFirstStartWindow(QDialog):
         self.preferences = QLiberationPreferences()
 
         WARN_TEXT = """
-        <strong>Welcome to DCS Liberation !</strong>
+        <strong>Добро пожаловать в DCS Liberation!</strong>
         <br/><br>
-        <strong>Please take 30 seconds to read this :</strong>
+        <strong>Пожалуйста, потратьте 30 секунд и прочитайте это:</strong>
         
-        <p>DCS Liberation will modify this file in your DCS installation directory :</p>
+        <p>DCS Liberation изменит этот файл в папке установки DCS:</p>
         <br/>
         <strong>&lt;dcs_installation_directory&gt;/Scripts/MissionScripting.lua</strong><br/> 
         
         <p>
-        This will disable some security limits of the DCS World Lua scripting environment, in order to allow communication between DCS World and DCS Liberation.
-        However, the modification of this file could potentially grant access to your filesystem to malicious DCS mission files.
+        Это отключит часть ограничений безопасности среды Lua-скриптов DCS World, чтобы DCS World и DCS Liberation могли обмениваться данными.
+        Однако такое изменение потенциально может дать вредоносным файлам миссий DCS доступ к вашей файловой системе.
         </p>
         
-        <p>So, you should not join untrusted servers or open untrusted mission files within DCS world while DCS Liberation is running.</p>
+        <p>Поэтому, пока запущен DCS Liberation, не заходите на недоверенные серверы и не открывайте недоверенные миссии в DCS World.</p>
         
         <p>
-        DCS Liberation will restore your original MissionScripting file when it close.        
+        При закрытии DCS Liberation восстановит исходный файл MissionScripting.        
         </p>
         
         <p>
-        However, should DCS Liberation encounter an unexpected crash (which should not happen), the MissionScripting file might not be restored.
-        If that occurs, you can use the backup file saved in the DCS Liberation directory there :
+        Но если DCS Liberation неожиданно аварийно завершится (чего быть не должно), файл MissionScripting может остаться не восстановленным.
+        В этом случае используйте резервную копию в папке DCS Liberation:
         </p>
         
         <br/>
         <strong>./resources/scripts/MissionScripting.original.lua</strong><br/>
         
-        <p>Then copy it in your DCS installation directory to replace this file :</p>
+        <p>Затем скопируйте её в папку установки DCS вместо этого файла:</p>
         
         <br/>
         <strong>&lt;dcs_installation_directory&gt;/Scripts/MissionScripting.lua</strong><br/>
         
-        <p>As you click on the button below, the file will be replaced in your DCS installation directory.</p>
+        <p>После нажатия кнопки ниже файл в папке установки DCS будет заменён.</p>
         
         <br/>
-        <p>If you leave the DCS Installation Directory empty, DCS Liberation can not automatically replace the MissionScripting.lua and will therefore not work correctly!
-        In this case, you need to edit the file yourself. The easiest way to do it is to replace the original file with the file in dcs-liberation distribution (&lt;dcs_liberation_installation&gt;/resources/scripts/MissionScripting.lua).
-        <br/><br/>You can find more information on how to manually change this file in the Liberation Wiki (Page: Dedicated Server Guide) on GitHub.</p>
+        <p>Если оставить папку установки DCS пустой, DCS Liberation не сможет автоматически заменить MissionScripting.lua и не будет работать правильно!
+        В этом случае отредактируйте файл сами. Проще всего заменить оригинальный файл файлом из дистрибутива dcs-liberation (&lt;dcs_liberation_installation&gt;/resources/scripts/MissionScripting.lua).
+        <br/><br/>Подробнее о ручном изменении этого файла — в Liberation Wiki на GitHub (страница: Dedicated Server Guide).</p>
 
         
         <br/><br/>
         
-        <strong>Thank you for reading !</strong>
+        <strong>Спасибо, что прочитали!</strong>
         """
         self.warning_text = QTextEdit(WARN_TEXT)
         self.warning_text.setReadOnly(True)
-        self.apply_button = QPushButton("I have read everything and I Accept")
+        self.apply_button = QPushButton("Я всё прочитал(а) и принимаю")
         self.apply_button.clicked.connect(lambda: self.apply())
         self.initUI()
 
@@ -86,6 +86,6 @@ class QLiberationFirstStartWindow(QDialog):
         self.setLayout(layout)
 
     def apply(self):
-        print("Applying changes")
+        print("Применение изменений")
         if self.preferences.apply():
             self.close()

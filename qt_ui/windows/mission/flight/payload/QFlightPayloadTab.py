@@ -59,9 +59,9 @@ class QFlightPayloadTab(QFrame):
 
         self.member_selector = FlightMemberSelector(self.flight, self)
         self.member_selector.valueChanged.connect(self.rebind_to_selected_member)
-        layout.addLayout(QLabeledWidget("Flight member:", self.member_selector))
+        layout.addLayout(QLabeledWidget("Член звена:", self.member_selector))
         self.same_loadout_for_all_checkbox = QCheckBox(
-            "Use same loadout for all flight members"
+            "Одинаковая подвеска для всего звена"
         )
         self.same_loadout_for_all_checkbox.setChecked(
             self.flight.use_same_loadout_for_all_members
@@ -70,7 +70,7 @@ class QFlightPayloadTab(QFrame):
         layout.addWidget(self.same_loadout_for_all_checkbox)
         layout.addWidget(
             QLabel(
-                "<strong>Warning: AI flights should use the same loadout for all members.</strong>"
+                "<strong>Внимание: у звеньев ИИ подвеска должна быть одинаковой у всех.</strong>"
             )
         )
 
@@ -86,7 +86,7 @@ class QFlightPayloadTab(QFrame):
 
         # Docs Link
         docsText = QLabel(
-            '<a href="https://github.com/dcs-liberation/dcs_liberation/wiki/Custom-Loadouts"><span style="color:#FFFFFF;">How to create your own default loadout</span></a>'
+            '<a href="https://github.com/dcs-liberation/dcs_liberation/wiki/Custom-Loadouts"><span style="color:#FFFFFF;">Как создать свою подвеску по умолчанию</span></a>'
         )
         docsText.setAlignment(Qt.AlignCenter)
         docsText.setOpenExternalLinks(True)
@@ -104,13 +104,14 @@ class QFlightPayloadTab(QFrame):
         )
         scrolling_layout.addLayout(
             QLabeledWidget(
-                "Preset laser code for weapons:", self.weapon_laser_code_selector
+                "Предустановленный код лазера для оружия:",
+                self.weapon_laser_code_selector,
             )
         )
         scrolling_layout.addWidget(
             QLabel(
-                "Equipped weapons will be pre-configured to the selected laser code at "
-                "mission start."
+                "Подвешенное оружие будет настроено на выбранный код лазера при"
+                "старте миссии."
             )
         )
 
@@ -185,7 +186,7 @@ class QFlightPayloadTab(QFrame):
         member = self.member_selector.selected_member
         member.use_custom_loadout = use_custom
         if use_custom:
-            member.loadout = member.loadout.derive_custom("Custom")
+            member.loadout = member.loadout.derive_custom("Своя")
         else:
             member.loadout = self.current_loadout()
             self.payload_editor.reset_pylons()

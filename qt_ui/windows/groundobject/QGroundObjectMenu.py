@@ -57,13 +57,11 @@ class QGroundObjectMenu(QDialog):
         self.ground_object = ground_object
         self.cp = cp
         self.game = game
-        self.setWindowTitle(
-            f"Location - {self.ground_object.obj_name} ({self.cp.name})"
-        )
+        self.setWindowTitle(f"Позиция — {self.ground_object.obj_name} ({self.cp.name})")
         self.setWindowIcon(EVENT_ICONS["capture"])
-        self.intelBox = QGroupBox("Units :")
-        self.buildingBox = QGroupBox("Buildings :")
-        self.orientationBox = QGroupBox("Orientation :")
+        self.intelBox = QGroupBox("Единицы:")
+        self.buildingBox = QGroupBox("Здания:")
+        self.orientationBox = QGroupBox("Ориентация:")
         self.intelLayout = QGridLayout()
         self.buildingsLayout = QGridLayout()
         self.sell_all_button = None
@@ -87,11 +85,13 @@ class QGroundObjectMenu(QDialog):
 
         self.actionLayout = QHBoxLayout()
 
-        self.sell_all_button = QPushButton("Disband (+" + str(self.total_value) + "M)")
+        self.sell_all_button = QPushButton(
+            "Расформировать (+" + str(self.total_value) + "M)"
+        )
         self.sell_all_button.clicked.connect(self.sell_all)
         self.sell_all_button.setProperty("style", "btn-danger")
 
-        self.buy_replace = QPushButton("Buy/Replace")
+        self.buy_replace = QPushButton("Купить/заменить")
         self.buy_replace.clicked.connect(self.buy_group)
         self.buy_replace.setProperty("style", "btn-success")
 
@@ -106,18 +106,18 @@ class QGroundObjectMenu(QDialog):
 
     def doLayout(self):
         self.update_total_value()
-        self.intelBox = QGroupBox("Units :")
+        self.intelBox = QGroupBox("Единицы:")
         self.intelLayout = QGridLayout()
         i = 0
         for g in self.ground_object.groups:
             for unit in g.units:
                 self.intelLayout.addWidget(
-                    QLabel(f"<b>Unit {str(unit.display_name)}</b>"), i, 0
+                    QLabel(f"<b>Единица {str(unit.display_name)}</b>"), i, 0
                 )
 
                 if not unit.alive and unit.repairable and self.cp.captured:
                     price = unit.unit_type.price if unit.unit_type else 0
-                    repair = QPushButton(f"Repair [{price}M]")
+                    repair = QPushButton(f"Починить [{price}M]")
                     repair.setProperty("style", "btn-success")
                     repair.clicked.connect(
                         lambda u=unit, p=price: self.repair_unit(u, p)
@@ -129,7 +129,7 @@ class QGroundObjectMenu(QDialog):
         stretch.addStretch()
         self.intelLayout.addLayout(stretch, i, 0)
 
-        self.buildingBox = QGroupBox("Buildings :")
+        self.buildingBox = QGroupBox("Здания:")
         self.buildingsLayout = QGridLayout()
 
         j = 0
@@ -149,22 +149,22 @@ class QGroundObjectMenu(QDialog):
             else:
                 logging.warning(self.ground_object.category + " not in REWARDS")
 
-        self.financesBox = QGroupBox("Finances: ")
+        self.financesBox = QGroupBox("Финансы:")
         self.financesBoxLayout = QGridLayout()
         self.financesBoxLayout.addWidget(
-            QLabel("Available: " + str(total_income) + "M"), 2, 1
+            QLabel("Доступно:" + str(total_income) + "M"), 2, 1
         )
         self.financesBoxLayout.addWidget(
-            QLabel("Receiving: " + str(received_income) + "M"), 2, 2
+            QLabel("Получите:" + str(received_income) + "M"), 2, 2
         )
 
         # Orientation Box
-        self.orientationBox = QGroupBox("Orientation :")
+        self.orientationBox = QGroupBox("Ориентация:")
         self.orientationBoxLayout = QHBoxLayout()
 
         self.heading_image = HeadingIndicator(self.ground_object.heading, self)
         self.orientationBoxLayout.addWidget(self.heading_image)
-        self.headingLabel = QLabel("Heading:")
+        self.headingLabel = QLabel("Курс:")
         self.orientationBoxLayout.addWidget(self.headingLabel)
         self.headingSelector = QSpinBox()
         self.headingSelector.setEnabled(self.cp.is_friendly(to_player=True))
@@ -177,7 +177,7 @@ class QGroundObjectMenu(QDialog):
         )
         self.orientationBoxLayout.addWidget(self.headingSelector)
         if self.cp.captured:
-            self.head_to_conflict_button = QPushButton("Head to conflict")
+            self.head_to_conflict_button = QPushButton("Развернуть к фронту")
             heading = (
                 self.game.theater.heading_to_conflict_from(self.ground_object.position)
                 or self.ground_object.heading
@@ -228,7 +228,9 @@ class QGroundObjectMenu(QDialog):
             return
         self.total_value = self.ground_object.value
         if self.sell_all_button is not None:
-            self.sell_all_button.setText("Disband (+$" + str(self.total_value) + "M)")
+            self.sell_all_button.setText(
+                "Расформировать (+$" + str(self.total_value) + "M)"
+            )
 
     def repair_unit(self, unit: TheaterUnit, price: float):
         if self.game.blue.budget > price:

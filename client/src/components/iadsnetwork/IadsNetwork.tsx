@@ -10,9 +10,9 @@ interface IadsConnectionProps {
 function IadsConnectionTooltip(props: IadsConnectionProps) {
   var status = props.iads_connection.active ? "Active" : "Inactive"; 
   if (props.iads_connection.is_power) {
-    return <Tooltip>Power Connection ({status})</Tooltip>;
+    return <Tooltip>Энергоснабжение ({status})</Tooltip>;
   } else {
-    return <Tooltip>Communication Connection ({status})</Tooltip>;
+    return <Tooltip>Связь ({status})</Tooltip>;
   }
 }
 

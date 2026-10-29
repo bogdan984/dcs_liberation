@@ -105,7 +105,7 @@ class Game:
         self.game_stats = GameStats()
         self.notes = ""
         self.informations: list[Information] = []
-        self.message("Game Start", "-" * 40)
+        self.message("Начало игры", "-" * 40)
         # Culling Zones are for areas around points of interest that contain things we may not wish to cull.
         self.__culling_zones: List[Point] = []
         self.__destroyed_units: list[dict[str, Union[float, str]]] = []
@@ -272,7 +272,7 @@ class Game:
         Args:
             skipped: True if the turn was skipped.
         """
-        self.message("End of turn #" + str(self.turn), "-" * 40)
+        self.message("Конец хода №" + str(self.turn), "-" * 40)
         self.turn += 1
 
         # The coalition-specific turn finalization *must* happen before unit deliveries,
@@ -610,10 +610,12 @@ class Game:
     def process_win_loss(self, turn_state: TurnState) -> None:
         if turn_state is TurnState.WIN:
             self.message(
-                "Congratulations, you are victorious! Start a new campaign to continue."
+                "Поздравляем, вы победили! Чтобы продолжить, начните новую кампанию."
             )
         elif turn_state is TurnState.LOSS:
-            self.message("Game Over, you lose. Start a new campaign to continue.")
+            self.message(
+                "Игра окончена, вы проиграли. Чтобы продолжить, начните новую кампанию."
+            )
 
     def ato_has_clients(self) -> bool:
         for package in self.blue.ato.packages:

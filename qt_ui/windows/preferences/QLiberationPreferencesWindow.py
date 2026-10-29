@@ -9,11 +9,11 @@ class QLiberationPreferencesWindow(QDialog):
         super(QLiberationPreferencesWindow, self).__init__()
 
         self.setModal(True)
-        self.setWindowTitle("Preferences")
+        self.setWindowTitle("Параметры")
         self.setMinimumSize(300, 200)
         self.setWindowIcon(QIcon("./resources/icon.png"))
         self.preferences = QLiberationPreferences()
-        self.apply_button = QPushButton("Apply")
+        self.apply_button = QPushButton("Применить")
         self.apply_button.clicked.connect(lambda: self.apply())
         self.initUI()
 

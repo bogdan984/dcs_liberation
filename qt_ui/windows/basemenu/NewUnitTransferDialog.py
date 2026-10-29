@@ -86,10 +86,10 @@ class TransferOptionsPanel(QVBoxLayout):
 
         self.source_combo_box = TransferDestinationComboBox(game, origin)
         self.transport_type = QComboBox()
-        self.transport_type.addItem("Auto", "auto")
-        self.transport_type.addItem("Airlift", "airlift")
-        self.addLayout(QLabeledWidget("Destination:", self.source_combo_box))
-        self.addLayout(QLabeledWidget("Requested transport type:", self.transport_type))
+        self.transport_type.addItem("Авто", "auto")
+        self.transport_type.addItem("Авиаперевозка", "airlift")
+        self.addLayout(QLabeledWidget("Пункт назначения:", self.source_combo_box))
+        self.addLayout(QLabeledWidget("Тип транспорта:", self.transport_type))
 
     @property
     def changed(self):
@@ -261,7 +261,7 @@ class NewUnitTransferDialog(QDialog):
     ) -> None:
         super().__init__(parent)
         self.origin = origin
-        self.setWindowTitle(f"New unit transfer from {origin.name}")
+        self.setWindowTitle(f"Новая переброска из {origin.name}")
 
         self.game_model = game_model
 
@@ -277,7 +277,7 @@ class NewUnitTransferDialog(QDialog):
         )
         layout.addWidget(self.transfer_panel)
 
-        self.submit_button = QPushButton("Create Transfer Order", parent=self)
+        self.submit_button = QPushButton("Создать приказ на переброску", parent=self)
         self.submit_button.clicked.connect(self.on_submit)
         self.submit_button.setProperty("style", "start-button")
         self.submit_button.setDisabled(True)

@@ -25,7 +25,7 @@ class QTimeTurnWidget(QGroupBox):
     """
 
     def __init__(self, sim_controller: SimController) -> None:
-        super(QTimeTurnWidget, self).__init__("Turn")
+        super(QTimeTurnWidget, self).__init__("Ход")
         self.sim_controller = sim_controller
         self.setStyleSheet(
             "padding: 0px; margin-left: 5px; margin-right: 0px; margin-top: 1ex; margin-bottom: 5px; border-right: 0px"
@@ -76,7 +76,7 @@ class QTimeTurnWidget(QGroupBox):
         """
         self.daytime_icon.setPixmap(self.icons[conditions.time_of_day])
         self.set_date_and_time(time)
-        self.setTitle(f"Turn {turn}")
+        self.setTitle(f"Ход {turn}")
 
     def set_date_and_time(self, time: datetime) -> None:
         self.date_display.setText(time.strftime("%d %b %Y"))
@@ -136,21 +136,21 @@ class QWeatherWidget(QGroupBox):
 
         windsLayout.addWidget(self.makeIcon(CONST.ICONS["Weather_winds"]), 0, 0, 3, 1)
 
-        windsLayout.addWidget(self.makeLabel("At GL"), 0, 1)
-        windsLayout.addWidget(self.makeLabel("At FL08"), 1, 1)
-        windsLayout.addWidget(self.makeLabel("At FL26"), 2, 1)
+        windsLayout.addWidget(self.makeLabel("У земли"), 0, 1)
+        windsLayout.addWidget(self.makeLabel("На FL08"), 1, 1)
+        windsLayout.addWidget(self.makeLabel("На FL26"), 2, 1)
 
-        self.windGLSpeedLabel = self.makeLabel("0kts")
+        self.windGLSpeedLabel = self.makeLabel("0 уз")
         self.windGLDirLabel = self.makeLabel("0º")
         windsLayout.addWidget(self.windGLSpeedLabel, 0, 2)
         windsLayout.addWidget(self.windGLDirLabel, 0, 3)
 
-        self.windFL08SpeedLabel = self.makeLabel("0kts")
+        self.windFL08SpeedLabel = self.makeLabel("0 уз")
         self.windFL08DirLabel = self.makeLabel("0º")
         windsLayout.addWidget(self.windFL08SpeedLabel, 1, 2)
         windsLayout.addWidget(self.windFL08DirLabel, 1, 3)
 
-        self.windFL26SpeedLabel = self.makeLabel("0kts")
+        self.windFL26SpeedLabel = self.makeLabel("0 уз")
         self.windFL26DirLabel = self.makeLabel("0º")
         windsLayout.addWidget(self.windFL26SpeedLabel, 2, 2)
         windsLayout.addWidget(self.windFL26DirLabel, 2, 3)
@@ -191,30 +191,30 @@ class QWeatherWidget(QGroupBox):
         """Updates the UI with the current conditions wind info."""
         windGlSpeed = mps(self.conditions.weather.wind.at_0m.speed or 0)
         windGlDir = str(self.conditions.weather.wind.at_0m.direction or 0).rjust(3, "0")
-        self.windGLSpeedLabel.setText(f"{int(windGlSpeed.knots)}kts")
+        self.windGLSpeedLabel.setText(f"{int(windGlSpeed.knots)} уз")
         self.windGLDirLabel.setText(f"{windGlDir}º")
 
         windFL08Speed = mps(self.conditions.weather.wind.at_2000m.speed or 0)
         windFL08Dir = str(self.conditions.weather.wind.at_2000m.direction or 0).rjust(
             3, "0"
         )
-        self.windFL08SpeedLabel.setText(f"{int(windFL08Speed.knots)}kts")
+        self.windFL08SpeedLabel.setText(f"{int(windFL08Speed.knots)} уз")
         self.windFL08DirLabel.setText(f"{windFL08Dir}º")
 
         windFL26Speed = mps(self.conditions.weather.wind.at_8000m.speed or 0)
         windFL26Dir = str(self.conditions.weather.wind.at_8000m.direction or 0).rjust(
             3, "0"
         )
-        self.windFL26SpeedLabel.setText(f"{int(windFL26Speed.knots)}kts")
+        self.windFL26SpeedLabel.setText(f"{int(windFL26Speed.knots)} уз")
         self.windFL26DirLabel.setText(f"{windFL26Dir}º")
 
     def update_forecast_from_preset(self, preset: CloudPreset) -> None:
-        self.forecastFog.setText("No fog")
+        self.forecastFog.setText("Без тумана")
         if "Rain" in preset.name:
-            self.forecastRain.setText("Rain")
+            self.forecastRain.setText("Дождь")
             self.update_forecast_icons("rain")
         else:
-            self.forecastRain.setText("No rain")
+            self.forecastRain.setText("Без осадков")
             self.update_forecast_icons("partly-cloudy")
 
         # We get a description like the following for the cloud preset.
@@ -242,32 +242,32 @@ class QWeatherWidget(QGroupBox):
             precipitation = self.conditions.weather.clouds.precipitation
 
         if not cloud_density:
-            self.forecastClouds.setText("Clear")
+            self.forecastClouds.setText("Ясно")
             weather_type = "clear"
         elif cloud_density < 3:
-            self.forecastClouds.setText("Partly Cloudy")
+            self.forecastClouds.setText("Переменная облачность")
             weather_type = "partly-cloudy"
         elif cloud_density < 5:
-            self.forecastClouds.setText("Mostly Cloudy")
+            self.forecastClouds.setText("Облачно")
             weather_type = "partly-cloudy"
         else:
-            self.forecastClouds.setText("Totally Cloudy")
+            self.forecastClouds.setText("Сплошная облачность")
             weather_type = "partly-cloudy"
 
         if precipitation == PydcsWeather.Preceptions.Rain:
-            self.forecastRain.setText("Rain")
+            self.forecastRain.setText("Дождь")
             weather_type = "rain"
         elif precipitation == PydcsWeather.Preceptions.Thunderstorm:
-            self.forecastRain.setText("Thunderstorm")
+            self.forecastRain.setText("Гроза")
             weather_type = "thunderstorm"
         else:
-            self.forecastRain.setText("No rain")
+            self.forecastRain.setText("Без осадков")
 
         if not self.conditions.weather.fog is not None:
-            self.forecastFog.setText("No fog")
+            self.forecastFog.setText("Без тумана")
         else:
             visibility = round(self.conditions.weather.fog.visibility.nautical_miles, 1)
-            self.forecastFog.setText(f"Fog vis: {visibility}nm")
+            self.forecastFog.setText(f"Туман, видимость: {visibility} миль")
             if cloud_density > 1:
                 weather_type = "cloudy-fog"
             else:

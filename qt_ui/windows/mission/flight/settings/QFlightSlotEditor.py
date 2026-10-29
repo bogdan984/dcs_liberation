@@ -41,7 +41,7 @@ class PilotSelector(QComboBox):
     def _do_rebuild(self) -> None:
         self.clear()
         if self.roster is None or self.pilot_index >= self.roster.max_size:
-            self.addItem("No aircraft", None)
+            self.addItem("Нет ЛА", None)
             self.setDisabled(True)
             return
 
@@ -49,7 +49,7 @@ class PilotSelector(QComboBox):
             raise RuntimeError("squadron cannot be None if roster is set")
 
         self.setEnabled(True)
-        self.addItem("Unassigned", None)
+        self.addItem("Не назначен", None)
         choices = list(self.squadron.available_pilots)
         current_pilot = self.roster.pilot_at(self.pilot_index)
         if current_pilot is not None:
@@ -58,7 +58,7 @@ class PilotSelector(QComboBox):
         for pilot in sorted(choices, key=lambda p: (not p.player, p.name)):
             self.addItem(self.text_for(pilot), pilot)
         if current_pilot is None:
-            self.setCurrentText("Unassigned")
+            self.setCurrentText("Не назначен")
         else:
             self.setCurrentText(self.text_for(current_pilot))
         self.currentIndexChanged.connect(self.replace_pilot)
@@ -104,8 +104,8 @@ class PilotControls(QHBoxLayout):
         self.selector.currentIndexChanged.connect(self.on_pilot_changed)
         self.addWidget(self.selector)
 
-        self.player_checkbox = QCheckBox(text="Player")
-        self.player_checkbox.setToolTip("Checked if this pilot is a player.")
+        self.player_checkbox = QCheckBox(text="Игрок")
+        self.player_checkbox.setToolTip("Отмечено, если пилот — игрок.")
         self.on_pilot_changed(self.selector.currentIndex())
         enabled = False
         if self.roster is not None and squadron is not None:
@@ -215,7 +215,7 @@ class QFlightSlotEditor(QGroupBox):
     flight_resized = Signal(int)
 
     def __init__(self, package_model: PackageModel, flight: Flight, game: Game):
-        super().__init__("Slots")
+        super().__init__("Слоты")
         self.package_model = package_model
         self.flight = flight
         self.game = game
@@ -226,7 +226,7 @@ class QFlightSlotEditor(QGroupBox):
 
         layout = QGridLayout()
 
-        self.aircraft_count = QLabel("Aircraft count:")
+        self.aircraft_count = QLabel("Число ЛА:")
         self.aircraft_count_spinner = QSpinBox()
         self.aircraft_count_spinner.setMinimum(1)
         self.aircraft_count_spinner.setMaximum(max_count)
@@ -236,10 +236,10 @@ class QFlightSlotEditor(QGroupBox):
         layout.addWidget(self.aircraft_count, 0, 0)
         layout.addWidget(self.aircraft_count_spinner, 0, 1)
 
-        layout.addWidget(QLabel("Squadron:"), 1, 0)
+        layout.addWidget(QLabel("Эскадрилья:"), 1, 0)
         layout.addWidget(QLabel(str(self.flight.squadron)), 1, 1)
 
-        layout.addWidget(QLabel("Assigned pilots:"), 2, 0)
+        layout.addWidget(QLabel("Назначенные пилоты:"), 2, 0)
         self.roster_editor = FlightRosterEditor(flight.squadron, flight.roster)
         layout.addLayout(self.roster_editor, 2, 1)
 

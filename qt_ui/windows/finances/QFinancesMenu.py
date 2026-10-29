@@ -51,11 +51,11 @@ class FinancesLayout(QGridLayout):
 
     def add_total(self, game, income, player):
         self.add_row(
-            middle=f"Income multiplier: {income.multiplier:.1f}",
+            middle=f"Множитель дохода: {income.multiplier:.1f}",
             right=f"<b>{income.total:.1f}M</b>",
         )
         budget = game.coalition_for(player).budget
-        self.add_row(middle="Balance", right=f"<b>{budget:.1f}M</b>")
+        self.add_row(middle="Баланс", right=f"<b>{budget:.1f}M</b>")
 
     def add_row(
         self,
@@ -86,7 +86,7 @@ class FinancesLayout(QGridLayout):
             QLabel(f"<b>{building.category.upper()} [{building.name}]</b>"), row, 0
         )
         self.addWidget(
-            QLabel(f"{building.number} buildings x {building.income_per_building}M"),
+            QLabel(f"{building.number} зданий x {building.income_per_building}M"),
             row,
             1,
         )
@@ -104,7 +104,7 @@ class QFinancesMenu(QDialog):
 
         self.game = game
         self.setModal(True)
-        self.setWindowTitle("Finances")
+        self.setWindowTitle("Финансы")
         self.setWindowIcon(CONST.ICONS["Money"])
         self.setMinimumSize(450, 200)
 

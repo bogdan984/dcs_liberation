@@ -29,14 +29,14 @@ class LossGrid(QGridLayout):
             debriefing.front_line_losses_by_type(player), lambda u: str(u)
         )
         self.add_loss_rows(
-            debriefing.convoy_losses_by_type(player), lambda u: f"{u} from convoy"
+            debriefing.convoy_losses_by_type(player), lambda u: f"{u} из колонны"
         )
         self.add_loss_rows(
             debriefing.cargo_ship_losses_by_type(player),
-            lambda u: f"{u} from cargo ship",
+            lambda u: f"{u} с грузового судна",
         )
         self.add_loss_rows(
-            debriefing.airlift_losses_by_type(player), lambda u: f"{u} from airlift"
+            debriefing.airlift_losses_by_type(player), lambda u: f"{u} из авиаперевозки"
         )
         self.add_loss_rows(debriefing.ground_object_losses_by_type(player), lambda u: u)
         self.add_loss_rows(debriefing.scenery_losses_by_type(player), lambda u: u)
@@ -58,7 +58,7 @@ class LossGrid(QGridLayout):
 class ScrollingCasualtyReportContainer(QGroupBox):
     def __init__(self, debriefing: Debriefing, player: bool) -> None:
         country = debriefing.player_country if player else debriefing.enemy_country
-        super().__init__(f"{country}'s lost units:")
+        super().__init__(f"Потери ({country}):")
         scroll_content = QWidget()
         scroll_content.setLayout(LossGrid(debriefing, player))
         scroll_area = QScrollArea()
@@ -74,7 +74,7 @@ class QDebriefingWindow(QDialog):
         self.debriefing = debriefing
 
         self.setModal(True)
-        self.setWindowTitle("Debriefing")
+        self.setWindowTitle("Итоги миссии")
         self.setMinimumSize(300, 200)
         self.setWindowIcon(QIcon("./resources/icon.png"))
 
@@ -88,7 +88,7 @@ class QDebriefingWindow(QDialog):
         layout.addWidget(header)
         layout.addStretch()
 
-        title = QLabel("<b>Casualty report</b>")
+        title = QLabel("<b>Отчёт о потерях</b>")
         layout.addWidget(title)
 
         player_lost_units = ScrollingCasualtyReportContainer(debriefing, player=True)
@@ -97,6 +97,6 @@ class QDebriefingWindow(QDialog):
         enemy_lost_units = ScrollingCasualtyReportContainer(debriefing, player=False)
         layout.addWidget(enemy_lost_units)
 
-        okay = QPushButton("Okay")
+        okay = QPushButton("OK")
         okay.clicked.connect(self.close)
         layout.addWidget(okay)

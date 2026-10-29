@@ -268,12 +268,12 @@ class RunwayStatus:
 
     def describe(self) -> str:
         if not self.damaged:
-            return "operational"
+            return "исправна"
 
         if self._repaired_time == self._max_time:
-            return "damaged"
+            return "повреждена"
 
-        return f"repairing, ETA {self._repaired_time}"
+        return f"ремонтируется, готовность {self._repaired_time}"
 
     def update_repair_status(self, time: datetime) -> None:
         if self._repaired_time is None:
@@ -734,8 +734,8 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         self.base.armor.clear()
         game.adjust_budget(total, player=not self.captured)
         game.message(
-            f"{self.name} is not connected to any friendly points. Ground "
-            f"vehicles have been captured and sold for ${total}M."
+            f"{self.name} не связан ни с одной своей точкой. Наземная"
+            f"техника захвачена и продана за ${total}M."
         )
 
     def retreat_ground_units(self, game: Game) -> None:
@@ -763,8 +763,8 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         value = airframe.price * count
         game.adjust_budget(value, player=not self.captured)
         game.message(
-            f"No valid retreat destination in range of {self.name} for {airframe} "
-            f"{count} aircraft have been captured and sold for ${value}M."
+            f"Нет доступного места для отхода от {self.name} для {airframe}:"
+            f"{count} ЛА захвачено и продано за ${value}M."
         )
 
     def aircraft_retreat_destination(
@@ -1166,7 +1166,7 @@ class Airfield(ControlPoint):
         return self._runway_status
 
     def describe_runway_status(self) -> str:
-        return f"Runway {self.runway_status.describe()}"
+        return f"ВПП {self.runway_status.describe()}"
 
     def damage_runway(self) -> None:
         self.runway_status.damage()
@@ -1288,9 +1288,9 @@ class NavalControlPoint(ControlPoint, ABC):
 
     def describe_runway_status(self) -> str:
         if self.runway_is_operational():
-            return f"Flight deck {self.runway_status.describe()}"
+            return f"Полётная палуба {self.runway_status.describe()}"
         # Special handling for not operational carriers/LHAs
-        return "Sunk"
+        return "Потоплен"
 
     @property
     def runway_can_be_repaired(self) -> bool:

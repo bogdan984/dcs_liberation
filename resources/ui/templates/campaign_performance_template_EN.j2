@@ -8,25 +8,25 @@
     <div style="color:red">
 {%endif %}
 
-<strong>Performance impact :&nbsp;</strong> {{performance}}/3
+<strong>Нагрузка на ПК:&nbsp;</strong> {{performance}}/3
 
 {% if performance == 0 %}
 <p>
-This scenario is rather performance friendly.
+Этот сценарий довольно нетребователен к производительности.
 </p>
 {% elif performance == 1 %}
 <p>
-This scenario requires a very good computer to run.
+Для этого сценария нужен очень хороший компьютер.
 </p>
 {% elif performance == 2 %}
 <p>
-This scenario is not performance friendly. The usage of the culling settings is recommended for most users.
+Этот сценарий требователен к производительности. Большинству пользователей рекомендуется использовать настройки отсечения (culling).
 </p>
 {% elif performance == 3 %}
 <p>
-This theater is huge, and will generate very complex DCS missions with hundreds of units, pushing the limits of DCS engine.
-An insanely powerful computer will be necessary to run it.
-Usage of culling settings will probably be mandatory for decent FPS.
+Этот театр огромен: генерируются очень сложные миссии DCS с сотнями единиц, на пределе возможностей движка DCS.
+Для запуска понадобится невероятно мощный компьютер.
+Для приемлемого FPS, вероятно, обязательно использовать настройки отсечения (culling).
 </p>
 {%endif %}
 

@@ -14,21 +14,21 @@ class QBaseMenuTabs(QTabWidget):
 
         if not cp.captured:
             self.intel = QIntelInfo(cp)
-            self.addTab(self.intel, "Intel")
+            self.addTab(self.intel, "Разведка")
 
             self.departing_convoys = DepartingConvoysMenu(cp, game_model)
-            self.addTab(self.departing_convoys, "Departing Convoys")
+            self.addTab(self.departing_convoys, "Отправляемые колонны")
             return
 
         if isinstance(cp, Fob):
             self.ground_forces_hq = QGroundForcesHQ(cp, game_model)
-            self.addTab(self.ground_forces_hq, "Ground Forces HQ")
+            self.addTab(self.ground_forces_hq, "Штаб сухопутных войск")
             if cp.helipads:
                 self.airfield_command = QAirfieldCommand(cp, game_model)
-                self.addTab(self.airfield_command, "Heliport")
+                self.addTab(self.airfield_command, "Вертодром")
         else:
             self.airfield_command = QAirfieldCommand(cp, game_model)
-            self.addTab(self.airfield_command, "Airfield Command")
+            self.addTab(self.airfield_command, "Командование аэродрома")
             if cp.can_deploy_ground_units:
                 self.ground_forces_hq = QGroundForcesHQ(cp, game_model)
-                self.addTab(self.ground_forces_hq, "Ground Forces HQ")
+                self.addTab(self.ground_forces_hq, "Штаб сухопутных войск")

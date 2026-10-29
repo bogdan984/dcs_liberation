@@ -59,7 +59,7 @@ class QWaitingForMissionResultWindow(QDialog):
         self.game = game
         self.sim_controller = sim_controller
         self.reset_to_pre_sim_checkpoint = reset_to_pre_sim_checkpoint
-        self.setWindowTitle("Waiting for mission completion.")
+        self.setWindowTitle("Ожидание завершения миссии.")
         self.setWindowIcon(QIcon("./resources/icon.png"))
         self.setMinimumHeight(570)
 
@@ -104,28 +104,28 @@ class QWaitingForMissionResultWindow(QDialog):
         progress_bar = QMovie("./resources/ui/loader.gif")
         progress.setMovie(progress_bar)
 
-        self.actions = QGroupBox("Actions :")
+        self.actions = QGroupBox("Действия:")
         self.actions_layout = QHBoxLayout()
         self.actions.setLayout(self.actions_layout)
 
-        self.manually_submit = QPushButton("Manually Submit [Advanced users]")
+        self.manually_submit = QPushButton("Отправить вручную [для опытных]")
         self.manually_submit.clicked.connect(self.submit_manually)
         self.actions_layout.addWidget(self.manually_submit)
-        self.cancel = QPushButton("Abort mission")
+        self.cancel = QPushButton("Прервать миссию")
         self.cancel.clicked.connect(self.reject)
         self.actions_layout.addWidget(self.cancel)
         self.gridLayout.addWidget(self.actions, 2, 0)
 
-        self.actions2 = QGroupBox("Actions :")
+        self.actions2 = QGroupBox("Действия:")
         self.actions2_layout = QHBoxLayout()
         self.actions2.setLayout(self.actions2_layout)
-        self.manually_submit2 = QPushButton("Manually Submit [Advanced users]")
+        self.manually_submit2 = QPushButton("Отправить вручную [для опытных]")
         self.manually_submit2.clicked.connect(self.submit_manually)
         self.actions2_layout.addWidget(self.manually_submit2)
-        self.cancel2 = QPushButton("Abort mission")
+        self.cancel2 = QPushButton("Прервать миссию")
         self.cancel2.clicked.connect(self.reject)
         self.actions2_layout.addWidget(self.cancel2)
-        self.proceed = QPushButton("Accept results")
+        self.proceed = QPushButton("Принять результаты")
         self.proceed.setProperty("style", "btn-success")
         self.proceed.clicked.connect(self.process_debriefing)
         self.actions2_layout.addWidget(self.proceed)
@@ -146,44 +146,46 @@ class QWaitingForMissionResultWindow(QDialog):
         layout.addWidget(QLabel(f"{count}"), row, 1)
 
     def updateLayout(self, debriefing: Debriefing) -> None:
-        updateBox = QGroupBox("Mission status")
+        updateBox = QGroupBox("Состояние миссии")
         update_layout = QGridLayout()
         updateBox.setLayout(update_layout)
         self.debriefing = debriefing
 
         self.add_update_row(
-            "Aircraft destroyed", len(list(debriefing.air_losses.losses)), update_layout
+            "Уничтожено ЛА", len(list(debriefing.air_losses.losses)), update_layout
         )
         self.add_update_row(
-            "Front line units destroyed",
+            "Уничтожено единиц на фронте",
             len(list(debriefing.front_line_losses)),
             update_layout,
         )
         self.add_update_row(
-            "Convoy units destroyed", len(list(debriefing.convoy_losses)), update_layout
+            "Уничтожено единиц колонн",
+            len(list(debriefing.convoy_losses)),
+            update_layout,
         )
         self.add_update_row(
-            "Shipping cargo destroyed",
+            "Уничтожено морских грузов",
             len(list(debriefing.cargo_ship_losses)),
             update_layout,
         )
         self.add_update_row(
-            "Airlift cargo destroyed",
+            "Уничтожено авиагрузов",
             sum(len(loss.cargo) for loss in debriefing.airlift_losses),
             update_layout,
         )
         self.add_update_row(
-            "Ground Objects destroyed",
+            "Уничтожено наземных объектов",
             len(list(debriefing.ground_object_losses)),
             update_layout,
         )
         self.add_update_row(
-            "Scenery Objects destroyed",
+            "Уничтожено объектов местности",
             len(list(debriefing.scenery_object_losses)),
             update_layout,
         )
         self.add_update_row(
-            "Base capture events", len(debriefing.base_captures), update_layout
+            "Захватов баз", len(debriefing.base_captures), update_layout
         )
 
         # Clear previous content of the window
@@ -197,10 +199,10 @@ class QWaitingForMissionResultWindow(QDialog):
         self.gridLayout.addWidget(updateBox, 0, 0)
 
         if not debriefing.state_data.mission_ended:
-            self.gridLayout.addWidget(QLabel("<b>Mission is being played</b>"), 1, 0)
+            self.gridLayout.addWidget(QLabel("<b>Миссия идёт</b>"), 1, 0)
             self.gridLayout.addWidget(self.actions, 2, 0)
         else:
-            self.gridLayout.addWidget(QLabel("<b>Mission is over</b>"), 1, 0)
+            self.gridLayout.addWidget(QLabel("<b>Миссия окончена</b>"), 1, 0)
             self.gridLayout.addWidget(self.actions2, 2, 0)
 
     def on_debriefing_update(self, debriefing: Debriefing) -> None:
@@ -217,7 +219,7 @@ class QWaitingForMissionResultWindow(QDialog):
             )
 
     def process_debriefing(self):
-        with logged_duration("Turn processing"):
+        with logged_duration("Обработка хода"):
             self.sim_controller.process_results(self.debriefing)
             GameUpdateSignal.get_instance().sendDebriefing(self.debriefing)
         self.accept()
@@ -229,7 +231,7 @@ class QWaitingForMissionResultWindow(QDialog):
 
     def submit_manually(self):
         file = QFileDialog.getOpenFileName(
-            self, "Select game file to open", filter="json(*.json)", dir="."
+            self, "Выберите файл для открытия", filter="json(*.json)", dir="."
         )
         if file[0] != "":
             logging.debug("Processing manually submitted %s", file[0])

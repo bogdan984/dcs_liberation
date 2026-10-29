@@ -39,10 +39,9 @@ class PilotDelegate(TwoColumnRowDelegate):
             return self.squadron_model.data(index, Qt.DisplayRole)
         elif (row, column) == (0, 1):
             flown = pilot.record.missions_flown
-            missions = "missions" if flown != 1 else "mission"
-            return f"{flown} {missions} flown"
+            return f"Выполнено заданий: {flown}"
         elif (row, column) == (1, 0):
-            return "Player" if pilot.player else "AI"
+            return "Игрок" if pilot.player else "ИИ"
         elif (row, column) == (1, 1):
             return pilot.status.value
         return ""
@@ -70,7 +69,7 @@ class AutoAssignedTaskControls(QVBoxLayout):
         super().__init__()
         self.squadron_model = squadron_model
 
-        self.addWidget(QLabel("Auto-assignable mission types"))
+        self.addWidget(QLabel("Типы задач для автоназначения"))
 
         def make_callback(toggled_task: FlightType) -> Callable[[bool], None]:
             def callback(checked: bool) -> None:
@@ -98,16 +97,14 @@ class SquadronDestinationComboBox(QComboBox):
         self.theater = theater
 
         room = squadron.location.unclaimed_parking()
-        self.addItem(
-            f"Remain at {squadron.location} (room for {room} more aircraft)", None
-        )
+        self.addItem(f"Остаться в {squadron.location} (место ещё для {room} ЛА)", None)
         selected_index: Optional[int] = None
         for idx, destination in enumerate(sorted(self.iter_destinations(), key=str), 1):
             if destination == squadron.destination:
                 selected_index = idx
             room = destination.unclaimed_parking()
             self.addItem(
-                f"Transfer to {destination} (room for {room} more aircraft)",
+                f"Перебазировать в {destination} (место ещё для {room} ЛА)",
                 destination,
             )
 
@@ -158,7 +155,7 @@ class SquadronDialog(QDialog):
         left_column = QVBoxLayout()
         columns.addLayout(left_column)
 
-        left_column.addWidget(QLabel("Primary task"))
+        left_column.addWidget(QLabel("Основная задача"))
         self.primary_task_selector = PrimaryTaskSelector.for_squadron(
             self.squadron_model.squadron
         )
@@ -206,7 +203,7 @@ class SquadronDialog(QDialog):
         return self.squadron_model.squadron
 
     def on_destination_changed(self, index: int) -> None:
-        with report_errors("Could not change squadron destination", self):
+        with report_errors("Не удалось сменить место базирования эскадрильи", self):
             destination = self.transfer_destination.itemData(index)
             if destination is None:
                 self.squadron.cancel_relocation()
@@ -220,12 +217,12 @@ class SquadronDialog(QDialog):
         self, button: QPushButton, index: QModelIndex
     ) -> bool:
         if not index.isValid():
-            button.setText("No pilot selected")
+            button.setText("Пилот не выбран")
             button.setDisabled(True)
             return True
         pilot = self.squadron_model.pilot_at_index(index)
         if not pilot.alive:
-            button.setText("Pilot is dead")
+            button.setText("Пилот погиб")
             button.setDisabled(True)
             return True
         return False
@@ -241,13 +238,13 @@ class SquadronDialog(QDialog):
         if self.check_disabled_button_states(self.toggle_ai_button, index):
             return
         if not self.squadron_model.squadron.aircraft.flyable:
-            self.toggle_ai_button.setText("Not flyable")
+            self.toggle_ai_button.setText("Неуправляемый ЛА")
             self.toggle_ai_button.setDisabled(True)
             return
         self.toggle_ai_button.setEnabled(True)
         pilot = self.squadron_model.pilot_at_index(index)
         self.toggle_ai_button.setText(
-            "Convert to AI" if pilot.player else "Convert to player"
+            "Сделать ИИ" if pilot.player else "Сделать игроком"
         )
 
     def toggle_leave(self) -> None:
@@ -265,7 +262,7 @@ class SquadronDialog(QDialog):
             not pilot.on_leave or self.squadron_model.squadron.has_unfilled_pilot_slots
         )
         self.toggle_leave_button.setText(
-            "Return from leave" if pilot.on_leave else "Send on leave"
+            "Вернуть из отпуска" if pilot.on_leave else "Отправить в отпуск"
         )
 
     def on_selection_changed(

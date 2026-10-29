@@ -34,7 +34,7 @@ class UncaughtExceptionHandler(QObject):
         if QApplication.instance() is not None:
             QMessageBox().critical(
                 QApplication.focusWidget(),
-                "An unexpected error occurred",
+                "Произошла непредвиденная ошибка",
                 "\n".join([message, "", exception]),
                 QMessageBox.Ok,
             )

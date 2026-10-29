@@ -26,23 +26,23 @@ class QAircraftChart(QFrame):
         ]
 
         self.alliedAircraftSerie = QtCharts.QLineSeries()
-        self.alliedAircraftSerie.setName("Allied aircraft count")
+        self.alliedAircraftSerie.setName("Число ЛА союзников")
         for a, i in enumerate(self.alliedAircraft):
             self.alliedAircraftSerie.append(QPoint(a, i))
 
         self.enemyAircraftSerie = QtCharts.QLineSeries()
         self.enemyAircraftSerie.setColor(Qt.red)
-        self.enemyAircraftSerie.setName("Enemy aircraft count")
+        self.enemyAircraftSerie.setName("Число ЛА противника")
         for a, i in enumerate(self.enemyAircraft):
             self.enemyAircraftSerie.append(QPoint(a, i))
 
         self.chart = QtCharts.QChart()
         self.chart.addSeries(self.alliedAircraftSerie)
         self.chart.addSeries(self.enemyAircraftSerie)
-        self.chart.setTitle("Aircraft forces over time")
+        self.chart.setTitle("Авиация по ходам")
 
         self.chart.createDefaultAxes()
-        self.chart.axisX().setTitleText("Turn")
+        self.chart.axisX().setTitleText("Ход")
         self.chart.axisX().setLabelFormat("%i")
         self.chart.axisX().setRange(0, len(self.alliedAircraft))
         self.chart.axisX().applyNiceNumbers()

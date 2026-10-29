@@ -69,7 +69,7 @@ class TimeSpinner(QtWidgets.QSpinBox):
             self.setValue(initial)
 
     def textFromValue(self, val: int) -> str:
-        return f"{val} minutes"
+        return f"{val} мин"
 
 
 class CurrencySpinner(QtWidgets.QSpinBox):

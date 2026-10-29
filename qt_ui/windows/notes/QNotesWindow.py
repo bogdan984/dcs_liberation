@@ -20,7 +20,7 @@ class QNotesWindow(QDialog):
         super(QNotesWindow, self).__init__()
 
         self.game = game
-        self.setWindowTitle("Notes")
+        self.setWindowTitle("Заметки")
         self.setWindowIcon(CONST.ICONS["Notes"])
         self.setMinimumSize(400, 100)
         self.resize(600, 450)
@@ -29,7 +29,7 @@ class QNotesWindow(QDialog):
         self.setLayout(self.vbox)
 
         self.vbox.addWidget(
-            QLabel("Saved notes are available as a page in your kneeboard.")
+            QLabel("Сохранённые заметки доступны как страница планшета (kneeboard).")
         )
 
         self.textbox = QPlainTextEdit(self)

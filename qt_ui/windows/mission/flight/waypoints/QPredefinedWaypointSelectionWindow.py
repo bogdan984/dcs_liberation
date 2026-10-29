@@ -19,10 +19,10 @@ from qt_ui.windows.mission.flight.waypoints.QFlightWaypointInfoBox import (
 )
 
 PREDEFINED_WAYPOINT_CATEGORIES = [
-    "Frontline (CAS AREA)",
-    "Building",
-    "Units",
-    "Airbase",
+    "Линия фронта (район CAS)",
+    "Здание",
+    "Единицы",
+    "Аэродром",
 ]
 
 
@@ -37,7 +37,7 @@ class QPredefinedWaypointSelectionWindow(QDialog):
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.setMinimumSize(400, 250)
         self.setModal(True)
-        self.setWindowTitle("Add Predefined Waypoint")
+        self.setWindowTitle("Добавить готовую точку")
         self.setWindowIcon(EVENT_ICONS["strike"])
         self.flight_waypoint_list = flight_waypoint_list
 
@@ -47,7 +47,7 @@ class QPredefinedWaypointSelectionWindow(QDialog):
         self.selected_waypoints = []
         self.wpt_info = QFlightWaypointInfoBox()
 
-        self.add_button = QPushButton("Add")
+        self.add_button = QPushButton("Добавить")
         self.add_button.clicked.connect(self.add_waypoint)
 
         self.include_all = QCheckBox()
@@ -61,12 +61,12 @@ class QPredefinedWaypointSelectionWindow(QDialog):
         layout = QVBoxLayout()
 
         wpt_layout = QHBoxLayout()
-        wpt_layout.addWidget(QLabel("Waypoint : "))
+        wpt_layout.addWidget(QLabel("Точка:"))
         wpt_layout.addWidget(self.wpt_selection_box)
         wpt_layout.addStretch()
 
         include_all = QHBoxLayout()
-        include_all.addWidget(QLabel("Include all objects from the same location : "))
+        include_all.addWidget(QLabel("Включить все объекты с той же позиции:"))
         include_all.addWidget(self.include_all)
         include_all.addStretch()
 

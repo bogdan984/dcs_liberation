@@ -55,8 +55,8 @@ class QFlightWaypointTab(QFrame):
         rlayout = QVBoxLayout()
         layout.addLayout(rlayout, 0, 1)
 
-        rlayout.addWidget(QLabel("<strong>Generator :</strong>"))
-        rlayout.addWidget(QLabel("<small>AI compatible</small>"))
+        rlayout.addWidget(QLabel("<strong>Генератор:</strong>"))
+        rlayout.addWidget(QLabel("<small>подходит для ИИ</small>"))
 
         self.recreate_buttons.clear()
         for task in self.package.target.mission_types(for_player=True):
@@ -73,23 +73,23 @@ class QFlightWaypointTab(QFrame):
 
                 return closure
 
-            button = QPushButton(f"Recreate as {task}")
+            button = QPushButton(f"Пересоздать как {task}")
             button.clicked.connect(make_closure(task))
             rlayout.addWidget(button)
             self.recreate_buttons.append(button)
 
-        rlayout.addWidget(QLabel("<strong>Advanced : </strong>"))
-        rlayout.addWidget(QLabel("<small>Do not use for AI flights</small>"))
+        rlayout.addWidget(QLabel("<strong>Расширенные: </strong>"))
+        rlayout.addWidget(QLabel("<small>Не использовать для звеньев ИИ</small>"))
 
-        self.rtb_waypoint = QPushButton("Add RTB Waypoint")
+        self.rtb_waypoint = QPushButton("Добавить точку возврата")
         self.rtb_waypoint.clicked.connect(self.on_rtb_waypoint)
         rlayout.addWidget(self.rtb_waypoint)
 
-        self.delete_selected = QPushButton("Delete Selected")
+        self.delete_selected = QPushButton("Удалить выбранное")
         self.delete_selected.clicked.connect(self.on_delete_waypoint)
         rlayout.addWidget(self.delete_selected)
 
-        self.open_fast_waypoint_button = QPushButton("Add Waypoint")
+        self.open_fast_waypoint_button = QPushButton("Добавить точку")
         self.open_fast_waypoint_button.clicked.connect(self.on_fast_waypoint)
         rlayout.addWidget(self.open_fast_waypoint_button)
         rlayout.addStretch()
@@ -154,11 +154,8 @@ class QFlightWaypointTab(QFrame):
     def confirm_recreate(self, task: FlightType) -> None:
         result = QMessageBox.question(
             self,
-            "Regenerate flight?",
-            (
-                "Changing the flight type will reset its flight plan. Do you want "
-                "to continue?"
-            ),
+            "Пересоздать звено?",
+            ("Смена типа задачи сбросит план полёта. Хотите" "продолжить?"),
             QMessageBox.No,
             QMessageBox.Yes,
         )
@@ -171,7 +168,7 @@ class QFlightWaypointTab(QFrame):
                 self.flight.set_flight_type(original_task)
                 logging.exception("Could not recreate flight")
                 QMessageBox.critical(
-                    self, "Could not recreate flight", str(ex), QMessageBox.Ok
+                    self, "Не удалось пересоздать звено", str(ex), QMessageBox.Ok
                 )
             for member in self.flight.iter_members():
                 if not member.loadout.is_custom:

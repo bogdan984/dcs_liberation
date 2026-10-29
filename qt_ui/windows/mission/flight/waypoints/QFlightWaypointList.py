@@ -16,7 +16,7 @@ from game.ato.package import Package
 from game.utils import Distance
 from qt_ui.windows.mission.flight.waypoints.QFlightWaypointItem import QWaypointItem
 
-HEADER_LABELS = ["Name", "Alt (ft)", "Alt Type", "TOT/DEPART"]
+HEADER_LABELS = ["Название", "Высота (фт)", "Тип высоты", "TOT/ВЫЛЕТ"]
 
 
 class AltitudeEditorDelegate(QStyledItemDelegate):
@@ -125,7 +125,7 @@ class QFlightWaypointList(QTableView):
         prefix = ""
         time = flight.flight_plan.tot_for_waypoint(waypoint)
         if time is None:
-            prefix = "Depart "
+            prefix = "Вылет"
             time = flight.flight_plan.depart_time_for_waypoint(waypoint)
         if time is None:
             return ""

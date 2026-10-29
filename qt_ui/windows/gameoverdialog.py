@@ -16,16 +16,16 @@ class GameOverDialog(QDialog):
     def __init__(self, won: bool, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self.setModal(True)
-        self.setWindowTitle("Game Over")
+        self.setWindowTitle("Игра окончена")
 
         layout = QVBoxLayout()
         self.setLayout(layout)
 
         layout.addWidget(
             QLabel(
-                f"<strong>You {'won' if won else 'lost'}!</strong><br />"
+                f"<strong>Вы {'победили' if won else 'проиграли'}!</strong><br />"
                 "<br />"
-                "Click below to start a new game."
+                "Нажмите кнопку ниже, чтобы начать новую игру."
             )
         )
         button_row = QHBoxLayout()
@@ -33,7 +33,7 @@ class GameOverDialog(QDialog):
 
         button_row.addStretch()
 
-        new_game = QPushButton("New Game")
+        new_game = QPushButton("Новая игра")
         new_game.clicked.connect(self.on_new_game)
         button_row.addWidget(new_game)
 

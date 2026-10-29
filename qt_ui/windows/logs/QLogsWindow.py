@@ -23,7 +23,7 @@ class QLogsWindow(QDialog):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Logs")
+        self.setWindowTitle("Журнал")
         self.setMinimumSize(400, 100)
         self.resize(1000, 450)
         self.setWindowIcon(QIcon("./resources/icon.png"))
@@ -68,7 +68,7 @@ class QLogsWindow(QDialog):
             # https://github.com/dcs-liberation/dcs_liberation/issues/1493
             self._logging_handler.setHook(self.appendLogSignal.emit)
         else:
-            self.textbox.setPlainText("WARNING: logging not initialized!")
+            self.textbox.setPlainText("ВНИМАНИЕ: журналирование не инициализировано!")
 
     def clearLogs(self) -> None:
         if self._logging_handler is not None:

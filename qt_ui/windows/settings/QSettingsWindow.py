@@ -42,7 +42,7 @@ from qt_ui.windows.settings.plugins import PluginOptionsPage, PluginsPage
 
 class CheatSettingsBox(QGroupBox):
     def __init__(self, game: Game, apply_settings: Callable[[], None]) -> None:
-        super().__init__("Cheat Settings")
+        super().__init__("Читы")
         self.main_layout = QVBoxLayout()
         self.setLayout(self.main_layout)
 
@@ -60,14 +60,14 @@ class CheatSettingsBox(QGroupBox):
         )
         self.base_capture_cheat_checkbox.toggled.connect(apply_settings)
 
-        self.red_ato = QLabeledWidget("Show Red ATO:", self.red_ato_checkbox)
+        self.red_ato = QLabeledWidget("Показывать ATO красных:", self.red_ato_checkbox)
         self.main_layout.addLayout(self.red_ato)
         self.frontline_cheat = QLabeledWidget(
-            "Enable Frontline Cheats:", self.frontline_cheat_checkbox
+            "Читы линии фронта:", self.frontline_cheat_checkbox
         )
         self.main_layout.addLayout(self.frontline_cheat)
         self.base_capture_cheat = QLabeledWidget(
-            "Enable Base Capture Cheat:", self.base_capture_cheat_checkbox
+            "Чит захвата баз:", self.base_capture_cheat_checkbox
         )
 
         self.base_runway_state_cheat_checkbox = QCheckBox()
@@ -76,9 +76,7 @@ class CheatSettingsBox(QGroupBox):
         )
         self.base_runway_state_cheat_checkbox.toggled.connect(apply_settings)
         self.main_layout.addLayout(
-            QLabeledWidget(
-                "Enable runway state cheat:", self.base_runway_state_cheat_checkbox
-            )
+            QLabeledWidget("Чит состояния ВПП:", self.base_runway_state_cheat_checkbox)
         )
 
         self.main_layout.addLayout(self.base_capture_cheat)
@@ -277,7 +275,7 @@ class QSettingsWindow(QDialog):
             self.pages[page] = AutoSettingsPage(page, game.settings, self.applySettings)
 
         self.setModal(True)
-        self.setWindowTitle("Settings")
+        self.setWindowTitle("Настройки")
         self.setWindowIcon(CONST.ICONS["Settings"])
         self.setMinimumSize(600, 250)
 
@@ -307,7 +305,7 @@ class QSettingsWindow(QDialog):
             self.right_layout.addWidget(page)
 
         self.initCheatLayout()
-        cheat = QStandardItem("Cheat Menu")
+        cheat = QStandardItem("Меню читов")
         cheat.setIcon(CONST.ICONS["Cheat"])
         cheat.setEditable(False)
         cheat.setSelectable(True)
@@ -315,7 +313,7 @@ class QSettingsWindow(QDialog):
         self.right_layout.addWidget(self.cheatPage)
 
         self.pluginsPage = PluginsPage(self.game.lua_plugin_manager)
-        plugins = QStandardItem("LUA Plugins")
+        plugins = QStandardItem("Lua-плагины")
         plugins.setIcon(CONST.ICONS["Plugins"])
         plugins.setEditable(False)
         plugins.setSelectable(True)
@@ -323,7 +321,7 @@ class QSettingsWindow(QDialog):
         self.right_layout.addWidget(self.pluginsPage)
 
         self.pluginsOptionsPage = PluginOptionsPage(self.game.lua_plugin_manager)
-        pluginsOptions = QStandardItem("LUA Plugins Options")
+        pluginsOptions = QStandardItem("Параметры Lua-плагинов")
         pluginsOptions.setIcon(CONST.ICONS["PluginsOptions"])
         pluginsOptions.setEditable(False)
         pluginsOptions.setSelectable(True)
@@ -352,7 +350,7 @@ class QSettingsWindow(QDialog):
         self.cheat_options = CheatSettingsBox(self.game, self.applySettings)
         self.cheatLayout.addWidget(self.cheat_options)
 
-        self.moneyCheatBox = QGroupBox("Money Cheat")
+        self.moneyCheatBox = QGroupBox("Чит на деньги")
         self.moneyCheatBox.setAlignment(Qt.AlignTop)
         self.moneyCheatBoxLayout = QGridLayout()
         self.moneyCheatBox.setLayout(self.moneyCheatBoxLayout)
@@ -360,10 +358,10 @@ class QSettingsWindow(QDialog):
         cheats_amounts = [25, 50, 100, 200, 500, 1000, -25, -50, -100, -200]
         for i, amount in enumerate(cheats_amounts):
             if amount > 0:
-                btn = QPushButton("Cheat +" + str(amount) + "M")
+                btn = QPushButton("Чит +" + str(amount) + "M")
                 btn.setProperty("style", "btn-success")
             else:
-                btn = QPushButton("Cheat " + str(amount) + "M")
+                btn = QPushButton("Чит " + str(amount) + "M")
                 btn.setProperty("style", "btn-danger")
             btn.clicked.connect(self.cheatLambda(amount))
             self.moneyCheatBoxLayout.addWidget(btn, i / 2, i % 2)

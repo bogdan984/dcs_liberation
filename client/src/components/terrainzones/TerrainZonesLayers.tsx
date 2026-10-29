@@ -59,13 +59,13 @@ export default function TerrainZonesLayers() {
   }
   return (
     <>
-      <LayersControl.Overlay name="Inclusion zones">
+      <LayersControl.Overlay name="Зоны включения">
         {inclusion}
       </LayersControl.Overlay>
-      <LayersControl.Overlay name="Exclusion zones">
+      <LayersControl.Overlay name="Зоны исключения">
         {exclusion}
       </LayersControl.Overlay>
-      <LayersControl.Overlay name="Sea zones">{sea}</LayersControl.Overlay>
+      <LayersControl.Overlay name="Морские зоны">{sea}</LayersControl.Overlay>
     </>
   );
 }

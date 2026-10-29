@@ -22,7 +22,7 @@ class QAirfieldCommand(QFrame):
 
         layout.addWidget(QAircraftRecruitmentMenu(self.cp, self.game_model), stretch=5)
 
-        planned = QGroupBox("Planned Flights")
+        planned = QGroupBox("Запланированные звенья")
         planned_layout = QVBoxLayout()
         planned_layout.addWidget(QPlannedFlightsView(self.game_model, self.cp))
         planned.setLayout(planned_layout)
@@ -30,10 +30,10 @@ class QAirfieldCommand(QFrame):
 
         wrapper_layout.addWidget(
             QLabel(
-                "Purchasing aircraft at this airbase requires squadrons to be present. "
-                "To transfer additional squadrons to this airbase, open<br />"
-                "the air wing menu, double click the squadron to transfer, then select "
-                "the transfer destination."
+                "Для покупки ЛА на этом аэродроме здесь должны базироваться эскадрильи."
+                "Чтобы перебазировать сюда эскадрильи, откройте<br />"
+                "меню авиакрыла, дважды щёлкните по эскадрилье и выберите"
+                "место назначения."
             )
         )
 

@@ -13,7 +13,7 @@ from game.plugins import LuaPlugin, LuaPluginManager
 
 class PluginsBox(QGroupBox):
     def __init__(self, manager: LuaPluginManager) -> None:
-        super().__init__("Plugins")
+        super().__init__("Плагины")
 
         layout = QGridLayout()
         layout.setAlignment(Qt.AlignTop)

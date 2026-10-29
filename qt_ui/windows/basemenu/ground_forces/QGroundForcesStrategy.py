@@ -12,7 +12,7 @@ from qt_ui.windows.basemenu.ground_forces.QGroundForcesStrategySelector import (
 
 class QGroundForcesStrategy(QGroupBox):
     def __init__(self, cp: ControlPoint, game: Game):
-        super(QGroundForcesStrategy, self).__init__("Frontline operations :")
+        super(QGroundForcesStrategy, self).__init__("Действия на линии фронта:")
         self.cp = cp
         self.game = game
         self.init_ui()
@@ -32,14 +32,14 @@ class QGroundForcesStrategy(QGroupBox):
                 layout.addWidget(QLabel(enemy_cp.name))
                 layout.addWidget(QGroundForcesStrategySelector(self.cp, enemy_cp))
                 if self.game.settings.enable_frontline_cheats:
-                    advance_button = QPushButton("CHEAT: Advance")
+                    advance_button = QPushButton("ЧИТ: наступление")
                     advance_button.setProperty("style", "btn-danger")
                     layout.addWidget(advance_button)
                     advance_button.clicked.connect(
                         make_cheat_callback(enemy_cp, advance=True)
                     )
 
-                    retreat_button = QPushButton("CHEAT: Retreat")
+                    retreat_button = QPushButton("ЧИТ: отступление")
                     retreat_button.setProperty("style", "btn-danger")
                     layout.addWidget(retreat_button)
                     retreat_button.clicked.connect(

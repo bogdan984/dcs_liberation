@@ -65,8 +65,8 @@ class MissionTypeControls(QGridLayout):
         self.squadron = squadron
         self.mission_types: list[QMissionType] = []
 
-        self.addWidget(QLabel("Mission Type"), 0, 0)
-        self.addWidget(QLabel("Auto-Assign"), 0, 1)
+        self.addWidget(QLabel("Тип задачи"), 0, 0)
+        self.addWidget(QLabel("Автоназначение"), 0, 1)
 
         for i, task in enumerate(FlightType):
             if task is FlightType.FERRY:
@@ -127,7 +127,7 @@ class SquadronBaseSelector(QComboBox):
             self.model().sort(0)
             self.setEnabled(True)
         else:
-            self.addItem("Select aircraft type first", None)
+            self.addItem("Сначала выберите тип ЛА", None)
             self.setEnabled(False)
         self.update()
 
@@ -217,7 +217,7 @@ class SquadronConfigurationBox(QGroupBox):
         left_column = QVBoxLayout()
         columns.addLayout(left_column)
 
-        left_column.addWidget(QLabel("Name:"))
+        left_column.addWidget(QLabel("Название:"))
         self.name_edit = QLineEdit(squadron.name)
         self.name_edit.textChanged.connect(lambda x: self.reset_title())
         left_column.addWidget(self.name_edit)
@@ -227,16 +227,16 @@ class SquadronConfigurationBox(QGroupBox):
         nickname_edit_layout = QGridLayout()
         left_column.addLayout(nickname_edit_layout)
 
-        nickname_edit_layout.addWidget(QLabel("Nickname:"), 0, 0, 1, 2)
+        nickname_edit_layout.addWidget(QLabel("Прозвище:"), 0, 0, 1, 2)
         self.nickname_edit = QLineEdit(squadron.nickname)
         nickname_edit_layout.addWidget(self.nickname_edit, 1, 0, Qt.AlignTop)
         reroll_nickname_button = QToolButton()
         reroll_nickname_button.setIcon(QIcon(ICONS["Reload"]))
-        reroll_nickname_button.setToolTip("Re-roll nickname")
+        reroll_nickname_button.setToolTip("Другое прозвище")
         reroll_nickname_button.clicked.connect(self.reroll_nickname)
         nickname_edit_layout.addWidget(reroll_nickname_button, 1, 1, Qt.AlignTop)
 
-        left_column.addWidget(QLabel("Livery:"))
+        left_column.addWidget(QLabel("Ливрея:"))
         self.livery_selector = LiverySelector(self.squadron)
         left_column.addWidget(self.livery_selector)
 
@@ -245,18 +245,18 @@ class SquadronConfigurationBox(QGroupBox):
 
         size_column = QVBoxLayout()
         left_column.addLayout(size_column)
-        size_column.addWidget(QLabel("Max size:"))
+        size_column.addWidget(QLabel("Макс. размер:"))
         self.max_size_selector = SquadronSizeSpinner(self.squadron.max_size, self)
         self.max_size_selector.valueChanged.connect(self.update_max_size)
         size_column.addWidget(self.max_size_selector)
 
         task_column = QVBoxLayout()
         left_column.addLayout(task_column)
-        task_column.addWidget(QLabel("Primary task:"))
+        task_column.addWidget(QLabel("Основная задача:"))
         self.primary_task_selector = PrimaryTaskSelector.for_squadron(self.squadron)
         task_column.addWidget(self.primary_task_selector)
 
-        left_column.addWidget(QLabel("Base:"))
+        left_column.addWidget(QLabel("База:"))
         self.base_selector = SquadronBaseSelector(
             game.theater.control_points_for(squadron.player),
             squadron.location,
@@ -271,12 +271,12 @@ class SquadronConfigurationBox(QGroupBox):
         left_column.addWidget(self.parking_label)
 
         if not squadron.player and squadron.aircraft.flyable:
-            player_label = QLabel("Player slots not available for opfor")
+            player_label = QLabel("Слоты игроков недоступны для противника")
         elif not squadron.aircraft.flyable:
-            player_label = QLabel("Player slots not available for non-flyable aircraft")
+            player_label = QLabel("Слоты игроков недоступны для неуправляемых ЛА")
         else:
             player_label = QLabel(
-                "Players (one per line, leave empty for an AI-only squadron):"
+                "Игроки (по одному в строке; пусто — эскадрилья только из ИИ):"
             )
         left_column.addWidget(player_label)
 
@@ -292,12 +292,12 @@ class SquadronConfigurationBox(QGroupBox):
         left_column.addLayout(button_row)
         left_column.addStretch()
 
-        delete_button = QPushButton("Remove Squadron")
+        delete_button = QPushButton("Удалить эскадрилью")
         delete_button.setMaximumWidth(140)
         delete_button.clicked.connect(self.remove_from_squadron_config)
         button_row.addWidget(delete_button)
 
-        replace_button = QPushButton("Replace with preset")
+        replace_button = QPushButton("Заменить на шаблон")
         replace_button.setMaximumWidth(140)
         replace_button.clicked.connect(self.replace_with_preset)
         button_row.addWidget(replace_button)
@@ -647,13 +647,13 @@ def describe_overfull_airbases(
         squadron_descriptions = []
         for squadron in squadrons:
             squadron_details = (
-                f"{squadron.aircraft} {squadron.name} {squadron.max_size} aircraft"
+                f"{squadron.aircraft} {squadron.name} {squadron.max_size} ЛА"
             )
             squadron_descriptions.append(f"<li>{squadron_details}</li>")
         string_builder.append(f"<ul>{''.join(squadron_descriptions)}</ul>")
 
     if not string_builder:
-        string_builder.append("All airbases are within parking limits.")
+        string_builder.append("Все аэродромы в пределах лимита стоянок.")
 
     return "".join(string_builder)
 
@@ -664,7 +664,7 @@ class OverfullAirbasesDisplay(QGroupBox):
         parking_tracker: AirWingConfigParkingTracker,
         parent: QWidget | None = None,
     ) -> None:
-        super().__init__("Overfull airbases", parent)
+        super().__init__("Переполненные аэродромы", parent)
         self.setMaximumHeight(125)
 
         self.parking_tracker = parking_tracker
@@ -708,7 +708,7 @@ class AirWingConfigurationTab(QWidget):
 
         layout.addWidget(self.type_list, 1, 1, 1, 2)
 
-        add_button = QPushButton("Add Squadron")
+        add_button = QPushButton("Добавить эскадрилью")
         add_button.clicked.connect(lambda state: self.add_squadron())
         layout.addWidget(add_button, 2, 1, 1, 1)
 
@@ -792,17 +792,17 @@ class AirWingConfigurationDialog(QDialog):
         self.parking_tracker = AirWingConfigParkingTracker(game)
 
         self.resize(1024, 900)
-        self.setWindowTitle(f"Air Wing Configuration")
+        self.setWindowTitle(f"Настройка авиакрыла")
         # TODO: self.setWindowIcon()
 
         layout = QVBoxLayout()
         self.setLayout(layout)
 
         doc_label = QLabel(
-            "Use this opportunity to customize the squadrons available to your "
-            "coalition. <strong>This is your only opportunity to make changes.</strong>"
+            "Здесь можно настроить эскадрильи вашей"
+            "коалиции. <strong>Другой возможности внести изменения не будет.</strong>"
             "<br /><br />"
-            "To accept your changes and continue, close this window."
+            "Чтобы принять изменения и продолжить, закройте это окно."
         )
 
         layout.addWidget(doc_label)
@@ -815,7 +815,7 @@ class AirWingConfigurationDialog(QDialog):
             coalition_tab = AirWingConfigurationTab(
                 coalition, game, self.parking_tracker
             )
-            name = "Blue" if coalition.player else "Red"
+            name = "Синие" if coalition.player else "Красные"
             self.tab_widget.addTab(coalition_tab, name)
             self.tabs.append(coalition_tab)
 
@@ -825,10 +825,10 @@ class AirWingConfigurationDialog(QDialog):
         layout.addWidget(self.overfull_airbases_display)
 
         buttons_layout = QHBoxLayout()
-        apply_button = QPushButton("Accept Changes && Start Campaign")
+        apply_button = QPushButton("Принять изменения и начать кампанию")
         apply_button.setProperty("style", "btn-accept")
         apply_button.clicked.connect(lambda state: self.accept())
-        discard_button = QPushButton("Reset Changes")
+        discard_button = QPushButton("Сбросить изменения")
         discard_button.setProperty("style", "btn-danger")
         discard_button.clicked.connect(lambda state: self.revert())
         buttons_layout.addWidget(discard_button)
@@ -845,12 +845,12 @@ class AirWingConfigurationDialog(QDialog):
             return True
 
         description = (
-            "<p>The following airbases are over capacity:</p>"
+            "<p>Следующие аэродромы переполнены:</p>"
             f"{describe_overfull_airbases(overfull)}"
         )
         QMessageBox().critical(
             self,
-            "Cannot continue with overfull bases",
+            "Нельзя продолжить с переполненными базами",
             description,
             QMessageBox.Ok,
         )
@@ -866,13 +866,13 @@ class AirWingConfigurationDialog(QDialog):
     def reject(self) -> None:
         result = QMessageBox.information(
             None,
-            "Abort new game?",
+            "Прервать создание игры?",
             "<br />".join(
                 textwrap.wrap(
-                    "Are you sure you want to cancel air wing configuration and "
-                    "return to the new game wizard? If you instead want to revert your "
-                    "air wing changes and continue, use the revert and accept buttons "
-                    "below.",
+                    "Отменить настройку авиакрыла и"
+                    "вернуться в мастер новой игры? Если нужно лишь откатить"
+                    "изменения авиакрыла и продолжить, используйте кнопки сброса и принятия"
+                    "ниже.",
                     width=55,
                 )
             ),
@@ -914,7 +914,7 @@ class SquadronDefSelector(QComboBox):
     def set_aircraft_type(self, aircraft: Optional[AircraftType]):
         self.clear()
         if self.allow_random:
-            self.addItem("None (Random)", None)
+            self.addItem("Нет (случайно)", None)
         if aircraft and aircraft in self.squadron_defs:
             for squadron_def in sorted(
                 self.squadron_defs[aircraft], key=lambda squadron_def: squadron_def.name
@@ -937,12 +937,12 @@ class SquadronConfigPopup(QDialog):
     ) -> None:
         super().__init__()
 
-        self.setWindowTitle(f"Add new Squadron")
+        self.setWindowTitle(f"Новая эскадрилья")
 
         self.column = QVBoxLayout()
         self.setLayout(self.column)
 
-        self.column.addWidget(QLabel("Aircraft:"))
+        self.column.addWidget(QLabel("ЛА:"))
         self.aircraft_type_selector = SquadronAircraftTypeSelector(
             types, selected_aircraft
         )
@@ -951,19 +951,19 @@ class SquadronConfigPopup(QDialog):
         )
         self.column.addWidget(self.aircraft_type_selector)
 
-        self.column.addWidget(QLabel("Primary task:"))
+        self.column.addWidget(QLabel("Основная задача:"))
         self.primary_task_selector = PrimaryTaskSelector(
             self.aircraft_type_selector.currentData()
         )
         self.column.addWidget(self.primary_task_selector)
 
-        self.column.addWidget(QLabel("Base:"))
+        self.column.addWidget(QLabel("База:"))
         self.squadron_base_selector = SquadronBaseSelector(
             bases, None, self.aircraft_type_selector.currentData()
         )
         self.column.addWidget(self.squadron_base_selector)
 
-        self.column.addWidget(QLabel("Preset:"))
+        self.column.addWidget(QLabel("Шаблон:"))
         self.squadron_def_selector = SquadronDefSelector(
             squadron_defs, self.aircraft_type_selector.currentData()
         )
@@ -974,12 +974,12 @@ class SquadronConfigPopup(QDialog):
         self.button_layout = QHBoxLayout()
         self.column.addLayout(self.button_layout)
 
-        self.accept_button = QPushButton("Accept")
+        self.accept_button = QPushButton("Принять")
         self.accept_button.clicked.connect(lambda state: self.accept())
         self.update_accept_button()
         self.button_layout.addWidget(self.accept_button)
 
-        self.cancel_button = QPushButton("Cancel")
+        self.cancel_button = QPushButton("Отмена")
         self.cancel_button.clicked.connect(lambda state: self.reject())
         self.button_layout.addWidget(self.cancel_button)
 
@@ -1013,12 +1013,12 @@ class PresetSquadronSelector(QDialog):
     ) -> None:
         super().__init__()
 
-        self.setWindowTitle(f"Choose preset squadron")
+        self.setWindowTitle(f"Выбор шаблона эскадрильи")
 
         self.column = QVBoxLayout()
         self.setLayout(self.column)
 
-        self.column.addWidget(QLabel("Preset:"))
+        self.column.addWidget(QLabel("Шаблон:"))
         self.squadron_def_selector = SquadronDefSelector(
             squadron_defs, aircraft, allow_random=False
         )
@@ -1029,10 +1029,10 @@ class PresetSquadronSelector(QDialog):
         self.button_layout = QHBoxLayout()
         self.column.addLayout(self.button_layout)
 
-        self.accept_button = QPushButton("Accept")
+        self.accept_button = QPushButton("Принять")
         self.accept_button.clicked.connect(lambda state: self.accept())
         self.button_layout.addWidget(self.accept_button)
 
-        self.cancel_button = QPushButton("Cancel")
+        self.cancel_button = QPushButton("Отмена")
         self.cancel_button.clicked.connect(lambda state: self.reject())
         self.button_layout.addWidget(self.cancel_button)

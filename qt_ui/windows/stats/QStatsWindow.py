@@ -12,7 +12,7 @@ class QStatsWindow(QDialog):
 
         self.game = game
         self.setModal(True)
-        self.setWindowTitle("Stats")
+        self.setWindowTitle("Статистика")
         self.setWindowIcon(CONST.ICONS["Statistics"])
         self.setMinimumSize(600, 300)
 
@@ -20,7 +20,7 @@ class QStatsWindow(QDialog):
         self.aircraft_charts = QAircraftChart(self.game)
         self.armor_charts = QArmorChart(self.game)
         self.tabview = QTabWidget()
-        self.tabview.addTab(self.aircraft_charts, "Aircraft")
-        self.tabview.addTab(self.armor_charts, "Armor")
+        self.tabview.addTab(self.aircraft_charts, "Авиация")
+        self.tabview.addTab(self.armor_charts, "Бронетехника")
         self.layout.addWidget(self.tabview, 0, 0)
         self.setLayout(self.layout)

@@ -18,7 +18,7 @@ from qt_ui.windows.mission.flight.payload.QPylonEditor import QPylonEditor
 
 class QLoadoutEditor(QGroupBox):
     def __init__(self, flight: Flight, flight_member: FlightMember, game: Game) -> None:
-        super().__init__("Use custom loadout")
+        super().__init__("Своя подвеска")
         self.flight = flight
         self.flight_member = flight_member
         self.game = game

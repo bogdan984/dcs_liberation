@@ -24,4 +24,4 @@ class QAircraftTypeSelector(QComboBox):
         if current_aircraft_index != -1:
             self.setCurrentIndex(current_aircraft_index)
         if self.count() == 0:
-            self.addItem("No capable aircraft available", userData=None)
+            self.addItem("Нет подходящих ЛА", userData=None)

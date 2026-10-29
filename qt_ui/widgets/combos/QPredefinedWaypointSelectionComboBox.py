@@ -69,14 +69,14 @@ class QPredefinedWaypointSelectionComboBox(QFilteredComboBox):
                 pos = FrontLineConflictDescription.frontline_position(
                     front_line, self.game.theater
                 )[0]
-                wptname = f"Frontline {front_line.name} [CAS]"
+                wptname = f"Линия фронта {front_line.name} [CAS]"
                 wpt = FlightWaypoint(
                     wptname, FlightWaypointType.CUSTOM, pos, Distance.from_meters(800)
                 )
 
                 wpt.alt_type = "RADIO"
                 wpt.pretty_name = wpt.name
-                wpt.description = "Frontline"
+                wpt.description = "Линия фронта"
                 i = add_model_item(i, model, wpt.pretty_name, wpt)
 
         for tgo in self.game.theater.ground_objects:
@@ -94,9 +94,9 @@ class QPredefinedWaypointSelectionComboBox(QFilteredComboBox):
                 wpt.obj_name = tgo.obj_name
                 wpt.waypoint_type = FlightWaypointType.CUSTOM
                 if tgo.is_friendly(to_player=True):
-                    wpt.description = f"Friendly unit: {target.name}"
+                    wpt.description = f"Своя единица: {target.name}"
                 else:
-                    wpt.description = f"Enemy unit: {target.name}"
+                    wpt.description = f"Вражеская единица: {target.name}"
                 i = add_model_item(i, model, wpt.pretty_name, wpt)
 
         if self.include_airbases:
@@ -112,18 +112,16 @@ class QPredefinedWaypointSelectionComboBox(QFilteredComboBox):
                     )
                     wpt.alt_type = "RADIO"
                     if cp.captured:
-                        wpt.description = (
-                            "Position of " + cp.name + " [Friendly Airbase]"
-                        )
+                        wpt.description = "Позиция" + cp.name + " [свой аэродром]"
                     else:
-                        wpt.description = "Position of " + cp.name + " [Enemy Airbase]"
+                        wpt.description = "Позиция" + cp.name + " [вражеский аэродром]"
 
                     if cp.cptype == ControlPointType.AIRCRAFT_CARRIER_GROUP:
-                        wpt.pretty_name = cp.name + " (Aircraft Carrier Group)"
+                        wpt.pretty_name = cp.name + " (авианосная группа)"
                     elif cp.cptype == ControlPointType.LHA_GROUP:
-                        wpt.pretty_name = cp.name + " (LHA Group)"
+                        wpt.pretty_name = cp.name + " (группа УДК)"
                     else:
-                        wpt.pretty_name = cp.name + " (Airbase)"
+                        wpt.pretty_name = cp.name + " (аэродром)"
 
                     i = add_model_item(i, model, wpt.pretty_name, wpt)
 

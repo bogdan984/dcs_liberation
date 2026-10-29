@@ -180,7 +180,7 @@ describe("WaypointMarker", () => {
       </MapContainer>
     );
     expect(marker.current?.getTooltip()?.getContent()).toEqual(
-      "0 <br />25000 ft MSL<br />09:00:00"
+      "0 <br />25000 фт MSL<br />09:00:00"
     );
   });
 
@@ -213,7 +213,7 @@ describe("WaypointMarker", () => {
     );
     marker.current?.fireEvent("dragstart");
     expect(marker.current?.getTooltip()?.getContent()).toEqual(
-      "Waiting to recompute TOT..."
+      "Ожидание пересчёта TOT..."
     );
   });
 

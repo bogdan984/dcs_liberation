@@ -70,6 +70,7 @@ def load_icons():
         "./resources/ui/misc/" + get_theme_icons() + "/money_icon.png"
     )
     ICONS["Campaign Management"] = ICONS["Money"]
+    ICONS["Управление кампанией"] = ICONS["Money"]
     ICONS["PassTurn"] = QPixmap(
         "./resources/ui/misc/" + get_theme_icons() + "/hourglass.png"
     )
@@ -94,6 +95,7 @@ def load_icons():
         "./resources/ui/misc/" + get_theme_icons() + "/missile.png"
     )
     ICONS["Difficulty"] = ICONS["Missile"]
+    ICONS["Сложность"] = ICONS["Missile"]
     ICONS["Cheat"] = QPixmap("./resources/ui/misc/" + get_theme_icons() + "/cheat.png")
     ICONS["Plugins"] = QPixmap(
         "./resources/ui/misc/" + get_theme_icons() + "/plugins.png"

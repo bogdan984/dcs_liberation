@@ -42,10 +42,10 @@ class SquadronSelector(QComboBox):
         finally:
             self.blockSignals(False)
         if task is None:
-            self.addItem("No task selected", None)
+            self.addItem("Задача не выбрана", None)
             return
         if aircraft is None:
-            self.addItem("No aircraft selected", None)
+            self.addItem("ЛА не выбран", None)
             return
         feasible_squadrons = []
         for squadron in self.air_wing.squadrons_for(aircraft):
@@ -62,7 +62,7 @@ class SquadronSelector(QComboBox):
             self.addItem(f"{squadron.location}: {squadron}", squadron)
 
         if self.count() == 0:
-            self.addItem("No capable aircraft available", None)
+            self.addItem("Нет подходящих ЛА", None)
             return
 
         if current_squadron is not None:

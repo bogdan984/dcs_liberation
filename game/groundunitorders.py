@@ -58,15 +58,15 @@ class GroundUnitOrders:
         ground_unit_source = self.find_ground_unit_source(game)
         if ground_unit_source is None:
             game.message(
-                f"{self.destination.name} lost its source for ground unit "
-                "reinforcements. Refunding purchase price."
+                f"{self.destination.name} лишился источника пополнения"
+                "сухопутных войск. Стоимость покупки возвращена."
             )
             self.refund_all(coalition)
 
         bought_units: dict[GroundUnitType, int] = {}
         units_needing_transfer: dict[GroundUnitType, int] = {}
         for unit_type, count in self.units.items():
-            allegiance = "Ally" if self.destination.captured else "Enemy"
+            allegiance = "Союзные" if self.destination.captured else "Вражеские"
             d: dict[GroundUnitType, int]
             if self.destination != ground_unit_source:
                 source = ground_unit_source
@@ -83,7 +83,7 @@ class GroundUnitOrders:
             elif count > 0:
                 d[unit_type] = count
                 game.message(
-                    f"{allegiance} reinforcements: {unit_type} x {count} at {source}"
+                    f"{allegiance} подкрепления: {unit_type} x {count} в{source}"
                 )
 
         self.units = defaultdict(int)

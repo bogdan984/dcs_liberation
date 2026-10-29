@@ -51,15 +51,17 @@ class FlightDelegate(TwoColumnRowDelegate):
             return f"{flight}"
         elif (row, column) == (0, 1):
             clients = self.num_clients(index)
-            return f"Player Slots: {clients}" if clients else ""
+            return f"Слоты игроков: {clients}" if clients else ""
         elif (row, column) == (1, 0):
             origin = flight.departure.name
             if flight.arrival != flight.departure:
-                return f"From {origin} to {flight.arrival.name}"
-            return f"From {origin}"
+                return f"Из {origin} в {flight.arrival.name}"
+            return f"Из {origin}"
         elif (row, column) == (1, 1):
             missing_pilots = flight.missing_pilots
-            return f"Missing pilots: {flight.missing_pilots}" if missing_pilots else ""
+            return (
+                f"Не хватает пилотов: {flight.missing_pilots}" if missing_pilots else ""
+            )
         elif (row, column) == (2, 0):
             return flight.state.description.title()
         return ""
@@ -137,13 +139,13 @@ class QFlightList(QListView):
     def contextMenuEvent(self, event: QContextMenuEvent) -> None:
         index = self.indexAt(event.pos())
 
-        menu = QMenu("Menu")
+        menu = QMenu("Меню")
 
-        edit_action = QAction("Edit")
+        edit_action = QAction("Изменить")
         edit_action.triggered.connect(lambda: self.edit_flight(index))
         menu.addAction(edit_action)
 
-        delete_action = QAction(f"Delete")
+        delete_action = QAction(f"Удалить")
         delete_action.triggered.connect(lambda: self.cancel_or_abort_flight(index))
         menu.addAction(delete_action)
 
@@ -176,7 +178,7 @@ class QFlightPanel(QGroupBox):
     def __init__(
         self, game_model: GameModel, package_model: Optional[PackageModel] = None
     ) -> None:
-        super().__init__("Flights")
+        super().__init__("Звенья")
         self.game_model = game_model
         self.package_model = package_model
 
@@ -184,8 +186,8 @@ class QFlightPanel(QGroupBox):
         self.setLayout(self.vbox)
 
         self.tip = QLabel(
-            "To add flights to a package, edit the package by double clicking "
-            "it or pressing the edit button."
+            "Чтобы добавить звенья в пакет, откройте пакет двойным щелчком"
+            "или кнопкой «Изменить»."
         )
         self.vbox.addWidget(self.tip)
 
@@ -195,11 +197,11 @@ class QFlightPanel(QGroupBox):
         self.button_row = QHBoxLayout()
         self.vbox.addLayout(self.button_row)
 
-        self.edit_button = QPushButton("Edit")
+        self.edit_button = QPushButton("Изменить")
         self.edit_button.clicked.connect(self.on_edit)
         self.button_row.addWidget(self.edit_button)
 
-        self.delete_button = QPushButton("Cancel")
+        self.delete_button = QPushButton("Отменить")
         # noinspection PyTypeChecker
         self.delete_button.setProperty("style", "btn-danger")
         self.delete_button.clicked.connect(self.on_cancel_flight)
@@ -227,10 +229,10 @@ class QFlightPanel(QGroupBox):
         self.edit_button.setEnabled(enabled)
         self.delete_button.setEnabled(enabled)
         self.change_map_flight_selection(index)
-        delete_text = "Cancel"
+        delete_text = "Отменить"
         if (flight := self.flight_list.selected_item) is not None:
             if not flight.state.cancelable:
-                delete_text = "Abort"
+                delete_text = "Прервать"
         self.delete_button.setText(delete_text)
 
     def change_map_flight_selection(self, index: QModelIndex) -> None:
@@ -275,12 +277,14 @@ class PackageDelegate(TwoColumnRowDelegate):
             return f"{package.package_description} {package.target.name}"
         elif (row, column) == (0, 1):
             clients = self.num_clients(index)
-            return f"Player Slots: {clients}" if clients else ""
+            return f"Слоты игроков: {clients}" if clients else ""
         elif (row, column) == (1, 0):
-            return f"TOT at {package.time_over_target:%H:%M:%S}"
+            return f"TOT в {package.time_over_target:%H:%M:%S}"
         elif (row, column) == (1, 1):
             unassigned_pilots = self.missing_pilots(index)
-            return f"Missing pilots: {unassigned_pilots}" if unassigned_pilots else ""
+            return (
+                f"Не хватает пилотов: {unassigned_pilots}" if unassigned_pilots else ""
+            )
         return ""
 
     def num_clients(self, index: QModelIndex) -> int:
@@ -341,13 +345,13 @@ class QPackageList(QListView):
     def contextMenuEvent(self, event: QContextMenuEvent) -> None:
         index = self.indexAt(event.pos())
 
-        menu = QMenu("Menu")
+        menu = QMenu("Меню")
 
-        edit_action = QAction("Edit")
+        edit_action = QAction("Изменить")
         edit_action.triggered.connect(lambda: self.edit_package(index))
         menu.addAction(edit_action)
 
-        delete_action = QAction(f"Delete")
+        delete_action = QAction(f"Удалить")
         delete_action.triggered.connect(lambda: self.delete_package(index))
         menu.addAction(delete_action)
 
@@ -379,7 +383,7 @@ class QPackagePanel(QGroupBox):
     """
 
     def __init__(self, game_model: GameModel, ato_model: AtoModel) -> None:
-        super().__init__("Packages")
+        super().__init__("Пакеты")
         self.ato_model = ato_model
         self.ato_model.layoutChanged.connect(self.on_current_changed)
 
@@ -387,9 +391,9 @@ class QPackagePanel(QGroupBox):
         self.setLayout(self.vbox)
 
         self.tip = QLabel(
-            "To create a new package, right click the mission target on the "
-            "map. To target airbase objectives, use\n"
-            "the attack button in the airbase view."
+            "Чтобы создать пакет, щёлкните правой кнопкой по цели на"
+            "карте. Для ударов по аэродромам используйте\n"
+            "кнопку атаки в окне аэродрома."
         )
         self.vbox.addWidget(self.tip)
 
@@ -399,11 +403,11 @@ class QPackagePanel(QGroupBox):
         self.button_row = QHBoxLayout()
         self.vbox.addLayout(self.button_row)
 
-        self.edit_button = QPushButton("Edit")
+        self.edit_button = QPushButton("Изменить")
         self.edit_button.clicked.connect(self.on_edit)
         self.button_row.addWidget(self.edit_button)
 
-        self.delete_button = QPushButton("Cancel/abort")
+        self.delete_button = QPushButton("Отменить/прервать")
         # noinspection PyTypeChecker
         self.delete_button.setProperty("style", "btn-danger")
         self.delete_button.clicked.connect(self.on_delete)

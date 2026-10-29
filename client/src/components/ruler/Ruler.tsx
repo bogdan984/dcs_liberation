@@ -25,7 +25,7 @@ export default function LeafletRuler() {
             factor: 0.539956803,    //  from km to nm
             display: 'NM',
             decimal: 2,
-            label: "Distance",
+            label: "Расстояние",
           }
         };
     if( L.control.hasOwnProperty('ruler') )

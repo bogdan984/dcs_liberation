@@ -32,7 +32,7 @@ export default function CullingExclusionZones() {
   const data = useAppSelector(selectUnculledZones).zones;
 
   return (
-    <LayersControl.Overlay name="Culling exclusion zones">
+    <LayersControl.Overlay name="Зоны без отсечения">
       <CullingExclusionCircles zones={data}></CullingExclusionCircles>
     </LayersControl.Overlay>
   );

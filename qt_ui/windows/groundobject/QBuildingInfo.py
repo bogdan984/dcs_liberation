@@ -34,7 +34,7 @@ class QBuildingInfo(QGroupBox):
 
         if self.ground_object.category in REWARDS:
             income_label_text = (
-                "Value: " + str(REWARDS[self.ground_object.category]) + "M"
+                "Стоимость:" + str(REWARDS[self.ground_object.category]) + "M"
             )
             if not self.building.alive:
                 income_label_text = "<s>" + income_label_text + "</s>"

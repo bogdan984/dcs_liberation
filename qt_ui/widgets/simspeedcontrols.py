@@ -63,7 +63,7 @@ class SimSpeedControls(QHBoxLayout):
         super().__init__(parent)
         self.sim_controller = sim_controller
 
-        self.pause_button = QPushButton(text="Pause")
+        self.pause_button = QPushButton(text="Пауза")
         self.pause_button.clicked.connect(
             lambda: self.sim_controller.set_simulation_speed(SimSpeedSetting.PAUSED)
         )
