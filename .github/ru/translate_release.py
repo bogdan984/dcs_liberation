@@ -44,9 +44,7 @@ def squash_translation(base: str, russian: str) -> str:
         git("rm", "-r", "-q", "--cached", "--ignore-unmatch", ".github", env=env)
         git("read-tree", "--prefix=.github/", f"{base}:.github", env=env)
         tree = git("write-tree", env=env).strip()
-    return git(
-        "commit-tree", tree, "-p", base, "-m", "Русская локализация"
-    ).strip()
+    return git("commit-tree", tree, "-p", base, "-m", "Русская локализация").strip()
 
 
 def translation_map(base: str, squash: str) -> dict[str, dict[str, str]]:
@@ -148,9 +146,7 @@ def main(tag: str, russian: str, upstream: str) -> None:
             f"- Восстановлено строк после переноса: {sum(restored.values())}\n"
         )
         if missing:
-            report.write(
-                "- Остались на английском (код в оригинале изменился):\n"
-            )
+            report.write("- Остались на английском (код в оригинале изменился):\n")
             for path, n in sorted(missing.items()):
                 report.write(f"  - `{path}`: {n}\n")
         if conflicted:
