@@ -1,3 +1,5 @@
+> **Русская версия.** Подробное руководство на русском — [РУКОВОДСТВО.md](РУКОВОДСТВО.md). Готовые сборки — в разделе [Releases](../../releases).
+
 [![Logo](https://i.imgur.com/HJBT4BL.png)](https://shdwp.github.io/ukraine/)
 
 (Github Readme Banner and Splash screen Artwork by Andriy Dankovych, CC BY-SA 4.0)

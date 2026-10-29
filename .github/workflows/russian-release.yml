@@ -1,0 +1,176 @@
+# Раз в 7 дней проверяет релизы оригинального DCS Liberation. Если вышла версия,
+# для которой в этом репозитории ещё нет релиза "<версия>-ru", накладывает на неё
+# русификацию из ветки russian, собирает Windows-архив и публикует релиз.
+name: Русский релиз
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # каждый понедельник в 06:00 UTC (09:00 МСК)
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Тег релиза оригинала (пусто — последний релиз)"
+        required: false
+        default: ""
+      force:
+        description: "Пересобрать, даже если русский релиз уже есть"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  actions: write
+
+env:
+  UPSTREAM: dcs-liberation/dcs_liberation
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.release.outputs.tag }}
+      build: ${{ steps.release.outputs.build }}
+    steps:
+      # GitHub отключает расписание, если в репозитории 60 дней нет активности.
+      # Повторное включение сбрасывает этот счётчик.
+      - name: Не дать GitHub отключить расписание
+        continue-on-error: true
+        run: gh api -X PUT "repos/$GITHUB_REPOSITORY/actions/workflows/russian-release.yml/enable"
+
+      - name: Найти новый релиз оригинала
+        id: release
+        run: |
+          tag="${{ inputs.tag }}"
+          if [ -z "$tag" ]; then
+            tag=$(gh release view -R "$UPSTREAM" --json tagName -q .tagName)
+          fi
+          echo "Релиз оригинала: $tag"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          if gh release view "$tag-ru" -R "$GITHUB_REPOSITORY" > /dev/null 2>&1 \
+             && [ "${{ inputs.force }}" != "true" ]; then
+            echo "Русский релиз $tag-ru уже есть — ничего не делаю."
+            echo "build=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "build=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  translate:
+    needs: check
+    if: needs.check.outputs.build == 'true'
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ needs.check.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: russian
+          fetch-depth: 0
+
+      - name: Получить релиз оригинала
+        run: |
+          git remote add upstream "https://github.com/$UPSTREAM.git"
+          git fetch --no-tags upstream \
+            "+refs/heads/develop:refs/remotes/upstream/develop" \
+            "+refs/tags/$TAG:refs/tags/$TAG"
+
+      - name: Наложить русификацию
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cp .github/ru/translate_release.py "$RUNNER_TEMP/"
+          python3 "$RUNNER_TEMP/translate_release.py" "$TAG" origin/russian upstream/develop
+          mv ru-report.md "$RUNNER_TEMP/ru-report.md"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Проверить, что переведённый код работает
+        run: |
+          python -m pip install -q -r requirements.txt
+          python -m compileall -q game qt_ui
+          python -m pytest -q tests
+
+      - name: Упаковать исходники
+        run: |
+          git archive --format=tar.gz -o "$RUNNER_TEMP/dcs_liberation.$TAG-ru-src.tar.gz" HEAD
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source
+          path: |
+            ${{ runner.temp }}/dcs_liberation.${{ env.TAG }}-ru-src.tar.gz
+            ${{ runner.temp }}/ru-report.md
+
+  build:
+    needs: [check, translate]
+    runs-on: windows-latest
+    env:
+      TAG: ${{ needs.check.outputs.tag }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: source
+          path: ${{ runner.temp }}/source
+
+      - name: Распаковать исходники
+        run: tar -xzf "$env:RUNNER_TEMP\source\dcs_liberation.$env:TAG-ru-src.tar.gz" -C .
+
+      - name: Set up Python environment
+        uses: ./.github/actions/setup-liberation-python
+
+      - name: Set up JS environment
+        uses: ./.github/actions/setup-liberation-js
+
+      - name: Finalize build
+        run: New-Item -ItemType file resources\final
+
+      - name: Build app
+        uses: ./.github/actions/build-app
+
+      - name: Создать архив
+        run: Compress-Archive -Path .\dist\dcs_liberation -DestinationPath "dcs_liberation.$env:TAG-ru.zip" -Compression Optimal
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app
+          path: dcs_liberation.${{ env.TAG }}-ru.zip
+
+  release:
+    needs: [check, build]
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ needs.check.outputs.tag }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Опубликовать релиз
+        run: |
+          {
+            echo "# DCS Liberation $TAG — русская версия"
+            echo
+            echo "Скачайте **dcs_liberation.$TAG-ru.zip**, распакуйте и запустите \`liberation_main.exe\`."
+            echo "Подробная инструкция — в файле [РУКОВОДСТВО.md](https://github.com/$GITHUB_REPOSITORY/blob/russian/РУКОВОДСТВО.md)."
+            echo
+            echo "## Отчёт о переводе"
+            echo
+            cat artifacts/ru-report.md
+            echo
+            echo "## Изменения в оригинальной версии $TAG"
+            echo
+            gh release view "$TAG" -R "$UPSTREAM" --json body -q .body
+          } > notes.md
+          prerelease=""
+          if [[ "$TAG" =~ [^0-9.] ]]; then prerelease="--prerelease"; fi
+          gh release delete "$TAG-ru" -R "$GITHUB_REPOSITORY" --yes --cleanup-tag 2>/dev/null || true
+          gh release create "$TAG-ru" -R "$GITHUB_REPOSITORY" $prerelease \
+            --target russian \
+            --title "DCS Liberation $TAG (русская версия)" \
+            --notes-file notes.md \
+            "artifacts/dcs_liberation.$TAG-ru.zip" \
+            "artifacts/dcs_liberation.$TAG-ru-src.tar.gz"
